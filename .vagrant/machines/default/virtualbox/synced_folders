@@ -1,5 +1,0 @@
-<<<<<<< HEAD
-{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/dm/post-ap/oe-group-maker","disabled":false,"__vagrantfile":true}}}
-=======
-{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/dmf/Post-AP Computer Science/oe-group-maker","disabled":false,"__vagrantfile":true}}}
->>>>>>> 07833f73d6af5fd5b0f5bffd3cd840079c5ae272
