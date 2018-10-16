@@ -1,0 +1,85 @@
+header {
+	font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 50px;
+	color: #51453B;
+	line-height: 60px;
+	font-weight: 300;
+}
+
+.header {
+  overflow: hidden;
+  background-color: #f2e5ba;
+  padding: 5px 5px;
+}
+
+h1 {
+font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
+font-size: 50px;
+color: #51453B;
+
+font-weight: lighter;
+}
+
+h2 {
+	font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 24px;
+	color: #51453B;
+	line-height: 29px;
+}
+
+h3 {
+	font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	color: #4A4A4A;
+	line-height: 23px;
+	font-weight: 300;
+}
+
+p {
+ 	font-family: "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif;
+ 	font-size: 16px;
+ 	color: #7B7573;
+ 	line-height: 24px;
+ 	font-weight: 400;
+ }
+
+ strong {
+ 	font-size: 16px;
+ 	color: #7B7573;
+ 	line-height: 24px;
+ }
+
+ a {
+	font-family: "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+ 	color: #0093B9;
+ 	line-height: 12px;
+ }
+
+label {
+	font-family: "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	color: #7B7573;
+	line-height: 17px;
+}
+
+.fa {
+	margin-right: 10px;
+}
+
+.glyphicon {
+  margin-right: 10px;
+}
+
+.btn {
+	padding: 20px;
+	margin: 0;
+	border-color: #aaaaaa;
+	border-width: 3px;
+	color: #9FB80A;;
+}
+
+.btn:hover {
+	border-color: #aaaaaa;
+	background-color: #9bff9e;
+}
