@@ -2,7 +2,7 @@ header {
 	font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
 	font-size: 50px;
 	color: #51453B;
-	line-height: 60px;
+
 	font-weight: 300;
 }
 
@@ -10,6 +10,20 @@ header {
   overflow: hidden;
   background-color: #f2e5ba;
   padding: 5px 5px;
+}
+
+.header-left a {
+  float: left;
+	color: #51453B;
+  text-align: center;
+  text-decoration: none;
+	margin: 5px;
+
+}
+
+.header-left a:hover {
+  background-color: #d3c8a2;
+	color: #51453B;
 }
 
 h1 {
@@ -82,4 +96,12 @@ label {
 .btn:hover {
 	border-color: #aaaaaa;
 	background-color: #9bff9e;
+}
+
+.top-menu a {
+	margin-bottom: 0;
+	line-height: 16px;
+	font-size: 16px;
+	color: #7B7573;
+	font-weight: 400;
 }
