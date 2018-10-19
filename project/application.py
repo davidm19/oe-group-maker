@@ -181,7 +181,12 @@ def showStudent(ID):
 def showStudents():
     session = DBSession()
     sutdents = session.query(Student).all()
-    return "it worked"
+    students_all = list()
+    for student in students:
+        student_info = { "first_name" : student.first_name
+                    , "last_name" : student.last_name
+                    }
+    return flask.jsonify([students_all]), 200
 
 @app.route('/student/new/', methods=['GET', 'POST'])
 def newStudent():
