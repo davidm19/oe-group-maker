@@ -19,8 +19,8 @@ class Student(Base):
 
 class PreferredMember(Base):
     __tablename__ = 'preferred_member'
-
-    priority = Column(string(10))
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    priority = Column(String(10))
 
 engine = create_engine('sqlite:///database.db')
 Base.metadata.create_all(engine)
