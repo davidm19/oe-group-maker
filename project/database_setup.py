@@ -14,13 +14,11 @@ class Student(Base):
     first_name = Column(String(32))
     last_name = Column(String(32))
     preferred_member1 = Column(String(32))
+    priority1 = Column(String(32))
     preferred_member2 = Column(String(32))
+    priority2 = Column(String(32))
     preferred_member3 = Column(String(32))
-
-class PreferredMember(Base):
-    __tablename__ = 'preferred_member'
-
-    priority = Column(string(10))
+    priority3 = Column(String(32))
 
 engine = create_engine('sqlite:///database.db')
 Base.metadata.create_all(engine)
