@@ -21,12 +21,8 @@ class Student(Base):
 <<<<<<< HEAD:project/database_setup.py
     priority3 = Column(String(32))
 =======
-
-class PreferredMember(Base):
-    __tablename__ = 'preferred_member'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    priority = Column(String(10))
->>>>>>> development:project/database_setup.py
+    priority3 = Column(String(32))
+>>>>>>> development
 
 engine = create_engine('sqlite:///database.db')
 Base.metadata.create_all(engine)
