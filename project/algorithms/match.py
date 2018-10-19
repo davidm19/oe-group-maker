@@ -3,72 +3,86 @@ from collections import defaultdict
 
 class Matcher:
 
-    def __init__(self, g1, g2):
-        self.G1 = g1
-        self.G2 = g2
-        self.g2groups = {}
-        self.groups = []
+    def __init__(self, men, women):
+        '''
+        Constructs a Matcher instance.
+        Takes a dict of men's spousal preferences, `men`,
+        and a dict of women's spousal preferences, `women`.
+        '''
+        self.M = men
+        self.W = women
+        self.wives = {}
+        self.pairs = []
 
-        self.g1rank = defaultdict(dict)
-        self.g2rank = defaultdict(dict)
+        # we index spousal preferences at initialization
+        # to avoid expensive lookups when matching
+        self.mrank = defaultdict(dict)  # `mrank[m][w]` is m's ranking of w
+        self.wrank = defaultdict(dict)  # `wrank[w][m]` is w's ranking of m
 
-        for g1m, prefs in g1.items():
-            for i, g2m in enumerate(prefs):
-                self.g1rank[g1m][g2m] = i
+        for m, prefs in men.items():
+            for i, w in enumerate(prefs):
+                self.mrank[m][w] = i
 
-        for g2m, prefs in g2.items():
-            for i, g1m in enumerate(prefs):
-                self.g2rank[g2m][g1m] = i
+        for w, prefs in women.items():
+            for i, m in enumerate(prefs):
+                self.wrank[w][m] = i
 
 
     def __call__(self):
         return self.match()
 
-    def prefers(self, g2m, g1m, h):
-        return self.g2rank[g2m][g1m] < self.g2rank[g2m][h]
+    def prefers(self, w, m, h):
+        '''Test whether w prefers m over h.'''
+        return self.wrank[w][m] < self.wrank[w][h]
 
-    def after(self, g1m, g2m):
-        i = self.g1rank[g1m][g2m] + 1
-        return self.G1[g1m][i]
+    def after(self, m, w):
+        '''Return the woman favored by m after w.'''
+        i = self.mrank[m][w] + 1    # index of woman following w in list of prefs
+        return self.M[m][i]
 
-    def match(self, g1=None, next=None, g2groups=None):
-        if g1 is None:
-            g1 = self.G1.keys()
+    def match(self, men=None, next=None, wives=None):
+        '''
+        Try to match all men with their next preferred spouse.
+
+        '''
+        if men is None:
+            men = self.M.keys()         # get the complete list of men
         if next is None:
-            next = dict((g1m, rank[0]) for g1m, rank in self.G1.items())
-        if g2groups is None:
-            g2groups = {}
-        if not len(g1):
-            self.groups = [(h, g2m) for g2m, h in g2groups.items()]
-            self.g2groups = g2groups
-            return g2groups
-        g1m, g1 = g1[0], g1[1:]
-        g2m = next[g1m]
-        next[g1m] = self.after(g1m, g2m)
-        if g2m in g2groups:
-            h = g2groups[g2m]
-            if self.prefers(g2m, g1m, h):
-                g1.append(h)
-                g2groups[g2m] = g1m
+            # if not defined, map each man to their first preference
+            next = dict((m, rank[0]) for m, rank in self.M.items())
+        if wives is None:
+            wives = {}                  # mapping from women to current spouse
+        if not len(men):
+            self.pairs = [(h, w) for w, h in wives.items()]
+            self.wives = wives
+            return wives
+        m, men = men[0], men[1:]
+        w = next[m]                     # next woman for m to propose to
+        next[m] = self.after(m, w)      # woman after w in m's list of prefs
+        if w in wives:
+            h = wives[w]                # current husband
+            if self.prefers(w, m, h):
+                men.append(h)           # husband becomes available again
+                wives[w] = m            # w becomes wife of m
             else:
-                g1.append(g1m)
+                men.append(m)           # m remains unmarried
         else:
-            g2groups[g2m] = g1m
-        return self.match(g1, next, g2groups)
+            wives[w] = m                # w becomes wife of m
+        return self.match(men, next, wives)
 
-    def is_stable(self, g2groups=None, verbose=False):
-        if g2groups is None:
-            g2groups = self.g2groups
-        for g2m, g1m in g2groups.items():
-            i = self.G1[g1m].index(g2m)
-            preferred = self.G1[g1m][:i]
+    def is_stable(self, wives=None, verbose=False):
+        if wives is None:
+            wives = self.wives
+        for w, m in wives.items():
+            i = self.M[m].index(w)
+            preferred = self.M[m][:i]
             for p in preferred:
-                h = g2groups[p]
-                if self.G2[p].index(g1m) < self.G2[p].index(h):
+                h = wives[p]
+                if self.W[p].index(m) < self.W[p].index(h):
                     msg = "{}'s marriage to {} is unstable: " + \
                           "{} prefers {} over {} and {} prefers " + \
                           "{} over her current husband {}"
                     if verbose:
-                        print msg.format(g1m, g2m, g1m, p, g2m, p, g1m, h)
+                        print msg.format(m, w, m, p, w, p, m, h)
                     return False
         return True
