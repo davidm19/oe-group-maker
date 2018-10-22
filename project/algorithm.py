@@ -32,12 +32,15 @@ def splitStudents(students):
 
 '''TODO: IMPLEMENT'''
 def returnRanking(half1, half2):
-    for g1member, preferred in half1.items():
-        for i, g2member in enumerate(preferred):
-            return '''TODO: IMPLEMENT'''
+    halves = [half1, half2] #RIGHT WAY TO DO THINGS???
+    for half in halves:
+        for g1member, preferred in half.items():
+            for i, g2member in enumerate(preferred):
+                return '''TODO: IMPLEMENT'''
 
 '''TODO: IMPLEMENT'''
 def prefers():
+    #DEPENDS ON RETURNRANKING
     return '''TODO: IMPLEMENT'''
 
 '''TODO: IMPLEMENT'''
