@@ -31,6 +31,13 @@ Temporary Items
 ### Vagrant ###
 # General
 .vagrant/
+acceptance_config.yml
+boxes/*
+/.vagrant
+/website/.vagrant
+/website/build
+/vagrant-spec.config.rb
+test/vagrant-spec/.vagrant/
 
 # Log files (if you are creating logs in debug mode, uncomment this)
 # *.logs
