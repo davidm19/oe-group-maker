@@ -1,0 +1,77 @@
+header {
+	font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 50px;
+	color: #3b311d;
+
+	font-weight: 300;
+}
+
+.header {
+  overflow: hidden;
+  background-color: #d3d786;
+  padding: 5px 5px;
+}
+
+.header-left a {
+  float: left;
+	color: #3b311d;
+  text-align: center;
+  text-decoration: none;
+	margin: 0px 18px;
+
+}
+
+.header-left a:hover {
+  background-color:#b6bc73;
+	color: #3b311d;
+}
+
+.navbar {
+  background-color: #d3d786;
+}
+
+h1 {
+font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
+font-size: 50px;
+color: #3b311d;
+
+font-weight: lighter;
+}
+
+h2 {
+	font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	color: #3b311d;
+	font-weight: lighter;
+}
+
+h3 {
+	font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	color: #3b311d;
+	line-height: 23px;
+	font-weight: 300;
+	margin: 10px 10px;
+}
+
+p {
+ 	font-family: "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif;
+ 	font-size: 16px;
+ 	color: #7B7573;
+ 	line-height: 24px;
+ 	font-weight: 400;
+ }
+
+ strong {
+ 	font-size: 16px;
+ 	color: #7B7573;
+ 	line-height: 24px;
+ }
+
+
+label {
+	font-family: "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	color: #7B7573;
+	line-height: 17px;
+}
