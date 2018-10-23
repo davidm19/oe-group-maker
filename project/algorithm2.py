@@ -33,6 +33,13 @@ def splitStudents(students):
     half = len(students)/2
     return students[:half], students[half:]
 
+def makeDicts(student, preferred):
+    studentDict = dict()
+    students = getStudentList()
+    for i in students:
+        dict(i) = student, preferred
+    return studentDict
+
 '''
-    make dictionnaries (student, [who they prefer])
+make dictionnaries (student, [who they prefer])
 '''
