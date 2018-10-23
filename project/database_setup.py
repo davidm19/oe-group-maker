@@ -18,11 +18,8 @@ class Student(Base):
     preferred_member2 = Column(String(32))
     priority2 = Column(String(32))
     preferred_member3 = Column(String(32))
-<<<<<<< HEAD:project/database_setup.py
     priority3 = Column(String(32))
-=======
     priority3 = Column(String(32))
->>>>>>> development
 
 engine = create_engine('sqlite:///database.db')
 Base.metadata.create_all(engine)

@@ -1,3 +1,4 @@
+import flask
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
@@ -171,26 +172,30 @@ def homepage():
     return render_template('homepage.html')
 
 
-@app.route('/students/<int:ID>/')
+@app.route('/student/<int:ID>/')
 def showStudent(ID):
     session = DBSession()
     students = session.query(Student).filter_by(id=ID).all()
-    return "it worked"
-
-@app.route('/students')
-def showStudents():
-    session = DBSession()
-    sutdents = session.query(Student).all()
-<<<<<<< HEAD
-    return "it worked"
-=======
     students_all = list()
     for student in students:
         student_info = { "first_name" : student.first_name
                     , "last_name" : student.last_name
                     }
+        students_all.append(student_info)
     return flask.jsonify([students_all]), 200
->>>>>>> development
+
+@app.route('/students')
+def showStudents():
+    session = DBSession()
+    students = session.query(Student).all()
+#    return "it worked"
+    students_all = list()
+    for student in students:
+        student_info = { "first_name" : student.first_name
+                    , "last_name" : student.last_name
+                    }
+        students_all.append(student_info)
+    return flask.jsonify([students_all]), 200
 
 @app.route('/student/new/', methods=['GET', 'POST'])
 def newStudent():
@@ -220,7 +225,7 @@ def editStudent(ID):
         # return render_template('editUniverse.html', universe=editedUniverse)
 
 @app.route('/student/<int:ID>/delete', methods=['GET', 'POST'])
-def deleteUniverse(ID):
+def deleteStudent(ID):
     session = DBSession()
     studentToDelete = session.query(Student).filter_by(id=ID).one()
     if request.method == 'POST':
