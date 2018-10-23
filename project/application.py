@@ -190,7 +190,6 @@ def showStudents():
 
 @app.route('/student/new/', methods=['GET', 'POST'])
 def newStudent():
-
     if request.method == 'POST':
         students = session.query(Student).all()
         newStudent = Student(first_name = request.form['first_name'], last_name = request.form['last_name'])

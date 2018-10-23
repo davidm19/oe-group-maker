@@ -3,6 +3,7 @@ from flask import Flask, request
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 from collections import defaultdict
+import application
 from database_setup import Base, Student, PreferredMember
 
 engine = create_engine('sqlite:///database.db')
@@ -16,6 +17,11 @@ def getStudents():
     for student in students:
         student_list = student
     return student_list
+
+def getStudent():
+    session = DBSession()
+    student = session.query(Student).filter_by(id=ID).one()
+    return student
 
 def splitStudents(students):
     students = getStudents()
@@ -33,6 +39,7 @@ def splitStudents(students):
 '''TODO: IMPLEMENT'''
 def returnRanking(half1, half2):
     halves = [half1, half2]
+    student = getStudent()
     for half in halves:
         for g1member, preferred in half.items():
             for i, g2member in enumerate(preferred):
