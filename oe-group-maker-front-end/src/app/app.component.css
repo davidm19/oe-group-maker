@@ -1,16 +1,11 @@
 header {
 	font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
 	font-size: 50px;
-	color: #3b311d;
 
 	font-weight: 300;
 }
 
-.header {
-  overflow: hidden;
-  background-color: #d3d786;
-  padding: 5px 5px;
-}
+
 
 .header-left a {
   float: left;
@@ -26,9 +21,6 @@ header {
 	color: #3b311d;
 }
 
-.navbar {
-  background-color: #d3d786;
-}
 
 h1 {
 font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;

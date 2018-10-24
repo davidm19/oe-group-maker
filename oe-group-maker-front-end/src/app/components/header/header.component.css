@@ -1,3 +1,16 @@
-.navbar {
-  background-color: #dbd5a2;
+.header h1 {
+  font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 50px;
+  border-color: #ccc;
+  font-weight: lighter;
+}
+
+.header a {
+  border-color: #ccc;
+
+}
+
+.header {
+
+  background-color: #ccc;
 }

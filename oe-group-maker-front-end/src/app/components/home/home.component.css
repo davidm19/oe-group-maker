@@ -1,0 +1,16 @@
+.header h1 {
+  font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 50px;
+  border-color: #ccc;
+  font-weight: lighter;
+}
+
+.header a {
+  border-color: #ccc;
+
+}
+
+.header {
+  padding: 15px;
+  background-color: #ccc;
+}
