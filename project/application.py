@@ -215,7 +215,7 @@ def editStudent(ID):
         # return render_template('editUniverse.html', universe=editedUniverse)
 
 @app.route('/student/<int:ID>/delete', methods=['GET', 'POST'])
-def deleteUniverse(ID):
+def deleteStudent(ID):
     session = DBSession()
     studentToDelete = session.query(Student).filter_by(id=ID).one()
     if request.method == 'POST':
@@ -224,7 +224,6 @@ def deleteUniverse(ID):
         return redirect(url_for('showStudents', id=ID))
     else:
         return "it worked"
-        # return render_template('deleteUniverse.html', universe=universeToDelete)
 
 @app.route('/disconnect')
 def disconnect():
