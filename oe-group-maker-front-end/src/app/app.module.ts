@@ -12,11 +12,13 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { TripsComponent } from './components/trips/trips.component';
+import { NewTripComponent } from './components/new-trip/new-trip.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
-  { path: 'trips', component: TripsComponent }
+  { path: 'trips', component: TripsComponent },
+  { path: 'newTrip', component: NewTripComponent }
 ]
 
 @NgModule({
@@ -25,7 +27,8 @@ const appRoutes: Routes = [
     FooterComponent,
     HeaderComponent,
     HomeComponent,
-    TripsComponent
+    TripsComponent,
+    NewTripComponent
   ],
   imports: [
     BrowserModule,
