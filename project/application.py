@@ -173,21 +173,19 @@ def homepage():
 
 
 @app.route('/student/<int:ID>/')
-def showStudent(ID):
-    session = DBSession()
-    students = session.query(Student).filter_by(id=ID).all()
+def showStudent(ID, sesh):
+    sesh = DBSession()
+    student = sesh.query(Student).filter_by(id=ID).one()
     students_all = list()
-    for student in students:
-        student_info = { "first_name" : student.first_name
-                    , "last_name" : student.last_name
-                    }
-        students_all.append(student_info)
-    return flask.jsonify([students_all]), 200
+    student_info = { "first_name" : student.first_name
+                , "last_name" : student.last_name
+                }
+    return flask.jsonify(student_info), 200
 
 @app.route('/students')
-def showStudents():
-    session = DBSession()
-    students = session.query(Student).all()
+def showStudents(sesh):
+    sesh = DBSession()
+    students = sesh.query(Student).all()
 #    return "it worked"
     students_all = list()
     for student in students:

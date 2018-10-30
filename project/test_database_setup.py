@@ -20,5 +20,5 @@ class Student(Base):
     preferred_member3 = Column(String(32))
     priority3 = Column(String(32))
 
-engine = create_engine('sqlite:///database.db')
+engine = create_engine('sqlite:///test_database.db')
 Base.metadata.create_all(engine)
