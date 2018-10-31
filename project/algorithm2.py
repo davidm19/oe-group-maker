@@ -46,3 +46,5 @@ make dictionnaries (student, [who they prefer])
 
 def groupedWith(student):
     dicty = makeDicts(student, student.getPreferred())
+    for person in dicty:
+        if person

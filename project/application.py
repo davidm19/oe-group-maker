@@ -1,3 +1,4 @@
+import flask
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
@@ -171,34 +172,40 @@ def homepage():
     return render_template('homepage.html')
 
 
-@app.route('/students/<int:ID>/')
-def showStudent(ID):
-    session = DBSession()
-    students = session.query(Student).filter_by(id=ID).all()
-    return "it worked"
+@app.route('/student/<int:ID>/')
+def showStudent(ID, sesh):
+    student = sesh.query(Student).filter_by(id=ID).one()
+    students_all = list()
+    student_info = { "first_name" : student.first_name
+                , "last_name" : student.last_name
+                }
+    return student_info
 
 @app.route('/students')
-def showStudents():
-    session = DBSession()
-    sutdents = session.query(Student).all()
+def showStudents(sesh):
+    students = sesh.query(Student).all()
     students_all = list()
     for student in students:
         student_info = { "first_name" : student.first_name
                     , "last_name" : student.last_name
                     }
-    return flask.jsonify([students_all]), 200
+        students_all.append(student_info)
+    return students_all
 
 @app.route('/student/new/', methods=['GET', 'POST'])
-def newStudent():
+def newStudent(firstName, lastName, sesh):
+
     if request.method == 'POST':
-        students = session.query(Student).all()
-        newStudent = Student(first_name = request.form['first_name'], last_name = request.form['last_name'])
-        session.add(newStudent)
-        session.commit()
-        return redirect(url_for('showStudents'))
+        students = sesh.query(Student).all()
+        newStudent = Student(first_name = firstName, last_name = lastName)
+        sesh.add(newStudent)
+        sesh.commit()
+        newStudent_info = { "first_name" : newStudent.first_name
+                    , "last_name" : newStudent.last_name
+                    }
+        return newStudent_info
     else:
-        return "it worked"
-        # return render_template('newUniverse.html')
+        return "no"
 
 @app.route('/student/<int:ID>/edit', methods=['GET', 'POST'])
 def editStudent(ID):

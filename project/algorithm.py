@@ -1,4 +1,3 @@
-import flask
 from flask import Flask, request
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
