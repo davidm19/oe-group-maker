@@ -45,4 +45,6 @@ make dictionnaries (student, [who they prefer])
 def group(student):
     dicty = makeDicts(student, student.getPreferred())
     for person in dicty:
-        if person.showStudentPref(1) == student
+        if person.showStudentPref(1) == student:
+            pass
+    return 0
