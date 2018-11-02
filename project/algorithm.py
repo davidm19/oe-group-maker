@@ -17,7 +17,7 @@ def getStudents():
         student_list = student
     return student_list
 
-def splitStudents(students):
+def splitStudents():
     students = getStudents()
     half = len(students)/2
     return students[:half], students[half:]
