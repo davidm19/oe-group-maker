@@ -39,12 +39,10 @@ def makeDicts(student, preferred):
     for i in students:
         dict(i) = student, preferred
     return studentDict
-
 '''
 make dictionnaries (student, [who they prefer])
 '''
-
-def groupedWith(student):
+def group(student):
     dicty = makeDicts(student, student.getPreferred())
     for person in dicty:
-        if person
+        if person   #getPref(1)
