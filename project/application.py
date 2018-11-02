@@ -175,10 +175,32 @@ def homepage():
 @app.route('/student/<int:ID>/')
 def showStudent(ID, sesh):
     student = sesh.query(Student).filter_by(id=ID).one()
-    students_all = list()
     student_info = { "first_name" : student.first_name
                 , "last_name" : student.last_name
                 }
+    return student_info
+
+@app.route('/student/<int:ID>/<int:Num>')
+def showStudentPref(ID, Num, sesh):
+    student = sesh.query(Student).filter_by(id=ID).one()
+    student_info = list()
+    if Num is 1:
+        student_info = { "first_name" : student.first_name
+                    , "last_name" : student.last_name
+                    , "preferred_member1" : student.preferred_member1
+                    }
+
+    if Num is 2:
+        student_info = { "first_name" : student.first_name
+                    , "last_name" : student.last_name
+                    , "preferred_member2" : student.preferred_member2
+                    }
+    if Num is 3:
+        student_info = { "first_name" : student.first_name
+                    , "last_name" : student.last_name
+                    , "preferred_member3" : student.preferred_member3
+                    }
+
     return student_info
 
 @app.route('/students')

@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from test_database_setup import Base, Student, engine
 import os
 import unittest
-from application import showStudent, showStudents, newStudent
+from application import showStudent, showStudents, showStudentPref
 from application import session, app
 
 
@@ -21,17 +21,7 @@ class BasicTests(unittest.TestCase):
     ############################
     #### setup and teardown ####
     ############################
-#     def create_app():
-#         app = Flask(application)
-#
-#         with app.app_context():
-#             init_db()
-#             setUp()
-#             self.assertEqual(app.debug, False)
-#             tearDown()
-#
-#         return app
-#
+
 #     def setUp(self):
 #         app.config['TESTING'] = True
 #         app.config['WTF_CSRF_ENABLED'] = False
@@ -68,12 +58,22 @@ class BasicTests(unittest.TestCase):
             results = showStudents(session)
             self.assertEqual(results, expected_results)
 
-    def test_newStudent(self):
-        oldDb = showStudents(session)
-        new_Student = newStudent('David','Malone', session)
-        oldDb.append(new_Student)
-        newDb = showStudents(session)
-        self.assertEqual(newDb, oldDb)
+    def test_showStudentPref(self):
+            expected_results = { "first_name" : "J"
+                        , "last_name" : "D", "preferred_member1" : "Michael"
+                        }
+            results = showStudentPref(2, 1, session)
+            self.assertEqual(results, expected_results)
+
+    # def test_newStudent(self):
+    #     oldDb = showStudents(session)
+    #     newStudent('David','Malone', session)
+    #     newStudentInfo = { "first_name" : 'David'
+    #                 , "last_name" : 'Malone'
+    #                 }
+    #     oldDb.append(newStudentInfo)
+    #     newDb = showStudents(session)
+    #     self.assertEqual(newDb, oldDb)
 
 if __name__ == "__main__":
     unittest.main()

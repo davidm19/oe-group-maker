@@ -14,7 +14,7 @@ student1 = Student(first_name = "Michael", last_name = "Huang")
 session.add(student1)
 session.commit()
 
-student2 = Student(first_name = "J", last_name = "D")
+student2 = Student(first_name = "J", last_name = "D", preferred_member1 = "Michael", preferred_member2 = "David", preferred_member3 = "Ryan")
 
 session.add(student2)
 session.commit()
