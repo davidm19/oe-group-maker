@@ -5,10 +5,7 @@ INTERFACE:
 4. algorithm step 3
 5. export list in some format
 
-==========
-
 TESTCASES:
-
 - test if we can successfully select trip
 - test if we can pass in a trip that doesn't exist
 - test if we can select students at various points in a list/or pass in a student that doesn't exist

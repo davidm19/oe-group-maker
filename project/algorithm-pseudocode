@@ -1,5 +1,6 @@
 HP = Hold Proposal
 
+Step 1
 1) Everybody chooses their own partners
 2) For a set of n people, run a loop n times.
 3) n[0].HP = True
@@ -7,4 +8,3 @@ HP = Hold Proposal
 5) check if n[0] == a[0]
 6) if ^^ is true, then check n[0][0]'s order in reverse. the first result should be removed that == n or a should be removed.
 7) Depending on the above, n[1].HP = true or a[1].HP = true
-8) 
