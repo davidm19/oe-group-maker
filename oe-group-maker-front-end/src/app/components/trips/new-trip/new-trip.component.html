@@ -1,0 +1,22 @@
+<div class="row banner menu">
+    <h1>Trips > New</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-1 padding-top">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <div id="user-data">
+      <div class="form-group">
+      <label for="trip_name">Trip Name:</label>
+
+      <input type ="text" class="form-control" id="trip_name" ngModel name="trip_name">
+
+      <div class="padding-bottom"></div>
+      <button type="submit" class="btn btn-default" id="submit" type="submit">
+      <span class="glyphicon glyphicon-plus"></span>Create</button>
+      </div>
+    </div>
+    </form>
+
+  </div>
+</div>
