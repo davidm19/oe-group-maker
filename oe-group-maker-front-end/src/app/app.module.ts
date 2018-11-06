@@ -17,6 +17,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { TripsComponent } from './components/trips/trips.component';
 import { NewTripComponent } from './components/trips/new-trip/new-trip.component';
+import { IndexComponent } from './index/index.component';
+import { CreateComponent } from './components/create/create.component';
+import { EditComponent } from './components/edit/edit.component';
 
 
 const appRoutes: Routes = [
@@ -34,7 +37,10 @@ const appRoutes: Routes = [
     HeaderComponent,
     HomeComponent,
     TripsComponent,
-    NewTripComponent
+    NewTripComponent,
+    IndexComponent,
+    CreateComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,
