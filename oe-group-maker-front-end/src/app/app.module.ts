@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms';
+import { appRoutes } from './routerConfig';
+
 
 import { Routes, RouterModule} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -22,13 +24,13 @@ import { CreateComponent } from './components/create/create.component';
 import { EditComponent } from './components/edit/edit.component';
 
 
-const appRoutes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: '', component: HomeComponent },
-  { path: 'trips', component: TripsComponent },
-  { path: 'newTrip', component: NewTripComponent },
-  { path: 'trips', component: TripsComponent }
-]
+// const appRoutes: Routes = [
+//   { path: 'home', component: HomeComponent },
+//   { path: '', component: HomeComponent },
+//   { path: 'trips', component: TripsComponent },
+//   { path: 'newTrip', component: NewTripComponent },
+//   { path: 'trips', component: TripsComponent }
+// ]
 
 @NgModule({
   declarations: [
