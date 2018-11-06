@@ -2,7 +2,7 @@ import flask
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Student, engine
+from database_setup import Base, Student, engine, Preference
 from flask import session as login_session
 import random, string
 from oauth2client.client import flow_from_clientsecrets
@@ -180,28 +180,14 @@ def showStudent(ID, sesh):
                 }
     return student_info
 
-@app.route('/student/<int:ID>/<int:Num>')
-def showStudentPref(ID, Num, sesh):
-    student = sesh.query(Student).filter_by(id=ID).one()
-    student_info = list()
-    if Num is 1:
-        student_info = { "first_name" : student.first_name
-                    , "last_name" : student.last_name
-                    , "preferred_member1" : student.preferred_member1
-                    }
-
-    if Num is 2:
-        student_info = { "first_name" : student.first_name
-                    , "last_name" : student.last_name
-                    , "preferred_member2" : student.preferred_member2
-                    }
-    if Num is 3:
-        student_info = { "first_name" : student.first_name
-                    , "last_name" : student.last_name
-                    , "preferred_member3" : student.preferred_member3
-                    }
-
-    return student_info
+@app.route('/student/<int:ID>')
+def showStudentPref(ID, sesh):
+    preferences = sesh.query(Preference).filter_by(student_id=ID).all()
+    preferences_all = list()
+    for preference in preferences:
+        preference_name = { "name" : preference.name}
+        preferences_all.append(preference_name)
+    return preferences_all
 
 @app.route('/students')
 def showStudents(sesh):
@@ -215,17 +201,29 @@ def showStudents(sesh):
     return students_all
 
 @app.route('/student/new/', methods=['GET', 'POST'])
-def newStudent(firstName, lastName, sesh):
+def newStudent(firstName, lastName, pref1_name, pref2_name, pref3_name, sesh):
 
     if request.method == 'POST':
         students = sesh.query(Student).all()
         newStudent = Student(first_name = firstName, last_name = lastName)
         sesh.add(newStudent)
         sesh.commit()
-        newStudent_info = { "first_name" : newStudent.first_name
-                    , "last_name" : newStudent.last_name
-                    }
-        return newStudent_info
+        if pref1_name is not none:
+            student_pref1 = Preference(name = pref1_name, priority = 3, student_id = newStudent.id)
+            sesh.add(student_pref1)
+            sesh.commit()
+
+        if pref2_name is not none:
+            student_pref2 = Preference(name = pref2_name, priority = 2, student_id = newStudent.id)
+            sesh.add(student_pref2)
+            sesh.commit()
+
+        if pref3_name is not none:
+            student_pref3 = Preference(name = pref1_name, priority = 1, student_id = newStudent.id)
+            sesh.add(student_pref3)
+            sesh.commit()
+
+        return "yes"
     else:
         return "no"
 

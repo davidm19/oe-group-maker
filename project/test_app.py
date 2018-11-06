@@ -2,7 +2,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from test_database_setup import Base, Student, engine
+from test_database_setup import Base, Student, engine, Preference
 import os
 import unittest
 from application import showStudent, showStudents, showStudentPref
@@ -48,7 +48,7 @@ class BasicTests(unittest.TestCase):
                     }
         results = showStudent(1, session)
         self.assertEqual(results, expected_results)
-
+    
     def test_showStudents(self):
             expected_results = [{ 'first_name' : 'Michael'
                         , 'last_name' : 'Huang'
@@ -59,10 +59,11 @@ class BasicTests(unittest.TestCase):
             self.assertEqual(results, expected_results)
 
     def test_showStudentPref(self):
-            expected_results = { "first_name" : "J"
-                        , "last_name" : "D", "preferred_member1" : "Michael"
-                        }
-            results = showStudentPref(2, 1, session)
+            expected_results = [{'name' : 'Michael'},
+                            {'name' : 'Ryan'},
+                            {'name' : 'David'}
+                        ]
+            results = showStudentPref(2, session)
             self.assertEqual(results, expected_results)
 
     # def test_newStudent(self):
