@@ -19,18 +19,16 @@ import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { TripsComponent } from './components/trips/trips.component';
 import { NewTripComponent } from './components/trips/new-trip/new-trip.component';
-import { IndexComponent } from './index/index.component';
-import { CreateComponent } from './components/create/create.component';
-import { EditComponent } from './components/edit/edit.component';
 
 
-// const appRoutes: Routes = [
-//   { path: 'home', component: HomeComponent },
-//   { path: '', component: HomeComponent },
-//   { path: 'trips', component: TripsComponent },
-//   { path: 'newTrip', component: NewTripComponent },
-//   { path: 'trips', component: TripsComponent }
-// ]
+
+const appRoutes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
+  { path: 'trips', component: TripsComponent },
+  { path: 'newTrip', component: NewTripComponent },
+  { path: 'trips', component: TripsComponent }
+]
 
 @NgModule({
   declarations: [
@@ -40,9 +38,7 @@ import { EditComponent } from './components/edit/edit.component';
     HomeComponent,
     TripsComponent,
     NewTripComponent,
-    IndexComponent,
-    CreateComponent,
-    EditComponent
+
   ],
   imports: [
     BrowserModule,
