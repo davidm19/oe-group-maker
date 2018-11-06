@@ -11,5 +11,32 @@ ALGORITHM INTERFACE
 
 '''
 
+'''
+selects a trip from database
+'''
 def select_trip():
-    
+    pass
+
+'''
+part 1 of algorithm
+'''
+def alg_part1():
+    pass
+
+'''
+part 2 of algorithm
+'''
+def alg_part2():
+    pass
+
+'''
+part 3 of algorithm
+'''
+def alg_part3():
+    pass
+
+'''
+exports the final list
+'''
+def export_list():
+    pass
