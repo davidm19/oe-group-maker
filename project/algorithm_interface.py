@@ -13,12 +13,31 @@ ALGORITHM INTERFACE
 
 '''
 selects a trip from database
+currently waiting for database to be updated with trips
 '''
 def select_trip():
     pass
 
 '''
-part 1 of algorithm
+finds tentative parteners for each person
+'''
+def temp_partner():
+    pass
+
+'''
+eliminates partners if temp_partner finds a duplicate
+'''
+def removal1():
+    pass
+
+'''
+eliminates parteners for anyone less than first preference that's a match
+'''
+def removal2():
+    pass
+
+'''
+will Step 1 of the algorithm
 '''
 def alg_part1():
     pass
