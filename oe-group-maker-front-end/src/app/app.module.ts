@@ -4,29 +4,26 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { appRoutes } from './routerConfig';
 
 
 import { Routes, RouterModule} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
-import { TripService } from './trip.service';
+
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { TripsComponent } from './components/trips/trips.component';
-import { NewTripComponent } from './components/trips/new-trip/new-trip.component';
+
 
 
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
-  { path: 'trips', component: TripsComponent },
-  { path: 'newTrip', component: NewTripComponent },
   { path: 'trips', component: TripsComponent }
 ]
 
@@ -37,7 +34,7 @@ const appRoutes: Routes = [
     HeaderComponent,
     HomeComponent,
     TripsComponent,
-    NewTripComponent,
+
 
   ],
   imports: [
@@ -51,7 +48,7 @@ const appRoutes: Routes = [
     MatToolbarModule,
     MatIconModule
   ],
-  providers: [TripService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

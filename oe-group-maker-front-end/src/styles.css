@@ -1,5 +1,5 @@
 
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+/* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
 /* You can add global styles to this file, and also import other style files */
 header {
 	font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
@@ -68,4 +68,8 @@ label {
 
 div {
 	margin: 10px;
+}
+
+.form-group {
+	margin-left: 30px;
 }

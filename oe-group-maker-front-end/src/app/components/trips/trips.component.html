@@ -7,3 +7,30 @@
 </button>
 </h1>
 </div>
+
+
+<form class="form" (submit)="add(tripTitle.value); tripTitle.value=''">
+  <div class="form-group">
+    <input type="text" #tripTitle class="form-control" placeholder="Trip Name"/>
+  </div>
+  <input type="submit" value="SUBMIT" class="btn btn-sucess btn-lg btn-block">
+</form>
+
+
+<table class="table">
+  <tr *ngFor="let trip of trips">
+    <td class="text-left">
+      <a (click)="edit(trip)">
+        <span *ngIf="trip!==editTrip"> {{trip.title}} </span>
+        <input type="text" *ngIf="trip===editTrip" [(ngModel)]="trip.title" (blur)="update()" (keyup.enter)="update()">
+      </a>
+    </td>
+    <td class="text-right">
+      <button class="btn btn-danger" (click)="delete(Trip)"> Delete </button>
+    </td>
+  </tr>
+</table>
+
+<div class="card card-body bg-light text-center">
+  <span class="small"> Click on a trip to edit name </span>
+</div>
