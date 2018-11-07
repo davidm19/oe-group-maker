@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Student, engine
+from database_setup import Base, Student, engine, Trip
 from flask import session as login_session
 import random, string
 from oauth2client.client import flow_from_clientsecrets
@@ -254,7 +254,7 @@ if __name__ == '__main__':
 
 
 
-
+#
 # from flask import Flask, request, jsonify
 # from flask_cors import CORS, cross_origin
 # from flask_restful import Resource, Api
