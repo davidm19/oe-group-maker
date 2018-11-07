@@ -1,4 +1,19 @@
-#THIS IS WHERE YOU IMPORT STUFF
+import flask
+from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
+from sqlalchemy import create_engine, asc, desc
+from sqlalchemy.orm import sessionmaker
+from database_setup import Base, Student, engine, Preference
+from flask import session as login_session
+import random, string
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.client import FlowExchangeError
+import httplib2
+import json
+from flask import make_response
+import requests
+
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
 
 '''
 
@@ -15,6 +30,7 @@ ALGORITHM INTERFACE
 selects a trip from database
 '''
 def select_trip():
+    trip = session.query
     pass
 
 '''
