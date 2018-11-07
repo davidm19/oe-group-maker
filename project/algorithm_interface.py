@@ -27,10 +27,16 @@ ALGORITHM INTERFACE
 '''
 
 '''
-selects a trip from database
+selects students from grade level
 '''
-def select_trip():
-    trip = session.query
+def getstudents_by_gradelevel():
+    #trip = session.query(Trip).filter_by(id=)
+    pass
+
+'''
+selects students from trip ID
+'''
+def getstudents_by_tripID():
     pass
 
 '''
