@@ -29,14 +29,31 @@ ALGORITHM INTERFACE
 '''
 selects students from grade level
 '''
-def getstudents_by_gradelevel():
-    #trip = session.query(Trip).filter_by(id=)
-    pass
+def getstudents_by_gradelevel(gradeLevel):
+    return session.query(Student).filter_by(grade=gradeLevel).all()
 
 '''
 selects students from trip ID
 '''
-def getstudents_by_tripID():
+def getstudents_by_tripID(tripID):
+    return session.query(Trip).filter_by(id = tripID).all()
+
+'''
+finds tentative parteners for each person
+'''
+def temp_partner():
+    pass
+
+'''
+eliminates partners if temp_partner finds a duplicate
+'''
+def removal1():
+    pass
+
+'''
+eliminates parteners for anyone less than first preference that's a match
+'''
+def removal2():
     pass
 
 '''
