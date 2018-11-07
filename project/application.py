@@ -2,7 +2,7 @@ import flask
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Student, engine, Preference
+from database_setup import Base, Student, engine, Preference, Trip
 from flask import session as login_session
 import random, string
 from oauth2client.client import flow_from_clientsecrets
@@ -245,8 +245,11 @@ def editStudent(ID):
 def deleteStudent(ID):
     session = DBSession()
     studentToDelete = session.query(Student).filter_by(id=ID).one()
+    prefs_delete = session.query(Preference).filter_by(student_id = ID).all()
     if request.method == 'POST':
         session.delete(studentToDelete)
+        for pref in pres_delete:
+            session.delete(pref)
         session.commit()
         return redirect(url_for('showStudents', id=ID))
     else:
