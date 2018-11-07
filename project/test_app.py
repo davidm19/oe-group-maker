@@ -48,24 +48,24 @@ class BasicTests(unittest.TestCase):
                     }
         results = showStudent(1, session)
         self.assertEqual(results, expected_results)
-    
-    def test_showStudents(self):
-            expected_results = [{ 'first_name' : 'Michael'
-                        , 'last_name' : 'Huang'
-                        }, { 'first_name' : 'J'
-                                    , 'last_name' : 'D'
-                                    }]
-            results = showStudents(session)
-            self.assertEqual(results, expected_results)
 
-    def test_showStudentPref(self):
-            expected_results = [{'name' : 'Michael'},
-                            {'name' : 'Ryan'},
-                            {'name' : 'David'}
-                        ]
-            results = showStudentPref(2, session)
-            self.assertEqual(results, expected_results)
-
+    # def test_showStudents(self):
+    #         expected_results = [{ 'first_name' : 'Michael'
+    #                     , 'last_name' : 'Huang'
+    #                     }, { 'first_name' : 'J'
+    #                                 , 'last_name' : 'D'
+    #                                 }]
+    #         results = showStudents(session)
+    #         self.assertEqual(results, expected_results)
+    #
+    # def test_showStudentPref(self):
+    #         expected_results = [{'name' : 'Michael'},
+    #                         {'name' : 'Ryan'},
+    #                         {'name' : 'David'}
+    #                     ]
+    #         results = showStudentPref(2, session)
+    #         self.assertEqual(results, expected_results)
+    #
     # def test_newStudent(self):
     #     oldDb = showStudents(session)
     #     newStudent('David','Malone', session)

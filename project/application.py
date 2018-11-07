@@ -2,7 +2,7 @@ import flask
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Student, engine, Preference, Trip
+from database_setup import Base, Student, engine, Preference
 from flask import session as login_session
 import random, string
 from oauth2client.client import flow_from_clientsecrets
