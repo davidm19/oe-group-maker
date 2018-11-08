@@ -2,5 +2,4 @@
 ## Project for Chadwick Outdoor Education offices by students from Post-AP Computer Science: Intro to Software Engineering
 Project intended to help Chadwick's Outdoor Ed offices have an easier time making groups for Outdoor Ed trips 
 
-## Copyright
-All code copyright Team House of Cards, Inc. (Mia Dimson, Ryan Hom (third party contractor), Michael Huang, David Malone) except for the Gale-Shapley/Irving's "Stable Roommate" algorithms which were developed by David Gale, LLoyd Shapley, and Robert W. Irving.
+Created by Team House of Cards (Mia Dimson, Ryan Hom, Michael Huang, David Malone)
