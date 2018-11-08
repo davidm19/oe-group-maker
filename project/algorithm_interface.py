@@ -25,7 +25,7 @@ def getstudents_by_gradelevel(gradeLevel):
 selects students from trip ID
 '''
 def getstudents_by_tripID(tripID):
-    return session.query(Trip).filter_by(id = tripID).all()
+    return session.query(Trip).filter_by(id=tripID).all()
 
 '''
 finds tentative parteners for each person
@@ -40,7 +40,7 @@ def removal1():
     pass
 
 '''
-eliminates parteners for anyone less than first preference that's a match
+eliminates partners for anyone less than first preference that's a match
 '''
 def removal2():
     pass
