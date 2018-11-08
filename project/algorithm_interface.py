@@ -16,17 +16,6 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 '''
-
-ALGORITHM INTERFACE
-1. select trip from database
-2. algorithm step 1
-3. algorithm step 2
-4. algorithm step 3
-5. export list in some format
-
-'''
-
-'''
 selects students from grade level
 '''
 def getstudents_by_gradelevel(gradeLevel):
