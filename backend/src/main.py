@@ -3,6 +3,8 @@ from flask import Flask, jsonify, request
 from .entities.entity import Session, engine, Base
 from .entities.trip import Trip, TripSchema
 
+from flask_cors import CORS
+
 # creating the Flask application
 app = Flask(__name__)
 
