@@ -1,27 +1,44 @@
+from flask import Flask, jsonify, request
 
 from .entities.entity import Session, engine, Base
-from .entities.trip import Trip
+from .entities.trip import Trip, TripSchema
 
-# generate database schema
+# creating the Flask application
+app = Flask(__name__)
+
+# if needed, generate database schema
 Base.metadata.create_all(engine)
 
-# start session
-session = Session()
 
-# check for existing data
-trips = session.query(Trip).all()
+@app.route('/trips')
+def get_trips():
+    # fetching from the database
+    session = Session()
+    allTrips = session.query(Trip).all()
 
-if len(trips) == 0:
-    # create and persist dummy trip
-    python_exam = Trip("Test trip", "script")
-    session.add(newTrip)
-    session.commit()
+    # transforming into JSON-serializable objects
+    schema = TripSchema(many=True)
+    trips = schema.dump(allTrips)
+
+    # serializing as JSON
     session.close()
+    return jsonify(trips.data)
 
-    # reload trips
-    trips = session.query(Trip).all()
 
-# show existing trips
-print('### Trips:')
-for trip in trips:
-    print(f'({trip.id}) {trip.title} - {trip.description}')
+@app.route('/trips', methods=['POST'])
+def add_trip():
+    # mount trip object
+    newTrip = TripSchema(only=('title', 'description'))\
+        .load(request.get_json())
+
+    trip = Trip(**newTrip.data, created_by="HTTP post request")
+
+    # persist trip
+    session = Session()
+    session.add(trip)
+    session.commit()
+
+    # return created trip
+    newTrip = TripSchema().dump(trip).data
+    session.close()
+    return jsonify(newTrip), 201
