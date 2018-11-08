@@ -7,7 +7,7 @@ from flask_cors import CORS
 
 # creating the Flask application
 app = Flask(__name__)
-
+CORS(app)
 # if needed, generate database schema
 Base.metadata.create_all(engine)
 
