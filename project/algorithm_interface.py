@@ -46,25 +46,13 @@ def temp_partner(stuID):
 '''
 eliminates partners if temp_partner finds a duplicate
 '''
-def removal1():
-    pass
+def removal1(student):
+    student.Partner = session.query(Preference).filter_by(studentID)
 
 '''
 eliminates parteners for anyone less than first preference that's a match
 '''
 def removal2():
-    pass
-
-'''
-finds tentative parteners for each person
-'''
-def temp_partner():
-    pass
-
-'''
-eliminates partners if temp_partner finds a duplicate
-'''
-def removal1():
     pass
 
 '''
