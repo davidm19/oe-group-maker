@@ -16,11 +16,11 @@ Base.metadata.create_all(engine)
 def get_trips():
     # fetching from the database
     session = Session()
-    allTrips = session.query(Trip).all()
+    trip_objects = session.query(Trip).all()
 
     # transforming into JSON-serializable objects
     schema = TripSchema(many=True)
-    trips = schema.dump(allTrips)
+    trips = schema.dump(trip_objects)
 
     # serializing as JSON
     session.close()
@@ -29,18 +29,19 @@ def get_trips():
 
 @app.route('/trips', methods=['POST'])
 def add_trip():
+    session = Session()
     # mount trip object
-    newTrip = TripSchema(only=('title', 'description'))\
+    posted_trip = TripSchema(only=('title', 'description'))\
         .load(request.get_json())
 
-    trip = Trip(**newTrip.data, created_by="HTTP post request")
+    trip = Trip(**posted_trip.data, created_by="HTTP post request")
 
     # persist trip
-    session = Session()
+
     session.add(trip)
     session.commit()
 
     # return created trip
-    newTrip = TripSchema().dump(trip).data
+    new_trip = TripSchema().dump(trip).data
     session.close()
-    return jsonify(newTrip), 201
+    return jsonify(new_trip), 201

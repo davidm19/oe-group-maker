@@ -4,7 +4,7 @@ from sqlalchemy import Column, String
 from .entity import Entity, Base
 
 
-class Exam(Entity, Base):
+class Trip(Entity, Base):
     __tablename__ = 'trips'
 
     title = Column(String)
