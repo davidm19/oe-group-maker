@@ -38,6 +38,7 @@ eliminates partners if temp_partner finds a duplicate
 '''
 def removal1():
     pass
+    studentToDelete = session.query(Student).filter_by()
 
 '''
 eliminates parteners for anyone less than first preference that's a match
