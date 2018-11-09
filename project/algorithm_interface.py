@@ -30,6 +30,23 @@ def getstudents_by_tripID(tripID):
 '''
 finds tentative parteners for each person
 '''
+def temp_partner(stuID):
+    return session.query(Preference).filter_by(student_id = stuID).one()
+'''
+eliminates partners if temp_partner finds a duplicate
+'''
+def removal1():
+    pass
+
+'''
+eliminates parteners for anyone less than first preference that's a match
+'''
+def removal2():
+    pass
+
+'''
+finds tentative parteners for each person
+'''
 def temp_partner():
     pass
 
@@ -46,7 +63,7 @@ def removal2():
     pass
 
 '''
-part 1 of algorithm
+will Step 1 of the algorithm
 '''
 def alg_part1():
     pass
