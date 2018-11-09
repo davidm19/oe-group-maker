@@ -31,19 +31,14 @@ def getstudents_by_tripID(tripID):
 finds tentative parteners for each person
 '''
 def temp_partner(stuID):
-    return session.query(Preference).filter_by(student_id = stuID).one()
-
-'''
-eliminates partners if temp_partner finds a duplicate
-'''
-def removal1():
-    pass
-    studentToDelete = session.query(Student).filter_by()
+    return session.query(Preference).filter_by(student_id=stuID).all()
 
 '''
 eliminates parteners for anyone less than first preference that's a match
 '''
-def removal2():
+def lowpref_removal():
+    student1 = session.query(Student)filter_by(student_id=stuID).one()
+
     pass
 
 '''
