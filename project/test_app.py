@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from test_database_setup import Base, Student, engine, Preference
 import os
 import unittest
-from application import showStudent, showStudents, showStudentPref
+from application import showStudent, showStudents, showStudentPref, newStudent
 from application import session, app
 
 
@@ -49,32 +49,32 @@ class BasicTests(unittest.TestCase):
         results = showStudent(1, session)
         self.assertEqual(results, expected_results)
 
-    # def test_showStudents(self):
-    #         expected_results = [{ 'first_name' : 'Michael'
-    #                     , 'last_name' : 'Huang'
-    #                     }, { 'first_name' : 'J'
-    #                                 , 'last_name' : 'D'
-    #                                 }]
-    #         results = showStudents(session)
-    #         self.assertEqual(results, expected_results)
-    #
-    # def test_showStudentPref(self):
-    #         expected_results = [{'name' : 'Michael'},
-    #                         {'name' : 'Ryan'},
-    #                         {'name' : 'David'}
-    #                     ]
-    #         results = showStudentPref(2, session)
-    #         self.assertEqual(results, expected_results)
-    #
-    # def test_newStudent(self):
-    #     oldDb = showStudents(session)
-    #     newStudent('David','Malone', session)
-    #     newStudentInfo = { "first_name" : 'David'
-    #                 , "last_name" : 'Malone'
-    #                 }
-    #     oldDb.append(newStudentInfo)
-    #     newDb = showStudents(session)
-    #     self.assertEqual(newDb, oldDb)
+    def test_showStudents(self):
+            expected_results = [{ 'first_name' : 'Michael'
+                        , 'last_name' : 'Huang'
+                        }, { 'first_name' : 'J'
+                                    , 'last_name' : 'D'
+                                    }]
+            results = showStudents(session)
+            self.assertEqual(results, expected_results)
+
+    def test_showStudentPref(self):
+            expected_results = [{'name' : 'Michael'},
+                            {'name' : 'Ryan'},
+                            {'name' : 'David'}
+                        ]
+            results = showStudentPref(2, session)
+            self.assertEqual(results, expected_results)
+
+    def test_newStudent(self):
+        oldDb = showStudents(session)
+        newStudent('David','Malone', session)
+        newStudentInfo = { "first_name" : 'David'
+                    , "last_name" : 'Malone'
+                    }
+        oldDb.append(newStudentInfo)
+        newDb = showStudents(session)
+        self.assertEqual(newDb, oldDb)
 
 if __name__ == "__main__":
     unittest.main()
