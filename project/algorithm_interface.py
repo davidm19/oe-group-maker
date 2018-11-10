@@ -42,7 +42,7 @@ def lowpref_removal():
     pass
 
 '''
-will Step 1 of the algorithm
+part 1 of the algorithm
 '''
 def alg_part1():
     pass
