@@ -3,11 +3,12 @@ from sqlalchemy import create_engine, Column, String, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-db_url = 'localhost:5432'
-db_name = 'trip'
-db_user = 'postgres'
-db_password = 'godolphins'
-engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_url}/{db_name}')
+# db_url = 'localhost:5432'
+# db_name = 'trip'
+# db_user = 'postgres'
+# db_password = 'godolphins'
+
+engine = create_engine('sqlite:///entitydatabase.db')
 Session = sessionmaker(bind=engine)
 
 Base = declarative_base()

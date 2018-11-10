@@ -16,6 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private tripsApi: TripsApiService) {
   }
 
+
   ngOnInit() {
     this.tripsListSubs = this.tripsApi
       .getTrips()
