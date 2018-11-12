@@ -181,6 +181,10 @@ def showStudent(ID, sesh):
                 }
     return student_info
 
+@app.route('/trips')
+def showTrips():
+    return render_template('trips.html')
+
 @app.route('/student/<int:ID>')
 def showStudentPref(ID, sesh):
     preferences = sesh.query(Preference).filter_by(student_id=ID).all()
