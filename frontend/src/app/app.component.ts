@@ -1,33 +1,10 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
-import {TripsApiService} from './trips/trips-api.service';
-import {Trip} from './trips/trip.model';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  templateUrl: '<router-outlet></router-outlet>',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
-  title = 'app';
-  tripsListSubs: Subscription;
-  tripsList: Trip[];
-
-  constructor(private tripsApi: TripsApiService) {
-  }
-
-
-  ngOnInit() {
-    this.tripsListSubs = this.tripsApi
-      .getTrips()
-      .subscribe(res => {
-          this.tripsList = res;
-        },
-        console.error
-      );
-  }
-
-  ngOnDestroy() {
-    this.tripsListSubs.unsubscribe();
-  }
+export class AppComponent {
+  title = 'oe-group-maker-front-end';
 }
