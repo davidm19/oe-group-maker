@@ -1,0 +1,11 @@
+<h1>Trips</h1>
+
+<div>
+  <button routerLink="/trips">New trip</button>
+
+  <ul>
+    <li *ngFor="let trip of Trips">
+      {{trip.title}}
+    </li>
+  </ul>
+</div>
