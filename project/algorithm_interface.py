@@ -11,6 +11,7 @@ import httplib2
 import json
 from flask import make_response
 import requests
+from Student import Student
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
@@ -44,40 +45,16 @@ finds tentative parteners for each person
 def temp_partner(stuID):
     return session.query(Preference).filter_by(student_id = stuID).one()
 '''
-eliminates partners if temp_partner finds a duplicate
+eliminates partners given a preference string
 '''
-def removal1(student):
-    student.Partner = session.query(Preference).filter_by(studentID)
+def removal_one_student(student, preference):
+    student.remove_preference_string(preference)
 
-'''
-eliminates parteners for anyone less than first preference that's a match
-'''
-def removal2():
-    pass
+def remove_lesser_students(student, preference):
+    time_to_delete = False
+    for x in student.preferences:
+        if preference = student.prefernces[x]
 
-'''
-eliminates parteners for anyone less than first preference that's a match
-'''
-def removal2():
-    pass
-
-'''
-will Step 1 of the algorithm
-'''
-def alg_part1():
-    pass
-
-'''
-part 2 of algorithm
-'''
-def alg_part2():
-    pass
-
-'''
-part 3 of algorithm
-'''
-def alg_part3():
-    pass
 
 '''
 exports the final list
