@@ -4,7 +4,7 @@ import {Trip} from './trip.model';
 import {TripsApiService} from './trips-api.service';
 
 @Component({
-  selector: 'trips',
+  selector: 'app-trips',
   template: `
     <div>
       <button routerLink="/new-trip">New trip</button>
