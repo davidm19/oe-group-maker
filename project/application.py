@@ -7,6 +7,8 @@ from flask import session as login_session
 import random, string
 import json
 from flask import make_response
+from sqlalchemy.sql import exists
+
 
 
 app = Flask(__name__)
@@ -20,15 +22,40 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-@app.route('/')
-@app.route('/home')
-def homepage():
-    return render_template('homepage.html')
+
+
 
 @app.route('/trips', methods=['GET'])
 def showTrips():
+    tripList = []
     allTrips = session.query(Trip).all()
-    return allTrips
+    for trip in allTrips:
+        trip_info = {"trip_name" : trip_name, "id" : id}
+        tripList.append(trip_info)
+    return flask.jsonify(tripList), 200
+
+@app.route('/trips', methods=['GET, POST'])
+def addTrip():
+    tripList = []
+    newTrip = Trip(trip_name = request.form['trip_name'], trip_id = trip_id)
+
+    if request.method == 'POST':
+        session.add(newTrip)
+        session.commit()
+        tripList.append(newTrip)
+
+    return flask.jsonify(newTrip), 200
+
+@app.route('/trips/<int:trip_id>/delete', methods=['GET, POST'])
+def deleteTrip():
+    tripList = []
+    tripToDelete = session.query(Trip).filter_by(id=trip_id).one()
+    if request.method == 'POST':
+        session.delete(tripToDelete)
+        session.commit()
+        tripList.remove(tripToDelete)
+
+    return flask.jsonify("Trip Deleted!"), 200
 
 @app.route('/student/<int:ID>/')
 def showStudent(ID, session):
@@ -96,7 +123,7 @@ def editStudent(ID):
         session.commit()
         return redirect(url_for('showStudents', id=ID))
     else:
-        return "it worked"
+        return flask.jsonify("it worked"), 200
         # return render_template('editUniverse.html', universe=editedUniverse)
 
 @app.route('/student/<int:ID>/delete', methods=['GET', 'POST'])

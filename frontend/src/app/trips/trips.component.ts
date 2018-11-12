@@ -5,16 +5,8 @@ import {TripsApiService} from './trips-api.service';
 
 @Component({
   selector: 'app-trips',
-  template: `
-    <div>
-      <button routerLink="/new-trip">New trip</button>
-      <ul>
-        <li *ngFor="let trip of tripsList">
-          {{trip.title}}
-        </li>
-      </ul>
-    </div>
-  `
+  templateUrl: './trips.component.html',
+
 })
 export class TripsComponent implements OnInit, OnDestroy {
   tripsListSubs: Subscription;
