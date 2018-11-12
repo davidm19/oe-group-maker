@@ -30,8 +30,9 @@ def getstudents_by_tripID(tripID):
 '''
 finds tentative parteners for each person
 '''
-def temp_partner(stuID):
-    return session.query(Preference).filter_by(student_id = stuID).one()
+def temp_partner(studentID):
+    return session.query(Preference).filter_by(student_id = studentID).one()
+
 '''
 eliminates partners if temp_partner finds a duplicate
 '''
