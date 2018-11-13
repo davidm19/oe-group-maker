@@ -231,7 +231,7 @@ def newStudent(firstName, lastName, pref1_name, pref2_name, pref3_name, sesh):
             sesh.commit()
         return "yes" #RETURN REDIRECT URLFOR FOR HOMEPAGE???
     else:
-        return "no" #RETURN RENDERTEMPLATE FOR NEWSTUDENT??? 
+        return "no" #RETURN RENDERTEMPLATE FOR NEWSTUDENT??? (KINDA LIKE ITEM CATALOG NEW CHARACTER)
 
 @app.route('/student/<int:ID>/edit', methods=['GET', 'POST'])
 def editStudent(ID):
