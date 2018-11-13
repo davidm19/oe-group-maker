@@ -67,15 +67,15 @@ class BasicTests(unittest.TestCase):
             results = showStudentPref(2, session)
             self.assertEqual(results, expected_results)
 
-    # def test_newStudent(self):
-    #     oldDb = showStudents(session)
-    #     newStudent('David','Malone', session, " ", " ", " ")
-    #     newStudentInfo = { "first_name" : 'David'
-    #                 , "last_name" : 'Malone'
-    #                 }
-    #     oldDb.append(newStudentInfo)
-    #     newDb = showStudents(session)
-    #     self.assertEqual(newDb, oldDb)
+    def test_newStudent(self):
+        oldDb = showStudents(session)
+        newStudent('David','Malone', session, " ", " ", " ")
+        newStudentInfo = { "first_name" : 'David'
+                    , "last_name" : 'Malone'
+                    }
+        oldDb.append(newStudentInfo)
+        newDb = showStudents(session)
+        self.assertEqual(newDb, oldDb)
 
 if __name__ == "__main__":
     unittest.main()

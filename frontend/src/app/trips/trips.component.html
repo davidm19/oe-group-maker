@@ -1,11 +1,13 @@
 <h1>Trips</h1>
 
-<div>
-  <button routerLink="/trips">New trip</button>
+<div class="row">
+  <trip-form></trip-form>
+  </div>
 
+<div>
   <ul>
-    <li *ngFor="let trip of Trips">
-      {{trip.title}}
+    <li *ngFor="let trip of tripsList">
+      {{trip.trip_name}}
     </li>
   </ul>
 </div>

@@ -5,15 +5,20 @@ import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Routes, RouterModule} from '@angular/router';
-import {AppComponent} from './app.component';
-import {HeaderComponent} from './header/header.component';
-import {TripsApiService} from './trips/trips-api.service';
+import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { TripsApiService } from './trips/trips-api.service';
+import { TripFormComponent } from './trips/trip-form.component';
 
 import {TripsComponent} from './trips/trips.component';
 import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
-  { path: 'trips', component: TripsComponent }
+  { path: 'trips', component: TripsComponent },
+  { path: 'new-trip', component: TripFormComponent },
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent }
+
 ]
 
 @NgModule({
@@ -21,7 +26,9 @@ const appRoutes: Routes = [
     AppComponent,
     HeaderComponent,
     TripsComponent,
-    HomeComponent
+    HomeComponent,
+    TripFormComponent
+
   ],
   imports: [
     BrowserModule,
