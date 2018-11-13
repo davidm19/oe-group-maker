@@ -186,9 +186,9 @@ def showTrips():
     return render_template('trips.html')
 
 def newTrip():
+    """TODO: IMPLEMENT"""
     pass
     #SAME AS NEWUNIVERSE IN ITEM CATALOG?
-    """TODO: IMPLEMENT"""
 
 @app.route('/student/<int:ID>')
 def showStudentPref(ID, sesh):
@@ -211,10 +211,10 @@ def showStudents(sesh):
     return students_all
 
 @app.route('/student/new/', methods=['GET', 'POST'])
-def newStudent(firstName, lastName, pref1_name, pref2_name, pref3_name, sesh):
+def newStudent(firstName, lastName, grade, pref1_name, pref2_name, pref3_name, sesh):
     if request.method == 'POST':
         students = sesh.query(Student).all()
-        newStudent = Student(first_name = firstName, last_name = lastName)
+        newStudent = Student(first_name = firstName, last_name = lastName, grade = grade)
         sesh.add(newStudent)
         sesh.commit()
         if pref1_name is not none:
@@ -229,7 +229,8 @@ def newStudent(firstName, lastName, pref1_name, pref2_name, pref3_name, sesh):
             student_pref3 = Preference(name = pref1_name, priority = 1, student_id = newStudent.id)
             sesh.add(student_pref3)
             sesh.commit()
-        return "yes" #RETURN REDIRECT URLFOR FOR HOMEPAGE???
+        return "Student successfully added ! \n", 201
+        '''IF STUDENT OBJECT ISN'T JSONIFIABLE'''
     else:
         return "no" #RETURN RENDERTEMPLATE FOR NEWSTUDENT??? (KINDA LIKE ITEM CATALOG NEW CHARACTER)
 
