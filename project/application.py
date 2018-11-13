@@ -30,7 +30,7 @@ def showTrips():
     tripList = []
     allTrips = session.query(Trip).all()
     for trip in allTrips:
-        trip_info = {"trip_name" : trip_name, "id" : id}
+        trip_info = {"trip_name" : trip_trip_name, "id" : trip_id}
         tripList.append(trip_info)
     return flask.jsonify(tripList), 200
 
@@ -140,27 +140,6 @@ def deleteStudent(ID):
     else:
         return "it worked"
         # return render_template('deleteUniverse.html', universe=universeToDelete)
-
-@app.route('/disconnect')
-def disconnect():
-    if 'provider' in login_session:
-        if login_session['provider'] == 'google':
-            gdisconnect()
-            del login_session['gplus_id']
-            del login_session['access_token']
-
-        del login_session['username']
-        del login_session['email']
-        del login_session['picture']
-        del login_session['user_id']
-        del login_session['provider']
-        flash("You have successfully been logged out.")
-        return redirect(url_for('showStudents'))
-    else:
-        flash("You were not logged in")
-        return redirect(url_for('showStudents'))
-
-
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
