@@ -185,6 +185,11 @@ def showStudent(ID, sesh):
 def showTrips():
     return render_template('trips.html')
 
+def newTrip():
+    pass
+    #SAME AS NEWUNIVERSE IN ITEM CATALOG?
+    """TODO: IMPLEMENT"""
+
 @app.route('/student/<int:ID>')
 def showStudentPref(ID, sesh):
     preferences = sesh.query(Preference).filter_by(student_id=ID).all()
@@ -224,9 +229,9 @@ def newStudent(firstName, lastName, pref1_name, pref2_name, pref3_name, sesh):
             student_pref3 = Preference(name = pref1_name, priority = 1, student_id = newStudent.id)
             sesh.add(student_pref3)
             sesh.commit()
-        return "yes"
+        return "yes" #RETURN REDIRECT URLFOR FOR HOMEPAGE???
     else:
-        return "no"
+        return "no" #RETURN RENDERTEMPLATE FOR NEWSTUDENT??? 
 
 @app.route('/student/<int:ID>/edit', methods=['GET', 'POST'])
 def editStudent(ID):
