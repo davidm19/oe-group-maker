@@ -30,8 +30,8 @@ Temporary Items
 
 ### Vagrant ###
 # General
-.vagrant/
-.vagrant/machines/
+/.vagrant/
+/.vagrant/machines/default/virtualbox/
 
 # Log files (if you are creating logs in debug mode, uncomment this)
 # *.logs
