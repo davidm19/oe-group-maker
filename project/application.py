@@ -2,17 +2,19 @@ import flask
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Student, engine, Preference
+from database_setup import Base, Student, engine, Preference, Trip
 #from database_setup import Trip
 from flask import session as login_session
 import random, string
 import json
 from flask import make_response
 from sqlalchemy.sql import exists
+from flask_cors import CORS
 
 
 
 app = Flask(__name__)
+CORS(app)
 
 # CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Outdoor Ed Group Maker"
@@ -31,8 +33,10 @@ def showTrips():
     tripList = []
     allTrips = session.query(Trip).all()
     for trip in allTrips:
-        trip_info = {"trip_name" : trip_trip_name, "id" : trip_id}
+        trip_info = {"trip_name" : trip.trip_name, "id" : trip.id}
+
         tripList.append(trip_info)
+
     return flask.jsonify(tripList), 200
 
 @app.route('/trips', methods=['GET, POST'])
@@ -65,10 +69,6 @@ def showStudent(ID, session):
                 , "last_name" : student.last_name
                 }
     return student_info
-
-@app.route('/trips')
-def showTrips():
-    return render_template('trips.html')
 
 def newTrip():
     pass

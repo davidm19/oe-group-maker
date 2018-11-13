@@ -7,17 +7,10 @@ from sqlalchemy.sql import func
 
 Base = declarative_base()
 
-<<<<<<< HEAD
 class Trip(Base):
     __tablename__ = 'trip'
     id = Column(Integer, primary_key=True, autoincrement=True)
     trip_name = Column(String(32))
-=======
-# class Trip(Base):
-#     __tablename__ = 'trip'
-#     id = Column(Integer, primary_key=True, autoincrement=True)
-#     name = Column(String(32))
->>>>>>> student-db-crud
 
 class Student(Base):
     __tablename__ = 'student'
