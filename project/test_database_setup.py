@@ -7,10 +7,10 @@ from sqlalchemy.sql import func
 
 Base = declarative_base()
 
-# class Trip(Base):
-#     __tablename__ = 'trip'
-#     id = Column(Integer, primary_key=True, autoincrement=True)
-#     name = Column(String(32))
+class Trip(Base):
+    __tablename__ = 'trip'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(32))
 
 class Student(Base):
     __tablename__ = 'student'
@@ -18,6 +18,7 @@ class Student(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     first_name = Column(String(32))
     last_name = Column(String(32))
+    grade = Column(Integer, nullable=True)
     # trip_id = Column(Integer, ForeignKey('trip.id'), nullable = True)
 
 
