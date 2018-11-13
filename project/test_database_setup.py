@@ -18,8 +18,8 @@ class Student(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     first_name = Column(String(32))
     last_name = Column(String(32))
-    trip_id = Column(Integer, ForeignKey('trip.id'))
-    trip = relationship(Trip)
+    grade = Column(Integer, nullable=True)
+    # trip_id = Column(Integer, ForeignKey('trip.id'), nullable = True)
 
 
 class Preference(Base):

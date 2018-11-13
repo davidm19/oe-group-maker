@@ -30,7 +30,8 @@ Temporary Items
 
 ### Vagrant ###
 # General
-.vagrant/
+/.vagrant/
+/.vagrant/machines/default/virtualbox/
 
 # Log files (if you are creating logs in debug mode, uncomment this)
 # *.logs
@@ -38,5 +39,8 @@ Temporary Items
 ### Vagrant Patch ###
 *.box
 
+*.swp
+
+tags
 
 # End of https://www.gitignore.io/api/macos,vagrant
