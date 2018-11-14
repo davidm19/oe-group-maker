@@ -43,7 +43,7 @@ def removal_one_student(student, preference):
 def remove_lesser_students(student, preference):
     time_to_delete = False
     for x in student.preferences:
-        if preference = student.prefernces[x]
+        if preference = student.preferences[x]
 
 
 '''
