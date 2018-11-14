@@ -182,12 +182,27 @@ def showStudent(ID, sesh):
     return student_info
 
 @app.route('/trips')
-def showTrips():
-    return render_template('trips.html')
+def showTrips(sesh):
+    """CHECK IMPLEMENTATION!!!!!"""
+    trips = sesh.query(Trip).all()
+    trip_list = all()
+    for trip in trips:
+        trip_info = {
+                "name" : trip.name
+                }
+        trip_list.append(trip_info)
+    return trip_list
 
-def newTrip():
+def newTrip(trip_name, sesh):
     """TODO: IMPLEMENT"""
-    pass
+    if request_method == 'POST':
+        trips = sesh.query(Trip).all()
+        newTrip = Trip(name = trip_name)
+        sesh.add(newTrip)
+        sesh.commit
+        return "Trip successfully added! \n", 201
+    else:
+        pass
     #SAME AS NEWUNIVERSE IN ITEM CATALOG?
 
 @app.route('/student/<int:ID>')
@@ -230,9 +245,8 @@ def newStudent(firstName, lastName, grade, pref1_name, pref2_name, pref3_name, s
             sesh.add(student_pref3)
             sesh.commit()
         return "Student successfully added ! \n", 201
-        '''IF STUDENT OBJECT ISN'T JSONIFIABLE'''
     else:
-        return "no" #RETURN RENDERTEMPLATE FOR NEWSTUDENT??? (KINDA LIKE ITEM CATALOG NEW CHARACTER)
+        return "no" """RETURN RENDERTEMPLATE FOR NEWSTUDENT??? (KINDA LIKE ITEM CATALOG NEW CHARACTER)"""
 
 @app.route('/student/<int:ID>/edit', methods=['GET', 'POST'])
 def editStudent(ID):
