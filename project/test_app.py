@@ -6,7 +6,7 @@ from test_database_setup import Base, Student, engine, Preference
 #from test_database_setup import Trip
 import os
 import unittest
-from application import showStudent, showStudents, showStudentPref, newStudent
+from application import showStudent, showStudents, showStudentPref, newStudent, showTrips
 from application import session, app
 
 
@@ -51,31 +51,41 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(results, expected_results)
 
     def test_showStudents(self):
-            expected_results = [{ 'first_name' : 'Michael'
-                        , 'last_name' : 'Huang'
-                        }, { 'first_name' : 'J'
-                                    , 'last_name' : 'D'
-                                    }]
-            results = showStudents(session)
-            self.assertEqual(results, expected_results)
+        expected_results = [{ 'first_name' : 'Michael'
+                    , 'last_name' : 'Huang'
+                    }, { 'first_name' : 'J'
+                                , 'last_name' : 'D'
+                                }]
+        results = showStudents(session)
+        self.assertEqual(results, expected_results)
 
     def test_showStudentPref(self):
-            expected_results = [{'name' : 'Michael'},
-                            {'name' : 'Ryan'},
-                            {'name' : 'David'}
-                        ]
-            results = showStudentPref(2, session)
-            self.assertEqual(results, expected_results)
+        expected_results = [{'name' : 'Michael'},
+                        {'name' : 'Ryan'},
+                        {'name' : 'David'}
+                    ]
+        results = showStudentPref(2, session)
+        self.assertEqual(results, expected_results)
 
-    def test_newStudent(self):
-        oldDb = showStudents(session)
-        newStudent('David','Malone', session, " ", " ", " ")
-        newStudentInfo = { "first_name" : 'David'
-                    , "last_name" : 'Malone'
-                    }
-        oldDb.append(newStudentInfo)
-        newDb = showStudents(session)
-        self.assertEqual(newDb, oldDb)
+    def test_showTrips(self):
+        expected_results = [{'name' : 'Death Valley Backpacking'},
+                {'name' : 'Catalina Trip'}, 
+                {'name' : 'Kern River'}
+                ]
+        results = showTrips(session)
+        self.assertEqual(results, expected_results)
+        '''ERROR: GLOBAL NAME TRIP IS NOT DEFINED (check line 188 of application.py)'''
+
+    # def test_newStudent(self):
+    #     oldDb = showStudents(session)
+    #     newStudent('David','Malone', '12', session, " ", " ", " ")
+    #     newStudentInfo = { "first_name" : 'David'
+    #                 , "last_name" : 'Malone'
+    #                 , "grade" : 12
+    #                 }
+    #     oldDb.append(newStudentInfo)
+    #     newDb = showStudents(session)
+    #     self.assertEqual(newDb, oldDb)
 
 if __name__ == "__main__":
     unittest.main()
