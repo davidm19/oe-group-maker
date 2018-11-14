@@ -1,7 +1,6 @@
 class Student:
     def __init__(p, fn, ln):
         self.partner = ""
-        self.preferences = ""
         for x in p:
             self.preferences.append(p[x])
 
