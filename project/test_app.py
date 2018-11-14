@@ -63,7 +63,7 @@ class BasicTests(unittest.TestCase):
                             {'name' : 'Ryan'},
                             {'name' : 'David'}
                         ]
-            results = showStudentPref(2, session)
+            results = showStudentPref(2, session) 
             self.assertEqual(results, expected_results)
 
     def test_newStudent(self):
