@@ -2,6 +2,7 @@ import flask
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import exc
 from database_setup import Base, Student, engine, Preference
 #from database_setup import Trip
 from flask import session as login_session
@@ -24,6 +25,8 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+exceptions = exc.sa_exc
 
 @app.route('/login')
 def showLogin():
@@ -194,16 +197,14 @@ def showTrips(sesh):
     return trip_list
 
 def newTrip(trip_name, sesh):
-    """TODO: IMPLEMENT"""
-    if request_method == 'POST':
+    try:
         trips = sesh.query(Trip).all()
         newTrip = Trip(name = trip_name)
         sesh.add(newTrip)
         sesh.commit
         return "Trip successfully added! \n", 201
-    else:
-        pass
-    #SAME AS NEWUNIVERSE IN ITEM CATALOG?
+    except exceptions.SQLAlchemyError:
+        return "unable to complete request due to SQLAlchemy error"
 
 @app.route('/student/<int:ID>')
 def showStudentPref(ID, sesh):
@@ -246,7 +247,7 @@ def newStudent(firstName, lastName, grade, pref1_name, pref2_name, pref3_name, s
             sesh.commit()
         return "Student successfully added ! \n", 201
     else:
-        return "no" """RETURN RENDERTEMPLATE FOR NEWSTUDENT??? (KINDA LIKE ITEM CATALOG NEW CHARACTER)"""
+        return "no" '''RETURN RENDERTEMPLATE FOR NEWSTUDENT??? (KINDA LIKE ITEM CATALOG NEW CHARACTER)'''
 
 @app.route('/student/<int:ID>/edit', methods=['GET', 'POST'])
 def editStudent(ID):
