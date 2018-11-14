@@ -26,25 +26,16 @@ def getstudents_by_gradelevel(gradeLevel):
 selects students from trip ID
 '''
 def getstudents_by_tripID(tripID):
-<<<<<<< HEAD
-    return session.query(Trip).filter_by(id=tripID).all()
-=======
     return session.query(Student).filter_by(id = tripID).all()
 
 def getpreferences_by_studentID(studID):
     return session.query(Preference).filter_by(id = studID).all()
->>>>>>> a250bc65ce361a670485a54503c7d1eeec2fa2fd
 
 '''
 finds tentative parteners for each person
 '''
-<<<<<<< HEAD
-def temp_partner(studentID):
-    return session.query(Preference).filter_by(student_id = studentID).one()
-=======
 def temp_partner_id(student, stuID):
     student.partner = session.query(Preference).filter_by(student_id = stuID).one()
->>>>>>> a250bc65ce361a670485a54503c7d1eeec2fa2fd
 
 '''
 eliminates partners given a preference string
@@ -58,18 +49,43 @@ eliminates students in a lower preference rating compared to the given
 def remove_lesser_students(student, preference):
     time_to_delete = False
     for x in student.preferences:
-<<<<<<< HEAD
-        if preference = student.preferences[x]
-=======
         if time_to_delete == True:
             student.remove_preference_string(preference)
         if preference == student.prefernces[x]:
             time_to_delete = True
->>>>>>> a250bc65ce361a670485a54503c7d1eeec2fa2fd
 
 def setup(num):
     for x in range(num):
         students.append(Student())
+
+'''
+deletes preferences lower than the "most preferred"... step 2 of the irving algorithm
+'''
+def remove_lowpriority_pairs(student):
+#find first preference (student y) of given student (student x)
+    first_priority = student.preferences[0]
+    student_to_keep = session.query(Student).filter_by(first_name = first_priority).one()
+#find student x in student y's preference list
+    for x in student_to_keep.preferences:
+        if student == student_to_keep.preferences[x]:
+            c is 1
+            if c > x:
+#remove students (z) in student y's preference list that have lower priority than student x
+#remove student y from student z's lists
+                student_to_be_removed = student_to_keep.preferences[c]
+                student_tbr = session.query(Student).filter_by(first_name = student_to_be_removed).one()
+                for i in student_tbr.preferences:
+                    if student_to_keep == student_tbr.preferences[i]:
+                        student_tbr.remove_preference_id(i)
+                student_to_keep.remove_preference_id(c)
+                c += 1
+            else:
+                c += 1
+
+#input student is student x
+#first_priority is same student as student_to_keep (student y)
+#student_to_be_removed is same student as student_tbr (student z)
+
 
 '''
 exports the final list (currently returns doubles, this is a bad thing and will be fixed)
