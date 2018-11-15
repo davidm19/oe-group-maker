@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 
 from test_database_setup import Base, Trip, Student, engine, Preference
 
-engine = create_engine('sqlite:///test_database.db')
+engine = create_engine('sqlite:///database.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)

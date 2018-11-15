@@ -2,16 +2,16 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from test_database_setup import Base, Student, engine, Preference
+from test_database_setup import Base, Trip, Student, engine, Preference
+from application import showStudent, showStudents, showStudentPref, newStudent, showTrips
+from application import session
 #from test_database_setup import Trip
 import os
 import unittest
-from application import showStudent, showStudents, showStudentPref, newStudent, showTrips
-from application import session, app
 
 
 app = Flask(__name__)
-engine = create_engine('sqlite:///test_database.db')
+engine = create_engine('sqlite:///database.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
@@ -45,16 +45,16 @@ class BasicTests(unittest.TestCase):
 
     def test_showStudent(self):
         expected_results = { "first_name" : "Michael"
-                    , "last_name" : "Huang"
+                , "last_name" : "Huang", "grade" : 11
                     }
         results = showStudent(1, session)
         self.assertEqual(results, expected_results)
 
     def test_showStudents(self):
         expected_results = [{ 'first_name' : 'Michael'
-                    , 'last_name' : 'Huang'
+            , 'last_name' : 'Huang', 'grade' : 11
                     }, { 'first_name' : 'J'
-                                , 'last_name' : 'D'
+                        , 'last_name' : 'D', 'grade' : 11
                                 }]
         results = showStudents(session)
         self.assertEqual(results, expected_results)

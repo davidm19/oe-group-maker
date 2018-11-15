@@ -31,5 +31,5 @@ class Preference(Base):
     student_id = Column(Integer, ForeignKey('student.id'))
     student = relationship(Student)
 
-engine = create_engine('sqlite:///test_database.db')
+engine = create_engine('sqlite:///database.db')
 Base.metadata.create_all(engine)
