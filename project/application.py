@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, jsonify, url_for, f
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import exc
-from database_setup import Base, Student, engine, Preference
+from database_setup import Base, Trip, Student, Preference, engine
 #from database_setup import Trip
 from flask import session as login_session
 import random, string
@@ -178,15 +178,14 @@ def homepage():
 def showStudent(ID, sesh):
     student = sesh.query(Student).filter_by(id=ID).one()
     student_info = { "first_name" : student.first_name
-                , "last_name" : student.last_name
+            , "last_name" : student.last_name, "grade" : student.grade
                 }
     return student_info
 
 @app.route('/trips')
 def showTrips(sesh):
-    """CHECK IMPLEMENTATION!!!!!"""
     trips = sesh.query(Trip).all()
-    trip_list = all()
+    trip_list = list()
     for trip in trips:
         trip_info = {
                 "name" : trip.name
@@ -219,8 +218,8 @@ def showStudents(sesh):
     students_all = list()
     for student in students:
         student_info = { "first_name" : student.first_name
-                    , "last_name" : student.last_name
-                    }
+            , "last_name" : student.last_name, "grade" : student.grade
+                }
         students_all.append(student_info)
     return students_all
 
