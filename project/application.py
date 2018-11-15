@@ -182,6 +182,14 @@ def showStudent(ID, sesh):
                 }
     return student_info
 
+@app.route('/trips/<int:ID>/')
+def showTrip(ID, sesh):
+    trip = sesh.query(Trip).filter_by(id=ID).one()
+    trip_info = {
+            "name" : trip.name
+            }
+    return trip_info
+
 @app.route('/trips')
 def showTrips(sesh):
     trips = sesh.query(Trip).all()
@@ -201,7 +209,7 @@ def newTrip(trip_name, sesh):
         sesh.commit
         return "Trip successfully added! \n", 201
     except SQLAlchemyError:
-        return "unable to complete request due to SQLAlchemy error"
+        return "Unable to complete request due to SQLAlchemy error"
 
 @app.route('/student/<int:ID>')
 def showStudentPref(ID, sesh):

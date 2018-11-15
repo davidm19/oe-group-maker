@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from test_database_setup import Base, Trip, Student, engine, Preference
-from application import showStudent, showStudents, showStudentPref, newStudent, showTrips
+from application import showStudent, showStudents, showStudentPref, newStudent, showTrips, showTrip
 from application import session
 #from test_database_setup import Trip
 import os
@@ -74,7 +74,11 @@ class BasicTests(unittest.TestCase):
                 ]
         results = showTrips(session)
         self.assertEqual(results, expected_results)
-        '''ERROR: GLOBAL NAME TRIP IS NOT DEFINED (check line 187 of application.py)'''
+
+    def test_showTrip(self):
+        expected_results = {'name' : 'Catalina Trip'}
+        results = showTrip(2, session)
+        self.assertEqual(results, expected_results)
 
     # def test_newStudent(self):
     #     oldDb = showStudents(session)
