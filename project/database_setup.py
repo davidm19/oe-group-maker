@@ -16,7 +16,7 @@ class Student(Base):
     __tablename__ = 'student'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    # grade = Column(Integer, nullable = True)
+    grade = Column(Integer, nullable=True)
     first_name = Column(String(32))
     last_name = Column(String(32))
     # trip_id = Column(Integer, ForeignKey('trip.id'), nullable = True)

@@ -74,7 +74,7 @@ class BasicTests(unittest.TestCase):
                 ]
         results = showTrips(session)
         self.assertEqual(results, expected_results)
-        '''ERROR: GLOBAL NAME TRIP IS NOT DEFINED (check line 188 of application.py)'''
+        '''ERROR: GLOBAL NAME TRIP IS NOT DEFINED (check line 187 of application.py)'''
 
     # def test_newStudent(self):
     #     oldDb = showStudents(session)
