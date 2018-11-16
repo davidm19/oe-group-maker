@@ -190,7 +190,7 @@ def showTrip(ID, sesh):
             }
     return trip_info
 
-@app.route('/trips')
+@app.route('/trips/')
 def showTrips(sesh):
     trips = sesh.query(Trip).all()
     trip_list = list()
@@ -201,6 +201,7 @@ def showTrips(sesh):
         trip_list.append(trip_info)
     return trip_list
 
+@app.route('/trips/new/')
 def newTrip(trip_name, sesh):
     try:
         trips = sesh.query(Trip).all()
