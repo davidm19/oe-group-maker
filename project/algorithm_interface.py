@@ -95,6 +95,16 @@ def remove_lowpriority_pairs(student, session):
 #student_to_be_removed is same student as student_tbr and student_remove (student z)
 
 
+def check_for_num_pref(student, session):
+    if len(student.preferences) > 2:
+        for preference in student.preferences:
+            stud_pref = session.query(Student).filter_by(first_name = preference).one()
+            remove_pref = session.query(Preference).filter_by(name = student.fn).all()
+            if remove_pref.filter_by(student_id = stud_pref.id).one() is none:
+                session.remove(preference)
+
+
+
 '''
 exports the final list (currently returns doubles, this is a bad thing and will be fixed)
 '''
