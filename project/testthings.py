@@ -18,3 +18,14 @@ session = DBSession()
 
 
 class BasicTests(unittest.TestCase):
+
+    def test_stepTwo(self):
+        newStudent(Char, Lie, Paul, Sam, Kel, session)
+        newStudent(Pete, R, Kel, Sam, Paul, session)
+        newStudent(Eli, S, Sam, Kel, Paul, session)
+        newStudent(Paul, Ly, Eli, Char, Sam, session)
+        newStudent(Kel, Ly, Pete, Char, Sam, session)
+        newStudent(Sam, My, Char, Paul, Eli)
+        students = session.query(Student).all()
+        for student in students:
+            remove_lowpriority_pairs(student, session)
