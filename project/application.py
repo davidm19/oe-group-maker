@@ -248,7 +248,7 @@ def deleteStudent(ID):
     prefs_delete = session.query(Preference).filter_by(student_id = ID).all()
     if request.method == 'POST':
         session.delete(studentToDelete)
-        for pref in pres_delete:
+        for pref in prefs_delete:
             session.delete(pref)
         session.commit()
         return redirect(url_for('showStudents', id=ID))

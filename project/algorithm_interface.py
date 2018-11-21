@@ -61,7 +61,7 @@ def setup(num):
 '''
 deletes preferences lower than the "most preferred"... step 2 of the irving algorithm
 '''
-def remove_lowpriority_pairs(student):
+def remove_lowpriority_pairs(student, session):
 #find first preference (student y) of given student (student x)
     first_priority = student.preferences[0]
     student_to_keep = session.query(Student).filter_by(first_name = first_priority).one()
@@ -72,21 +72,27 @@ def remove_lowpriority_pairs(student):
             c is 1
             if c > x:
 #remove students (z) in student y's preference list that have lower priority than student x
-#remove student y from student z's lists
+#remove student y from students z's lists
                 student_to_be_removed = student_to_keep.preferences[c]
                 student_tbr = session.query(Student).filter_by(first_name = student_to_be_removed).one()
                 student_remove = Student(session.query(Preference).filter_by(student_id = student_tbr.id).all(), student_tbr.first_name, student_tbr.last_name)
                 for i in student_remove.preferences:
                     if student_tk.first_name == student_remove.preferences[i]:
                         student_remove.remove_preference_id(i)
+                        studs_to_del = session.query(Preference).filter_by(student_id = student_to_keep.id).all()
+                        session.remove(studs_to_del.filter_by(name = student_to_keep.first_name).one())
                 student_tk.remove_preference_id(c)
+                studs_to_remove = session.query(Preference).filter_by(student_id = student_tbr.id)
+                studs_to_remove = studs_to_remove.filter_by(name = student_tbr.first_name)
+                for stud in studs_to_remove:
+                    session.remove(stud)
                 c += 1
             else:
                 c += 1
 
 #input student is student x
-#first_priority is same student as student_to_keep (student y)
-#student_to_be_removed is same student as student_tbr (student z)
+#first_priority is same student as student_to_keep and student_tk (student y)
+#student_to_be_removed is same student as student_tbr and student_remove (student z)
 
 
 '''
