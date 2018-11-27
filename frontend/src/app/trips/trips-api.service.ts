@@ -20,11 +20,10 @@ export class TripsApiService {
   Observable<Array<Trip>> {
     return this.http
     .get<Array<Trip>>(`${API_URL}/trips`);
-    // .catchError(TripsApiService._handleError);
   }
 
   saveTrip(trip: Trip): Observable<any> {
   return this.http
     .post(`${API_URL}/trips`, trip);
-}
+  }
 }
