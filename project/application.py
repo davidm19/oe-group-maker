@@ -39,17 +39,18 @@ def showTrips():
 
     return flask.jsonify(tripList), 200
 
-@app.route('/trips', methods=['GET, POST'])
+
+
+@app.route('/trips', methods=['GET', 'POST'])
 def addTrip():
     tripList = []
-    newTrip = Trip(trip_name = request.form['trip_name'], trip_id = trip_id)
-
     if request.method == 'POST':
+        newTrip = Trip(trip_name = request.form['trip_name'])
         session.add(newTrip)
         session.commit()
         tripList.append(newTrip)
 
-    return flask.jsonify(newTrip), 200
+    return flask.jsonify("Trip Added!"), 200
 
 @app.route('/trips/<int:trip_id>/delete', methods=['GET, POST'])
 def deleteTrip():

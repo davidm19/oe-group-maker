@@ -5,14 +5,7 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'trip-form',
-  template: `
-    <div>
-      <h2>New Trip</h2>
-      <label for="trip_name">Name</label>
-      <input id="trip_name" (keyup)="updateName($event)">
-      <button (click)="saveTrip()">Save Trip</button>
-    </div>
-  `
+  templateUrl: './trip-form.component.html',
 })
 export class TripFormComponent {
   trip = {
@@ -30,7 +23,7 @@ export class TripFormComponent {
     this.tripsApi
       .saveTrip(this.trip)
       .subscribe(
-        () => this.router.navigate(['/']),
+        () => this.router.navigate(['/trips']),
         error => alert(error.message)
       );
   }
