@@ -217,7 +217,7 @@ def showStudentPref(ID, sesh):
     preferences = sesh.query(Preference).filter_by(student_id=ID).all()
     preferences_all = list()
     for preference in preferences:
-        preference_name = { "name" : preference.name}
+        preference_name = { "name" : preference.name }
         preferences_all.append(preference_name)
     return preferences_all
 
@@ -231,6 +231,14 @@ def showStudents(sesh):
                 }
         students_all.append(student_info)
     return students_all
+
+def showStudentAndPref(ID, sesh):
+    student = sesh.query(Student).filter_by(id=ID).one()
+    student_info = { "first_name" : student.first_name
+        , "last_name" : student.last_name, "grade" : student.grade, "name" : preference.name
+            }
+    return student_info
+
 
 @app.route('/student/new/', methods=['GET', 'POST'])
 def newStudent(firstName, lastName, grade, pref1_name, pref2_name, pref3_name, sesh):
