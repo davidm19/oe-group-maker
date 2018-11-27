@@ -1,5 +1,5 @@
 class Student:
-    def __init__(p, fn, ln):
+    def __init__(self, p, fn, ln):
         self.partner = ""
         for x in p:
             self.preferences.append(p[x])

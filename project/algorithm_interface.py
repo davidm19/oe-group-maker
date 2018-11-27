@@ -2,7 +2,7 @@ import flask
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Student, engine, Preference, Trip
+from database_setup import Base, Student, engine, Preference
 from flask import session as login_session
 import random, string
 from oauth2client.client import flow_from_clientsecrets
@@ -86,6 +86,12 @@ def remove_lowpriority_pairs(student):
 #first_priority is same student as student_to_keep (student y)
 #student_to_be_removed is same student as student_tbr (student z)
 
+def cycle_finder(students):
+    i = 0;
+    while True:
+        p.append(students[i])
+        q.append(students[i].preferences[-1])
+        i += 1
 
 '''
 exports the final list (currently returns doubles, this is a bad thing and will be fixed)
