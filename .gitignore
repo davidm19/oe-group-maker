@@ -37,6 +37,7 @@ Temporary Items
 # *.logs
 
 ### Vagrant Patch ###
+.vagrant/
 *.box
 
 *.swp
