@@ -7,17 +7,18 @@ import os
 import unittest
 from application import showStudent, showStudents, showStudentPref, newStudent
 from application import session, app
+from algorithm_interface import remove_lowpriority_pairs
+from Student import student
 
 
 app = Flask(__name__)
-engine = create_engine('sqlite:///test_database.db')
+engine = create_engine('sqlite:///testalg_database.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
 class BasicTests(unittest.TestCase):
-
 
     def test_showStudent(self):
         expected_results = { "first_name" : "Michael"
@@ -39,3 +40,14 @@ class BasicTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_stepTwo(self):
+        newStudent(Char, Lie, Paul, Sam, Kel, session)
+        newStudent(Pete, R, Kel, Sam, Paul, session)
+        newStudent(Eli, S, Sam, Kel, Paul, session)
+        newStudent(Paul, Ly, Eli, Char, Sam, session)
+        newStudent(Kel, Ly, Pete, Char, Sam, session)
+        newStudent(Sam, My, Char, Paul, Eli)
+        students = session.query(Student).all()
+        for student in students:
+            remove_lowpriority_pairs(student, session)
