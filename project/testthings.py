@@ -51,5 +51,13 @@ if __name__ == "__main__":
         students = session.query(Student).all()
         for student in students:
             remove_lowpriority_pairs(student, session)
+        students_info = {}
+        students = session.query(Student).all()
+        preferences = session.query(Preference).all()
+        for student in students:
+            preferences = preferences.filter_by(student_id = student.id).all()
+            student_info = {student.first_name, student.last_name, preferences}
+            students_info.append(student_info)
         expected_results = {{Char, Lie, Paul, Sam}, {Pete, R, Kel},{Eli,S, Sam, Paul}, {Paul,Ly, Eli, Char}, {Kel, Ly, Pete}, {Sam, My, Char, Eli}}
-        results = {}
+        results = students_info
+        self.assertEqual(results, expected_results)
