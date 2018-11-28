@@ -9,12 +9,12 @@ import random, string
 import json
 from flask import make_response
 from sqlalchemy.sql import exists
-from flask_cors import CORS
+#from flask_cors import CORS
 
 
 
 app = Flask(__name__)
-CORS(app)
+#CORS(app)
 
 # CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Outdoor Ed Group Maker"
@@ -39,18 +39,23 @@ def showTrips():
 
     return flask.jsonify(tripList), 200
 
-
-
-@app.route('/trips', methods=['GET', 'POST'])
+@app.route('/trips/new', methods=['POST'])
 def addTrip():
     tripList = []
+    post = request.get_json()
     if request.method == 'POST':
-        newTrip = Trip(trip_name = request.form['trip_name'])
+        newTrip = Trip(trip_name = post["trip_name"])
         session.add(newTrip)
         session.commit()
         tripList.append(newTrip)
+    return flask.jsonify("Trip added!"), 200
 
-    return flask.jsonify("Trip Added!"), 200
+# @app.route('/trips/<int:trip_id>/update', methods=['POST'])
+# def updateTrip():
+#     post = request.get_json()
+#     if "id" not in post:
+#         return "ERROR: Not a valid Customer ID \n", 404
+    
 
 @app.route('/trips/<int:trip_id>/delete', methods=['GET, POST'])
 def deleteTrip():
