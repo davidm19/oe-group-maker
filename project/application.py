@@ -30,43 +30,52 @@ session = DBSession()
 
 @app.route('/trips', methods=['GET'])
 def showTrips():
+    session = DBSession()
     tripList = []
     allTrips = session.query(Trip).all()
+    # trip_id = request.args.get('trip_id')
+    # trip_name = request.args.get('trip_name')
     for trip in allTrips:
         trip_info = {"trip_name" : trip.trip_name, "id" : trip.id}
-
         tripList.append(trip_info)
-
     return flask.jsonify(tripList), 200
 
 @app.route('/trips/new', methods=['POST'])
 def addTrip():
-    tripList = []
+    session = DBSession()
     post = request.get_json()
     if request.method == 'POST':
         newTrip = Trip(trip_name = post["trip_name"])
-        session.add(newTrip)
-        session.commit()
-        tripList.append(newTrip)
-    return flask.jsonify("Trip added!"), 200
+    session.add(newTrip)
+    session.commit()
+    return flask.jsonify("Trip successfully added!"), 200
 
-# @app.route('/trips/<int:trip_id>/update', methods=['POST'])
-# def updateTrip():
-#     post = request.get_json()
-#     if "id" not in post:
-#         return "ERROR: Not a valid Customer ID \n", 404
-    
+@app.route('/trips/<int:id>/update', methods=['PUT'])
+def updateTrip(id):
+    session = DBSession()
+    post = request.get_json()
+    if "id" not in post:
+        return "ERROR: Not a valid Customer ID \n", 404
+    trip_id = post["id"]
+    editedTrip = session.query(Trip).filter_by(id = trip_id).one()
+    if "trip_name" in post:
+        editedTrip.trip_name = post["trip_name"]
+    session.add(editedTrip)
+    session.commit()
+    return flask.jsonify("Trip successfully updated! \n"), 200
 
-@app.route('/trips/<int:trip_id>/delete', methods=['GET, POST'])
-def deleteTrip():
-    tripList = []
-    tripToDelete = session.query(Trip).filter_by(id=trip_id).one()
-    if request.method == 'POST':
-        session.delete(tripToDelete)
-        session.commit()
-        tripList.remove(tripToDelete)
+@app.route('/trips/<int:id>/delete', methods=['PUT'])
+def deleteTrip(id):
+    session = DBSession()
+    post = request.get_json()
+    if "id" not in post:
+        return "ERROR: Not a valid Customer ID \n", 404
+    trip_id = post["id"]
+    tripToDelete = session.query(Trip).filter_by(id=id).one()
+    session.delete(tripToDelete)
+    session.commit()
 
-    return flask.jsonify("Trip Deleted!"), 200
+    return flask.jsonify("Trip successfully deleted!"), 200
 
 @app.route('/student/<int:ID>/')
 def showStudent(ID, session):
@@ -90,16 +99,17 @@ def showStudentPref(ID, session):
         preferences_all.append(preference_name)
     return preferences_all
 
-@app.route('/students')
-def showStudents(sesh):
-    students = sesh.query(Student).all()
+@app.route('/students', methods=['GET'])
+def showStudents():
+    session = DBSession()
+    students = session.query(Student).all()
     students_all = list()
     for student in students:
         student_info = { "first_name" : student.first_name
                     , "last_name" : student.last_name
                     }
         students_all.append(student_info)
-    return students_all
+    return flask.jsonify(students_all), 200
 
 @app.route('/student/new/', methods=['GET', 'POST'])
 def newStudent(firstName, lastName, pref1_name, pref2_name, pref3_name, sesh):
