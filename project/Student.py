@@ -1,4 +1,4 @@
-class Student:
+class Student_class:
     def __init__(self, p, fn, ln):
         self.partner = ""
         for x in p:
