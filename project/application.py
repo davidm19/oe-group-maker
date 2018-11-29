@@ -148,15 +148,29 @@ def deleteStudent(id):
     return flask.jsonify("Student successfully deleted! \n"), 200
 
 """ ======== STUDENT PREFERENCE CRUD METHODS ======== """
-
-@app.route('/student/<int:ID>', methods=['GET'])
-def showStudentPref(ID, session):
-    preferences = session.query(Preference).filter_by(student_id=ID).all()
-    preferences_all = list()
+@app.route('/student/prefs', methods=['GET'])
+def showStudentPrefs():
+    session = DBSession()
+    preferences_all = []
+    preferences = session.query(Preference).all()
     for preference in preferences:
         preference_name = { "name" : preference.name}
         preferences_all.append(preference_name)
-    return preferences_all
+    return flask.jsonify(preferences_all), 200
+
+
+@app.route('/student/<int:ID>/prefs', methods=['GET'])
+def showStudentPref(ID):
+    session = DBSession()
+    preferences = session.query(Preference).filter_by(student_id=ID).all()
+    preferences_all = []
+    for preference in preferences:
+        preference_name = { "name" : preference.name}
+        preferences_all.append(preference_name)
+    return flask.jsonify(preferences_all), 200
+
+# @app.route('/student/<int:ID>/prefs', methods=['POST'])
+# def updateStudentPref()
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
