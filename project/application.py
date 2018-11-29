@@ -26,7 +26,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-
+""" ======== TRIP CRUD METHODS ======== """
 
 @app.route('/trips', methods=['GET'])
 def showTrips():
@@ -39,6 +39,14 @@ def showTrips():
         trip_info = {"trip_name" : trip.trip_name, "id" : trip.id}
         tripList.append(trip_info)
     return flask.jsonify(tripList), 200
+
+# @app.route('/trips/<int:ID>/', methods=['GET'])
+# def showTrip(ID):
+#     session = DBSession()
+#     trip = session.query(Trip).filter_by(id=ID).one()
+#     trip_info = {"trip_name" : trip.trip_name, "id" : trip.id}
+#     return flask.jsonify(trip), 200
+# TRIP JSON OBJECT IS NOT SERIALIZABLE! FIX ME!
 
 @app.route('/trips/new', methods=['POST'])
 def addTrip():
@@ -77,27 +85,7 @@ def deleteTrip(id):
 
     return flask.jsonify("Trip successfully deleted!"), 200
 
-@app.route('/student/<int:ID>/')
-def showStudent(ID, session):
-    student = session.query(Student).filter_by(id=ID).one()
-    student_info = { "first_name" : student.first_name
-                , "last_name" : student.last_name
-                }
-    return student_info
-
-def newTrip():
-    pass
-    #SAME AS NEWUNIVERSE IN ITEM CATALOG?
-    """TODO: IMPLEMENT"""
-
-@app.route('/student/<int:ID>')
-def showStudentPref(ID, session):
-    preferences = session.query(Preference).filter_by(student_id=ID).all()
-    preferences_all = list()
-    for preference in preferences:
-        preference_name = { "name" : preference.name}
-        preferences_all.append(preference_name)
-    return preferences_all
+""" ======== STUDENT CRUD METHODS ======== """
 
 @app.route('/students', methods=['GET'])
 def showStudents():
@@ -111,57 +99,63 @@ def showStudents():
         students_all.append(student_info)
     return flask.jsonify(students_all), 200
 
-@app.route('/student/new/', methods=['GET', 'POST'])
-def newStudent(firstName, lastName, pref1_name, pref2_name, pref3_name, sesh):
-    if request.method == 'POST':
-        students = sesh.query(Student).all()
-        newStudent = Student(first_name = firstName, last_name = lastName)
-        sesh.add(newStudent)
-        sesh.commit()
-        if pref1_name is not none:
-            student_pref1 = Preference(name = pref1_name, priority = 3, student_id = newStudent.id)
-            sesh.add(student_pref1)
-            sesh.commit()
-        if pref2_name is not none:
-            student_pref2 = Preference(name = pref2_name, priority = 2, student_id = newStudent.id)
-            sesh.add(student_pref2)
-            sesh.commit()
-        if pref3_name is not none:
-            student_pref3 = Preference(name = pref1_name, priority = 1, student_id = newStudent.id)
-            sesh.add(student_pref3)
-            sesh.commit()
-        return "yes" #RETURN REDIRECT URLFOR FOR HOMEPAGE???
-    else:
-        return "no" #RETURN RENDERTEMPLATE FOR NEWSTUDENT??? (KINDA LIKE ITEM CATALOG NEW CHARACTER)
-
-@app.route('/student/<int:ID>/edit', methods=['GET', 'POST'])
-def editStudent(ID):
+@app.route('/students/<int:ID>/', methods=['GET'])
+def showStudent(ID):
     session = DBSession()
-    editedStudent = session.query(Student).filter_by(id=ID).one()
-    if request.method == 'POST':
-        if request.form['first_name']:
-            editedStudent.first_name = request.form['first_name']
-        session.add(editedStudent)
-        session.commit()
-        return redirect(url_for('showStudents', id=ID))
-    else:
-        return flask.jsonify("it worked"), 200
-        # return render_template('editUniverse.html', universe=editedUniverse)
+    student = session.query(Student).filter_by(id=ID).one()
+    student_info = { "first_name" : student.first_name
+                , "last_name" : student.last_name
+                }
+    return flask.jsonify(student_info), 200
 
-@app.route('/student/<int:ID>/delete', methods=['GET', 'POST'])
-def deleteStudent(ID):
+@app.route('/students/new', methods=['POST'])
+def newStudent():
     session = DBSession()
-    studentToDelete = session.query(Student).filter_by(id=ID).one()
-    prefs_delete = session.query(Preference).filter_by(student_id = ID).all()
+    post = request.get_json()
     if request.method == 'POST':
-        session.delete(studentToDelete)
-        for pref in pres_delete:
-            session.delete(pref)
-        session.commit()
-        return redirect(url_for('showStudents', id=ID))
-    else:
-        return "it worked"
-        # return render_template('deleteUniverse.html', universe=universeToDelete)
+        newStudent = Student(first_name = post["first_name"], last_name = post["last_name"])
+    session.add(newStudent)
+    session.commit()
+    return flask.jsonify("Student successfully added! \n"), 200
+
+@app.route('/students/<int:id>/edit', methods=['PUT'])
+def editStudent(id):
+    session = DBSession()
+    post = request.get_json()
+    if "id" not in post:
+        return "ERROR: Not a valid Customer ID \n", 404
+    student_id = post["id"]
+    editedStudent = session.query(Student).filter_by(id=student_id).one()
+    if 'first_name' in post:
+        editedStudent.first_name = post['first_name']
+    elif 'last_name' in post:
+        editedStudent.last_name = post['last_name']
+    session.add(editedStudent)
+    session.commit()
+    return flask.jsonify("Student successfully updated! \n"), 200
+
+@app.route('/students/<int:id>/delete', methods=['PUT'])
+def deleteStudent(id):
+    session = DBSession()
+    post = request.get_json()
+    if "id" not in post:
+        return "ERROR: Not a valid Customer ID \n", 404
+    student_id = post["id"]
+    studentToDelete = session.query(Student).filter_by(id=id).one()
+    session.delete(studentToDelete)
+    session.commit()
+    return flask.jsonify("Student successfully deleted! \n"), 200
+
+""" ======== STUDENT PREFERENCE CRUD METHODS ======== """
+
+@app.route('/student/<int:ID>')
+def showStudentPref(ID, session):
+    preferences = session.query(Preference).filter_by(student_id=ID).all()
+    preferences_all = list()
+    for preference in preferences:
+        preference_name = { "name" : preference.name}
+        preferences_all.append(preference_name)
+    return preferences_all
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
