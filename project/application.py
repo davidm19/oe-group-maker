@@ -40,13 +40,12 @@ def showTrips():
         tripList.append(trip_info)
     return flask.jsonify(tripList), 200
 
-# @app.route('/trips/<int:ID>/', methods=['GET'])
-# def showTrip(ID):
-#     session = DBSession()
-#     trip = session.query(Trip).filter_by(id=ID).one()
-#     trip_info = {"trip_name" : trip.trip_name, "id" : trip.id}
-#     return flask.jsonify(trip), 200
-# TRIP JSON OBJECT IS NOT SERIALIZABLE! FIX ME!
+@app.route('/trips/<int:ID>/', methods=['GET'])
+def showTrip(ID):
+    session = DBSession()
+    trip = session.query(Trip).filter_by(id=ID).one()
+    trip_info = { "trip_name" : trip.trip_name, "id" : trip.id }
+    return flask.jsonify(trip_info), 200
 
 @app.route('/trips/new', methods=['POST'])
 def addTrip():
@@ -108,6 +107,8 @@ def showStudent(ID):
                 }
     return flask.jsonify(student_info), 200
 
+#NEED SHOW STUDENT + PREFS METHODS NOW!!
+
 @app.route('/students/new', methods=['POST'])
 def newStudent():
     session = DBSession()
@@ -148,7 +149,7 @@ def deleteStudent(id):
 
 """ ======== STUDENT PREFERENCE CRUD METHODS ======== """
 
-@app.route('/student/<int:ID>')
+@app.route('/student/<int:ID>', methods=['GET'])
 def showStudentPref(ID, session):
     preferences = session.query(Preference).filter_by(student_id=ID).all()
     preferences_all = list()
