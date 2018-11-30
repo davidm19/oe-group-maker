@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from test_database_setup import Base, Student, engine, Preference
+#from test_database_setup import Trip
 import os
 import unittest
 from application import showStudent, showStudents, showStudentPref, newStudent
@@ -68,7 +69,7 @@ class BasicTests(unittest.TestCase):
 
     def test_newStudent(self):
         oldDb = showStudents(session)
-        newStudent('David','Malone', session)
+        newStudent('David','Malone', session, " ", " ", " ")
         newStudentInfo = { "first_name" : 'David'
                     , "last_name" : 'Malone'
                     }
