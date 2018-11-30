@@ -122,18 +122,6 @@ def newStudent():
 @app.route('/students/<int:id>/edit', methods=['PUT'])
 def editStudent(id):
     session = DBSession()
-<<<<<<< HEAD
-    studentToDelete = session.query(Student).filter_by(id=ID).one()
-    prefs_delete = session.query(Preference).filter_by(student_id = ID).all()
-    if request.method == 'POST':
-        session.delete(studentToDelete)
-        for pref in pres_delete:
-            session.delete(pref)
-        session.commit()
-        return redirect(url_for('showStudents', id=ID))
-    else:
-        return "it worked"
-=======
     post = request.get_json()
     if "id" not in post:
         return "ERROR: Not a valid Customer ID \n", 404
@@ -146,7 +134,6 @@ def editStudent(id):
     session.add(editedStudent)
     session.commit()
     return flask.jsonify("Student successfully updated! \n"), 200
->>>>>>> 56b8f71711cd3752591b4a92481e17938ae32487
 
 @app.route('/students/<int:id>/delete', methods=['PUT'])
 def deleteStudent(id):

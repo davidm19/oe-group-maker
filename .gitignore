@@ -30,7 +30,6 @@ Temporary Items
 
 ### Vagrant ###
 # General
-<<<<<<< HEAD
 .vagrant/
 acceptance_config.yml
 boxes/*
@@ -39,10 +38,6 @@ boxes/*
 /website/build
 /vagrant-spec.config.rb
 test/vagrant-spec/.vagrant/
-=======
-/.vagrant/
-/.vagrant/machines/default/virtualbox/
->>>>>>> 56b8f71711cd3752591b4a92481e17938ae32487
 
 # Log files (if you are creating logs in debug mode, uncomment this)
 # *.logs
