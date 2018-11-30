@@ -1,7 +1,8 @@
 class Student_class:
     def __init__(self, p, fn, ln):
         self.partner = ""
-        for x in p:
+        self.preferences = []
+        for x in range(len(p)):
             self.preferences.append(p[x])
 
         self.first_name = fn

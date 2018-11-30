@@ -66,14 +66,12 @@ def remove_lowpriority_pairs(student, session):
     # preferences = session.query(Preference).filter_by(student_id = student.id).all()
     preferences = session.query(Preference).filter_by(priority = 3)
     #print(preferences)
-    print(preferences.all())
-    first_priority = preferences.filter_by(student_id = student.id).all()
-    print(first_priority)
+    first_priority = preferences.filter_by(student_id = student.id).one()
     student_to_keep = session.query(Student).filter_by(first_name = first_priority.name).one()
     student_tk = Student_class(session.query(Preference).filter_by(student_id = student_to_keep.id).all(), student_to_keep.first_name, student_to_keep.last_name)
 #find student x in student y's preference list
-    for x in student_tk.preferences:
-        if student == studentk.preferences[x]:
+    for x in range(len(student_tk.preferences)):
+        if student == student_tk.preferences[x]:
             c is 1
             if c > x:
 #remove students (z) in student y's preference list that have lower priority than student x
