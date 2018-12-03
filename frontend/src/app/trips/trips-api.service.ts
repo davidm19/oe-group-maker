@@ -24,6 +24,6 @@ export class TripsApiService {
 
   saveTrip(trip: Trip): Observable<any> {
   return this.http
-    .post(`${API_URL}/trips`, trip);
+    .post(`${API_URL}/trips/new`, trip);
   }
 }
