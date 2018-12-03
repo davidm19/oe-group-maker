@@ -32,10 +32,18 @@ def getpreferences_by_studentID(studID):
     return session.query(Preference).filter_by(id = studID).all()
 
 '''
-finds tentative parteners for each person
+finds tentative parteners for each person using student ID
 '''
 def temp_partner_id(student, stuID):
-    student.partner = session.query(Preference).filter_by(student_id = stuID).one()
+    student.partner = session.query(Preference).filter_by(student_id = stuID).all()
+    return student.partner
+
+'''
+finds tentative parteners for each person using student last name
+'''
+def temp_partner_last_name(student, stuLN):
+    student.partner = session.query(Preference).filter_by(last_name = stuLN).one()
+    return student.partner
 
 '''
 eliminates partners given a preference string
@@ -111,4 +119,6 @@ def export_list(students, num):
 
     return list
 
-print(getstudents_by_gradelevel(0))
+sp1 = ["Bob", "Joe", "Fred"]
+s1 = Student(sp1, "Ryan", "Hom")
+print(temp_partner_id(s1, 0))
