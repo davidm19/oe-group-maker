@@ -28,4 +28,17 @@ export class TripsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.tripsListSubs.unsubscribe();
   }
+  delete(trip_id: number) {
+  this.tripsApi
+    .deleteTrip(trip_id)
+    .subscribe(() => {
+      this.tripsListSubs = this.tripsApi
+        .getTrips()
+        .subscribe(res => {
+            this.tripsList = res;
+          },
+          console.error
+        )
+    }, console.error);
+}
 }

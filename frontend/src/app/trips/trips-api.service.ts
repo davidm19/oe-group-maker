@@ -26,4 +26,9 @@ export class TripsApiService {
   return this.http
     .post(`${API_URL}/trips/new`, trip);
   }
+
+  deleteTrip(trip_id: number) {
+  return this.http
+    .delete(`${API_URL}/trips/${trip_id}`);
+}
 }

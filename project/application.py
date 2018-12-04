@@ -71,14 +71,12 @@ def updateTrip(id):
     session.commit()
     return flask.jsonify("Trip successfully updated! \n"), 200
 
-@app.route('/trips/<int:id>/delete', methods=['PUT'])
-def deleteTrip(id):
+@app.route('/trips/<int:trip_id>/', methods=['PUT'])
+def deleteTrip(trip_id):
     session = DBSession()
     post = request.get_json()
-    if "id" not in post:
-        return "ERROR: Not a valid Customer ID \n", 404
     trip_id = post["id"]
-    tripToDelete = session.query(Trip).filter_by(id=id).one()
+    tripToDelete = session.query(Trip).filter_by(id = trip_id).one()
     session.delete(tripToDelete)
     session.commit()
 
