@@ -11,6 +11,7 @@ class Trip(Base):
     __tablename__ = 'trip'
     id = Column(Integer, primary_key=True, autoincrement=True)
     trip_name = Column(String(32))
+    trip_grade = Column(String(2))
 
 class Student(Base):
     __tablename__ = 'student'
