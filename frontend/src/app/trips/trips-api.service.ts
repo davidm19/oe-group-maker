@@ -24,6 +24,11 @@ export class TripsApiService {
 
   saveTrip(trip: Trip): Observable<any> {
   return this.http
-    .post(`${API_URL}/trips`, trip);
+    .post(`${API_URL}/trips/new`, trip);
   }
+
+  deleteTrip(trip_id: number) {
+  return this.http
+    .delete(`${API_URL}/trips/${trip_id}`);
+}
 }

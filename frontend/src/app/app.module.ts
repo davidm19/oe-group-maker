@@ -15,7 +15,7 @@ import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
   { path: 'trips', component: TripsComponent },
-  { path: 'new-trip', component: TripFormComponent },
+  { path: 'trips/new', component: TripFormComponent },
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent }
 
@@ -35,7 +35,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes,)
   ],
   providers: [TripsApiService],
   bootstrap: [AppComponent]
