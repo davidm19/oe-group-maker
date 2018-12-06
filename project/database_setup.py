@@ -33,7 +33,7 @@ class Student(Base):
 
 class student_trip_link(Base):
     __tablename__ = 'student_trip_link'
-    student_id = Column(Integer, ForeignKey('student.id') primary_key = True)
+    student_id = Column(Integer, ForeignKey('student.id'), primary_key = True)
     trip_id = Column(Integer, ForeignKey('trip.id'), primary_key = True)
 
 class Preference(Base):

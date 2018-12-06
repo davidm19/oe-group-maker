@@ -25,8 +25,11 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-
-""" ======== TRIP CRUD METHODS ======== """
+""" ===================================== """
+""" ===================================== """
+""" ========= TRIP CRUD METHODS ========= """
+""" ===================================== """
+""" ===================================== """
 
 @app.route('/trips', methods=['GET'])
 def showTrips():
@@ -71,23 +74,33 @@ def updateTrip(id):
     session.commit()
     return flask.jsonify("Trip successfully updated! \n"), 200
 
-@app.route('/trips/<int:trip_id>/', methods=['PUT'])
+@app.route('/trips/<int:trip_id>/delete', methods=['DELETE'])
 def deleteTrip(trip_id):
+    print("Deleting trip")
     session = DBSession()
+    print("Request is ")
+    print(request)
     post = request.get_json()
-    trip_id = post["id"]
+    print("Post is ")
+    print(post)
+    print("Trip id is")
+    print(trip_id)
     tripToDelete = session.query(Trip).filter_by(id = trip_id).one()
     session.delete(tripToDelete)
     session.commit()
 
     return flask.jsonify("Trip successfully deleted!"), 200
 
+""" ====================================== """
+""" ====================================== """
 """ ======== STUDENT CRUD METHODS ======== """
+""" ====================================== """
+""" ====================================== """
 
 @app.route('/trips/<int:trip_id>/students', methods=['GET'])
 def showStudents(trip_id):
     session = DBSession()
-    students = session.query(Student).filter_by(id=trip_id).all()
+    students = session.query(Student).all()
     students_all = list()
     for student in students:
         student_info = { "first_name" : student.first_name
@@ -98,7 +111,7 @@ def showStudents(trip_id):
     return flask.jsonify(students_all), 200
 
 @app.route('/trips/<int:trip_id>/students/<int:ID>/', methods=['GET'])
-def showStudent(ID, GRADE):
+def showStudent(trip_id, ID, GRADE):
     session = DBSession()
     student = session.query(Student).filter_by(id=ID).one()
     student_info = { "first_name" : student.first_name
