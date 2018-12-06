@@ -28,7 +28,7 @@ export class TripsApiService {
   }
 
   deleteTrip(trip_id: number) {
-  return this.http
-    .delete(`${API_URL}/trips/${trip_id}`);
-}
+    return this.http
+      .delete(`${API_URL}/trips/${trip_id}/delete`);
+  }
 }

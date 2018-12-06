@@ -80,11 +80,17 @@ def updateTrip(id):
     session.commit()
     return flask.jsonify("Trip successfully updated! \n"), 200
 
-@app.route('/trips/<int:trip_id>/', methods=['PUT'])
+@app.route('/trips/<int:trip_id>/delete', methods=['DELETE'])
 def deleteTrip(trip_id):
+    print("Deleting trip")
     session = DBSession()
+    print("Request is ")
+    print(request)
     post = request.get_json()
-    trip_id = post["id"]
+    print("Post is ")
+    print(post)
+    print("Trip id is")
+    print(trip_id)
     tripToDelete = session.query(Trip).filter_by(id = trip_id).one()
     session.delete(tripToDelete)
     session.commit()
