@@ -6,7 +6,25 @@ import {TripsApiService} from './trips-api.service';
 @Component({
   selector: 'app-trips',
   templateUrl: './trips.component.html',
+  styles: [`
+    div.trips {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 15px;
+}
 
+button.new-trip {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+}
+
+@media (max-width: 720px) {
+  div.trips {
+    grid-template-columns: 1fr;
+  }
+
+`]
 })
 export class TripsComponent implements OnInit, OnDestroy {
   tripsListSubs: Subscription;

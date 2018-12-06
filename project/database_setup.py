@@ -12,6 +12,7 @@ class Trip(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     trip_name = Column(String(32))
     students = relationship('Trip', secondary='student_trip_link')
+    # trip_grade = Column(String(2))
 
 class Student(Base):
     __tablename__ = 'student'

@@ -14,7 +14,10 @@ from sqlalchemy.sql import exists
 
 
 app = Flask(__name__)
-# CORS(app)
+CORS(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+
 
 # CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Outdoor Ed Group Maker"
@@ -39,15 +42,20 @@ def showTrips():
     # trip_id = request.args.get('trip_id')
     # trip_name = request.args.get('trip_name')
     for trip in allTrips:
-        trip_info = {"trip_name" : trip.trip_name, "id" : trip.id}
+        trip_info = {"trip_name" : trip.trip_name,
+                    "id" : trip.id,
+                    "trip_grade" : trip.trip_grade
+                    }
         tripList.append(trip_info)
     return flask.jsonify(tripList), 200
 
-@app.route('/trips/<int:ID>/', methods=['GET'])
-def showTrip(ID):
+@app.route('/trips/<int:trip_id>/', methods=['GET'])
+def showTrip(trip_id):
     session = DBSession()
-    trip = session.query(Trip).filter_by(id=ID).one()
-    trip_info = { "trip_name" : trip.trip_name, "id" : trip.id }
+    trip = session.query(Trip).filter_by(id=trip_id).one()
+    trip_info = { "trip_name" : trip.trip_name,
+                    "id" : trip.id,
+                    "trip_grade" : trip.trip_grade }
     return flask.jsonify(trip_info), 200
 
 @app.route('/trips/new', methods=['POST'])
@@ -55,7 +63,8 @@ def addTrip():
     session = DBSession()
     post = request.get_json()
     if request.method == 'POST':
-        newTrip = Trip(trip_name = post["trip_name"])
+        newTrip = Trip(trip_name = post["trip_name"],
+                        trip_grade = post["trip_grade"])
     session.add(newTrip)
     session.commit()
     return flask.jsonify("Trip successfully added!"), 200

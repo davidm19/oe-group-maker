@@ -1,6 +1,10 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
+import {MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule
+} from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -12,6 +16,8 @@ import { TripFormComponent } from './trips/trip-form.component';
 
 import {TripsComponent} from './trips/trips.component';
 import { HomeComponent } from './home/home.component';
+import { HeroesModule } from './heroes/heroes.module';
+import { TripsModule } from './trips/trips.module';
 
 const appRoutes: Routes = [
   { path: 'trips', component: TripsComponent },
@@ -35,7 +41,15 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes,)
+    RouterModule.forRoot(appRoutes,),
+    MatInputModule,
+    MatCardModule,
+    MatButtonModule,
+    MatToolbarModule,
+    HeroesModule,
+    TripsModule
+
+
   ],
   providers: [TripsApiService],
   bootstrap: [AppComponent]
