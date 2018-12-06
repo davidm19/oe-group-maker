@@ -16,8 +16,6 @@ import { TripFormComponent } from './trips/trip-form.component';
 
 import {TripsComponent} from './trips/trips.component';
 import { HomeComponent } from './home/home.component';
-import { HeroesModule } from './heroes/heroes.module';
-import { TripsModule } from './trips/trips.module';
 
 const appRoutes: Routes = [
   { path: 'trips', component: TripsComponent },
@@ -46,8 +44,6 @@ const appRoutes: Routes = [
     MatCardModule,
     MatButtonModule,
     MatToolbarModule,
-    HeroesModule,
-    TripsModule
 
 
   ],
