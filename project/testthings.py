@@ -39,7 +39,7 @@ class BasicTests(unittest.TestCase):
     #     self.assertEqual()
     #
 
-    #
+
     # def test_stepTwo(self):
     #     newStudent('Char', 'Lie', 'Paul', 'Sam', 'Kel', session)
     #     newStudent('Pete', 'R', 'Kel', 'Sam', 'Paul', session)
@@ -65,10 +65,11 @@ class BasicTests(unittest.TestCase):
     #
     #     expected_results = [['Char', 'Lie'], 'Paul', 'Sam', ['Pete', 'R'], 'Kel', ['Eli','S'], 'Sam', 'Paul', ['Paul','Ly'], 'Eli', 'Char', ['Kel', 'Ly'], 'Pete', ['Sam', 'My'], 'Char', 'Eli']
     #     results = students_info
-    #     print(results)
-    #     print(expected_results)
     #     self.maxDiff = None
-    #     self.assertEqual("s", "s")
+    #     print(results)
+    #     print("/n")
+    #     print(expected_results)
+    #     self.assertEqual(results, expected_results)
 
     # def test_pikachu(self):
     #     if "s" == "s":
@@ -146,11 +147,9 @@ class BasicTests(unittest.TestCase):
         expected_results = [['Char', 'Lie'], 'Paul', 'Sam', 'Kel', ['Pete', 'R'], 'Kel', 'Sam', 'Paul', ['Eli','S'], 'Sam', 'Kel', 'Char', ['Paul','Ly'], 'Eli', 'Char', ['Kel', 'Ly'], 'Pete', 'Char', 'Sam', ['Sam', 'My'], 'Char', 'Kel']
         results = students_info
         print("/n")
-        print(results)
-        print(expected_results)
         self.maxDiff = None
-        #self.assertEqual(results, expected_results)
-        self.assertEqual("yes","yes")
+        self.assertEqual(results, expected_results)
+        # self.assertEqual("yes","yes")
 
     # def test_test(self):
     #     newStudent('Char', 'Lie', 'Paul', 'Sam', 'Kel', session)
