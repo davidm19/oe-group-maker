@@ -40,36 +40,36 @@ class BasicTests(unittest.TestCase):
     #
 
 
-    # def test_stepTwo(self):
-    #     newStudent('Char', 'Lie', 'Paul', 'Sam', 'Kel', session)
-    #     newStudent('Pete', 'R', 'Kel', 'Sam', 'Paul', session)
-    #     newStudent('Eli', 'S', 'Sam', 'Kel', 'Paul', session)
-    #     newStudent('Paul', 'Ly', 'Eli', 'Char', 'Sam', session)
-    #     newStudent('Kel', 'Ly', 'Pete', 'Char', 'Sam', session)
-    #     newStudent('Sam', 'My', 'Char', 'Paul', 'Eli', session)
-    #     students = session.query(Student).all()
-    #     for student in students:
-    #         remove_lowpriority_pairs(student, session)
-    #     students_info = []
-    #     students = session.query(Student).all()
-    #     preferences = session.query(Preference)
-    #     for student in students:
-    #         new_preferences = preferences.filter_by(student_id = student.id).all()
-    #         student_info = [student.first_name, student.last_name]
-    #         students_info.append(student_info)
-    #         # print(student.first_name)
-    #         # print(student.last_name)
-    #         for p in new_preferences:
-    #             students_info.append(p.name)
-    #             # print(p.name)
-    #
-    #     expected_results = [['Char', 'Lie'], 'Paul', 'Sam', ['Pete', 'R'], 'Kel', ['Eli','S'], 'Sam', 'Paul', ['Paul','Ly'], 'Eli', 'Char', ['Kel', 'Ly'], 'Pete', ['Sam', 'My'], 'Char', 'Eli']
-    #     results = students_info
-    #     self.maxDiff = None
-    #     print(results)
-    #     print("/n")
-    #     print(expected_results)
-    #     self.assertEqual(results, expected_results)
+    def test_stepTwo(self):
+        newStudent('Char', 'Lie', 'Paul', 'Sam', 'Kel', session)
+        newStudent('Pete', 'R', 'Kel', 'Sam', 'Paul', session)
+        newStudent('Eli', 'S', 'Sam', 'Kel', 'Paul', session)
+        newStudent('Paul', 'Ly', 'Eli', 'Char', 'Sam', session)
+        newStudent('Kel', 'Ly', 'Pete', 'Char', 'Sam', session)
+        newStudent('Sam', 'My', 'Char', 'Paul', 'Eli', session)
+        students = session.query(Student).all()
+        for student in students:
+            remove_lowpriority_pairs(student, session)
+        students_info = []
+        students = session.query(Student).all()
+        preferences = session.query(Preference)
+        for student in students:
+            new_preferences = preferences.filter_by(student_id = student.id).all()
+            student_info = [student.first_name, student.last_name]
+            students_info.append(student_info)
+            # print(student.first_name)
+            # print(student.last_name)
+            for p in new_preferences:
+                students_info.append(p.name)
+                # print(p.name)
+
+        expected_results = [['Char', 'Lie'], 'Paul', 'Sam', ['Pete', 'R'], 'Kel', ['Eli','S'], 'Sam', 'Paul', ['Paul','Ly'], 'Eli', 'Char', ['Kel', 'Ly'], 'Pete', ['Sam', 'My'], 'Char', 'Eli']
+        results = students_info
+        self.maxDiff = None
+        print(results)
+        print("/n")
+        print(expected_results)
+        self.assertEqual(results, expected_results)
 
     # def test_pikachu(self):
     #     if "s" == "s":
@@ -121,35 +121,34 @@ class BasicTests(unittest.TestCase):
     #         print(".,,,,,,***********/////////////////********/(#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%(*******")
 
 
-    def test_stepTwoPrelim(self):
-        newStudent('Char', 'Lie', 'Paul', 'Sam', 'Kel', session)
-        newStudent('Pete', 'R', 'Kel', 'Sam', 'Paul', session)
-        newStudent('Eli', 'S', 'Sam', 'Kel', 'Char', session)
-        newStudent('Paul', 'Ly', 'Eli', 'Char', 'Sam', session)
-        newStudent('Kel', 'Ly', 'Pete', 'Char', 'Sam', session)
-        newStudent('Sam', 'My', 'Char', 'Paul', 'Kel', session)
-        students = session.query(Student)
-        char = students.filter_by(first_name = 'Char').one()
-        remove_lowpriority_pairs(char, session)
-        students_info = []
-        students = session.query(Student).all()
-        preferences = session.query(Preference)
-        for student in students:
-            new_preferences = preferences.filter_by(student_id = student.id).all()
-            student_info = [student.first_name, student.last_name]
-            students_info.append(student_info)
-            # print(student.first_name)
-            # print(student.last_name)
-            for p in new_preferences:
-                students_info.append(p.name)
-                # print(p.name)
-
-        expected_results = [['Char', 'Lie'], 'Paul', 'Sam', 'Kel', ['Pete', 'R'], 'Kel', 'Sam', 'Paul', ['Eli','S'], 'Sam', 'Kel', 'Char', ['Paul','Ly'], 'Eli', 'Char', ['Kel', 'Ly'], 'Pete', 'Char', 'Sam', ['Sam', 'My'], 'Char', 'Kel']
-        results = students_info
-        print("/n")
-        self.maxDiff = None
-        self.assertEqual(results, expected_results)
-        # self.assertEqual("yes","yes")
+    # def test_stepTwoPrelim(self):
+    #     newStudent('Char', 'Lie', 'Paul', 'Sam', 'Kel', session)
+    #     newStudent('Pete', 'R', 'Kel', 'Sam', 'Paul', session)
+    #     newStudent('Eli', 'S', 'Sam', 'Kel', 'Char', session)
+    #     newStudent('Paul', 'Ly', 'Eli', 'Char', 'Sam', session)
+    #     newStudent('Kel', 'Ly', 'Pete', 'Char', 'Sam', session)
+    #     newStudent('Sam', 'My', 'Char', 'Paul', 'Kel', session)
+    #     students = session.query(Student)
+    #     char = students.filter_by(first_name = 'Char').one()
+    #     remove_lowpriority_pairs(char, session)
+    #     students_info = []
+    #     students = session.query(Student).all()
+    #     preferences = session.query(Preference)
+    #     for student in students:
+    #         new_preferences = preferences.filter_by(student_id = student.id).all()
+    #         student_info = [student.first_name, student.last_name]
+    #         students_info.append(student_info)
+    #         # print(student.first_name)
+    #         # print(student.last_name)
+    #         for p in new_preferences:
+    #             students_info.append(p.name)
+    #             # print(p.name)
+    #
+    #     expected_results = [['Char', 'Lie'], 'Paul', 'Sam', 'Kel', ['Pete', 'R'], 'Kel', 'Sam', 'Paul', ['Eli','S'], 'Sam', 'Kel', 'Char', ['Paul','Ly'], 'Eli', 'Char', ['Kel', 'Ly'], 'Pete', 'Char', 'Sam', ['Sam', 'My'], 'Char', 'Kel']
+    #     results = students_info
+    #     self.maxDiff = None
+    #     self.assertEqual(results, expected_results)
+    #     # self.assertEqual("yes","yes")
 
     # def test_test(self):
     #     newStudent('Char', 'Lie', 'Paul', 'Sam', 'Kel', session)
