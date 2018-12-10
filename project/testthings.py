@@ -43,10 +43,10 @@ class BasicTests(unittest.TestCase):
     def test_stepTwo(self):
         newStudent('Char', 'Lie', 'Paul', 'Sam', 'Kel', session)
         newStudent('Pete', 'R', 'Kel', 'Sam', 'Paul', session)
-        newStudent('Eli', 'S', 'Sam', 'Kel', 'Paul', session)
+        newStudent('Eli', 'S', 'Sam', 'Kel', 'Char', session)
         newStudent('Paul', 'Ly', 'Eli', 'Char', 'Sam', session)
         newStudent('Kel', 'Ly', 'Pete', 'Char', 'Sam', session)
-        newStudent('Sam', 'My', 'Char', 'Paul', 'Eli', session)
+        newStudent('Sam', 'My', 'Char', 'Paul', 'Kel', session)
         students = session.query(Student).all()
         for student in students:
             remove_lowpriority_pairs(student, session)
@@ -63,11 +63,13 @@ class BasicTests(unittest.TestCase):
                 students_info.append(p.name)
                 # print(p.name)
 
-        expected_results = [['Char', 'Lie'], 'Paul', 'Sam', ['Pete', 'R'], 'Kel', ['Eli','S'], 'Sam', 'Paul', ['Paul','Ly'], 'Eli', 'Char', ['Kel', 'Ly'], 'Pete', ['Sam', 'My'], 'Char', 'Eli']
+        expected_results = [['Char', 'Lie'], 'Paul', 'Sam', ['Pete', 'R'], 'Kel', ['Eli','S'], 'Sam', 'Kel', "Char", ['Paul','Ly'], 'Eli', 'Char', ['Kel', 'Ly'], 'Pete', ['Sam', 'My'], 'Char']
         results = students_info
         self.maxDiff = None
+        print("results")
         print(results)
         print("/n")
+        print("expected results")
         print(expected_results)
         self.assertEqual(results, expected_results)
 

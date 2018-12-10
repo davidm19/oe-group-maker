@@ -84,28 +84,28 @@ def remove_lowpriority_pairs(student, session):
             print("delete preferences after: " + stud.name)
             while(x < 3):
                 k = abs(x-3)
-                print(k)
                 preference_to_del = session.query(Preference).filter_by(student_id = student_to_keep.id)
-                preference = preference_to_del.filter_by(priority = k).one()
-                print("preference(s) to delete: " + preference.name)
-                print("deleting: " + preference.name + " from: ")
-                print(preference.student_id)
-                session.delete(preference)
-                id_pref_to_del = preference.id
-                name_of_pref = preference.name
+                if preference_to_del.filter_by(priority = k).one_or_none() is not None:
+                    preference = preference_to_del.filter_by(priority = k).one()
+                    print("preference(s) to delete: " + preference.name)
+                    print("deleting: " + preference.name + " from: ")
+                    print(preference.student_id)
+                    session.delete(preference)
+                    id_pref_to_del = preference.id
+                    name_of_pref = preference.name
 #remove students (z) in student y's preference list that have lower priority than student x
 #remove student y from students z's lists
-                student_tbr = session.query(Student).filter_by(first_name = name_of_pref).one()
-                student_remove = Student_class(session.query(Preference).filter_by(student_id = student_tbr.id).all(), student_tbr.first_name, student_tbr.last_name)
-                for stud in student_remove.preferences:
-                    if stud.name == student_to_keep.first_name:
-                        studs_to_del = session.query(Preference).filter_by(name = student_to_keep.first_name)
-                        if studs_to_del.filter_by(student_id = student_tbr.id).one_or_none() is not None:
-                            studs_to_del = studs_to_del.filter_by(student_id = student_tbr.id).one()
-                            print("deleting: " + studs_to_del.name + " from ")
-                            print(studs_to_del.student_id)
-                            session.delete(studs_to_del)
-                            session.commit()
+                    student_tbr = session.query(Student).filter_by(first_name = name_of_pref).one()
+                    student_remove = Student_class(session.query(Preference).filter_by(student_id = student_tbr.id).all(), student_tbr.first_name, student_tbr.last_name)
+                    for stud in student_remove.preferences:
+                        if stud.name == student_to_keep.first_name:
+                            studs_to_del = session.query(Preference).filter_by(name = student_to_keep.first_name)
+                            if studs_to_del.filter_by(student_id = student_tbr.id).one_or_none() is not None:
+                                studs_to_del = studs_to_del.filter_by(student_id = student_tbr.id).one()
+                                print("deleting: " + studs_to_del.name + " from ")
+                                print(studs_to_del.student_id)
+                                session.delete(studs_to_del)
+                                session.commit()
                 x+=1
 
 
