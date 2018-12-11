@@ -108,7 +108,6 @@ def remove_lowpriority_pairs(student, session):
                                 session.commit()
                 x+=1
 
-
 #input student is student x
 #first_priority is same student as student_to_keep and student_tk (student y)
 #student_to_be_removed is same student as student_tbr and student_remove (student z)
@@ -120,13 +119,33 @@ def remove_lowpriority_pairs(student, session):
 #         q.append(students[i].preferences[-1])
 #         i += 1
 #
-# def check_for_num_pref(student, session):
-#     if len(student.preferences) > 2:
-#         for preference in student.preferences:
-#             stud_pref = session.query(Student).filter_by(first_name = preference).one()
-#             remove_pref = session.query(Preference).filter_by(name = student.fn).all()
-#             if remove_pref.filter_by(student_id = stud_pref.id).one() is none:
-#                 session.remove(preference)
+def check_for_mutual_pref(student, session):
+    preferences = session.query(Preference).filter_by(student_id = student.id).all()
+    students_to_remove = []
+    if len(preferences) > 2:
+        k = 0
+        for pref in preferences:
+            x = 0
+            student_mutual = session.query(Student).filter_by(first_name = pref.name).one()
+            mutual_prefs = session.query(Preference).filter_by(student_id = student_mutual.id).all()
+            for pref in mutual_prefs:
+                if student_mutual.first_name == student.first_name:
+                    x += 1
+                    k += 1
+            if x == 0:
+                student_to_remove = session.query(Preference).filter_by(name = student_mutual.first_name)
+                student_to_remove = student_to_remove.filter_by(student_id = student.id).one()
+                students_to_remove.append(student_to_remove)
+        if k > 0:
+            for pref in students_to_remove:
+                session.delete(pref)
+                session.commit()
+        if k == 0:
+            last_pref_remove = session.query(Preference).filter_by(priority = 1)
+            l_p_r = last_pref_remove.filter_by(student_id = student.id).one()
+            session.delete(l_p_r)
+            session.commit()
+
 
 # def export_list(students, num):
 #     list = ""
