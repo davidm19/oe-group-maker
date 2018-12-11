@@ -219,7 +219,7 @@ def newStudent(firstName, lastName, pref1_name, pref2_name, pref3_name, sesh):
         sesh.commit()
 
     if pref3_name is not None:
-        student_pref3 = Preference(name = pref1_name, priority = 1, student_id = newStudent.id)
+        student_pref3 = Preference(name = pref3_name, priority = 1, student_id = newStudent.id)
         sesh.add(student_pref3)
         sesh.commit()
 

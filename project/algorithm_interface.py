@@ -11,8 +11,11 @@ import httplib2
 import json
 from flask import make_response
 import requests
-from Student import Student_class
+from Student_class import Student_class
 
+app = Flask(__name__)
+engine = create_engine('sqlite:///database.db')
+Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
@@ -34,15 +37,24 @@ selects students from trip ID
 '''
 finds tentative parteners for each person using student ID
 '''
-def temp_partner_id(student, stuID):
-    student.partner = session.query(Preference).filter_by(student_id = stuID.id).all()
+def temp_partner_id_db(student, stuID):
+    student.partner = session.query(Preference).filter_by(student_id = stuID).filter_by(priority = 1).one().name
+    #student.partner = student.preferences[0]
+    return student.partner
+
+'''
+finds tentative parteners for each person using student preference list
+'''
+def temp_partner_id(student):
+    student.partner = student.preferences[student.preference_index]
+    student.preference_index = student.preference_index + 1
     return student.partner
 
 '''
 finds tentative parteners for each person using student last name
 '''
 def temp_partner_last_name(student, stuLN):
-    student.partner = session.query(Preference).filter_by(last_name = stuLN).one()
+    student.partner = session.query(Preference).filter_by(last_name = stuLN).one().name
     return student.partner
 
 '''
@@ -76,30 +88,46 @@ def remove_lowpriority_pairs(student, session):
     #print(preferences)
     first_priority = preferences.filter_by(student_id = student.id).one()
     student_to_keep = session.query(Student).filter_by(first_name = first_priority.name).one()
-    student_tk = Student_class(session.query(Preference).filter_by(student_id = student_to_keep.id).all(), student_to_keep.first_name, student_to_keep.last_name)
+    print("\n")
+    print("student to keep")
+    print(student_to_keep.first_name)
+    print("student to keep prefs")
+    student_tkPrefs = session.query(Preference).filter_by(student_id = student_to_keep.id).all()
+    for stud in student_tkPrefs:
+        print(stud.name)
+    student_tk = Student_class(student_tkPrefs, student_to_keep.first_name, student_to_keep.last_name)
 #find student x in student y's preference list
-    for x in range(len(student_tk.preferences)):
-        if student == student_tk.preferences[x]:
-            c is 1
-            if c > x:
+    x = 0
+    for stud in student_tk.preferences:
+        x += 1
+        if student.first_name == stud.name:
+            print("delete preferences afte r: " + stud.name)
+            while(x < 3):
+                k = abs(x-3)
+                print(k)
+                preference_to_del = session.query(Preference).filter_by(student_id = student_to_keep.id)
+                preference = preference_to_del.filter_by(priority = k).one()
+                print("preference(s) to delete: " + preference.name)
+                print("deleting: " + preference.name + " from: ")
+                print(preference.student_id)
+                session.delete(preference)
+                id_pref_to_del = preference.id
+                name_of_pref = preference.name
 #remove students (z) in student y's preference list that have lower priority than student x
 #remove student y from students z's lists
-                student_to_be_removed = student_to_keep.preferences[c]
-                student_tbr = session.query(Student).filter_by(first_name = student_to_be_removed).one()
+                student_tbr = session.query(Student).filter_by(first_name = name_of_pref).one()
                 student_remove = Student_class(session.query(Preference).filter_by(student_id = student_tbr.id).all(), student_tbr.first_name, student_tbr.last_name)
-                for i in student_remove.preferences:
-                    if student_tk.first_name == student_remove.preferences[i]:
-                        student_remove.remove_preference_id(i)
-                        studs_to_del = session.query(Preference).filter_by(student_id = student_to_keep.id).all()
-                        session.remove(studs_to_del.filter_by(name = student_to_keep.first_name).one())
-                student_tk.remove_preference_id(c)
-                studs_to_remove = session.query(Preference).filter_by(student_id = student_tbr.id)
-                studs_to_remove = studs_to_remove.filter_by(name = student_tbr.first_name)
-                for stud in studs_to_remove:
-                    session.remove(stud)
-                c += 1
-            else:
-                c += 1
+                for stud in student_remove.preferences:
+                    if stud.name == student_to_keep.first_name:
+                        studs_to_del = session.query(Preference).filter_by(name = student_to_keep.first_name)
+                        if studs_to_del.filter_by(student_id = student_tbr.id).one_or_none() is not None:
+                            studs_to_del = studs_to_del.filter_by(student_id = student_tbr.id).one()
+                            print("deleting: " + studs_to_del.name + " from ")
+                            print(studs_to_del.student_id)
+                            session.delete(studs_to_del)
+                            session.commit()
+                x+=1
+
 
 #input student is student x
 #first_priority is same student as student_to_keep and student_tk (student y)
@@ -125,13 +153,55 @@ def remove_lowpriority_pairs(student, session):
 '''
 exports the final list (currently returns doubles, this is a bad thing and will be fixed)
 '''
-def export_list(students, num):
-    list = ""
-    for x in num:
-        list.append(students[x] + ", " + students[x].partner)
+def export_list(students):
+    list = []
+    for x in students:
+        list.append(x.partner.name)
 
     return list
 
 sp1 = ["Bob", "Joe", "Fred"]
-s1 = Student(sp1, "Ryan", "Hom")
-print(temp_partner_id(s1, 0))
+sp2 = session.query(Preference).filter_by(student_id = 2).all()
+sp3 = []
+for i in sp2:
+    sp3.append(i.name)
+s1 = Student_class(sp3, "Ryan", "Hom")
+print(temp_partner_id(s1))
+
+print(sp3)
+
+'''
+Janky first step in the alg. Will put into a method
+'''
+print("IT'S GETTING REAL NOW")
+students = []
+temp1 = session.query(Student).all()
+temp2 = None
+temp3 = []
+count = 1;
+#makes a list of Student objects from the database
+for i in temp1:
+    temp2 = session.query(Preference).filter_by(student_id = count).all()
+    for x in temp2:
+        temp3.append(x.name)
+    students.append(Student_class(temp2, i.first_name, i.last_name))
+    count = count + 1
+same = 0
+while same < 4:
+    for i in students:
+        if(i.partner == ""):
+            print(temp_partner_id(i).name)
+        for x in students:
+            if(i.partner == x.partner):
+                for y in students:
+                    if(i.partner == y):
+                        for a in range(len(y.preferences), 0, -1):
+                            if(a.preferences[a].name == i.first_name):
+                                print(temp_partner_id(i))
+                                i.remove_preference_string(a.preferences[a].name)
+                            elif(a.preferences[a].name == x.first_name):
+                                print(temp_partner_id(x))
+                                x.remove_preference_string(a.preferences[a].name)
+    same += 1
+
+print(export_list(students))
