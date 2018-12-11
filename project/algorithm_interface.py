@@ -11,8 +11,11 @@ import httplib2
 import json
 from flask import make_response
 import requests
-from Student import Student_class
+from Student_class import Student_class
 
+app = Flask(__name__)
+engine = create_engine('sqlite:///database.db')
+Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
@@ -32,10 +35,27 @@ selects students from trip ID
 #     return session.query(Preference).filter_by(id = studID).all()
 
 '''
-finds tentative parteners for each person
+finds tentative parteners for each person using student ID
 '''
-# def temp_partner_id(student, stuID):
-#     student.partner = session.query(Preference).filter_by(student_id = stuID).one()
+def temp_partner_id_db(student, stuID):
+    student.partner = session.query(Preference).filter_by(student_id = stuID).filter_by(priority = 1).one().name
+    #student.partner = student.preferences[0]
+    return student.partner
+
+'''
+finds tentative parteners for each person using student preference list
+'''
+def temp_partner_id(student):
+    student.partner = student.preferences[student.preference_index]
+    student.preference_index = student.preference_index + 1
+    return student.partner
+
+'''
+finds tentative parteners for each person using student last name
+'''
+def temp_partner_last_name(student, stuLN):
+    student.partner = session.query(Preference).filter_by(last_name = stuLN).one().name
+    return student.partner
 
 '''
 eliminates partners given a preference string
@@ -81,7 +101,7 @@ def remove_lowpriority_pairs(student, session):
     for stud in student_tk.preferences:
         x += 1
         if student.first_name == stud.name:
-            print("delete preferences after: " + stud.name)
+            print("delete preferences afte r: " + stud.name)
             while(x < 3):
                 k = abs(x-3)
                 preference_to_del = session.query(Preference).filter_by(student_id = student_to_keep.id)
@@ -147,11 +167,60 @@ def check_for_mutual_pref(student, session):
             session.commit()
 
 
-# def export_list(students, num):
-#     list = ""
-#     for x in num:
-#         list.append(students[x] + ", " + students[x].partner)
-#
-#     return list
-#
-# print(getstudents_by_gradelevel(0))
+
+
+'''
+exports the final list (currently returns doubles, this is a bad thing and will be fixed)
+'''
+def export_list(students):
+    list = []
+    for x in students:
+        list.append(x.partner.name)
+
+    return list
+
+sp1 = ["Bob", "Joe", "Fred"]
+sp2 = session.query(Preference).filter_by(student_id = 2).all()
+sp3 = []
+for i in sp2:
+    sp3.append(i.name)
+s1 = Student_class(sp3, "Ryan", "Hom")
+print(temp_partner_id(s1))
+
+print(sp3)
+
+'''
+Janky first step in the alg. Will put into a method
+'''
+print("IT'S GETTING REAL NOW")
+students = []
+temp1 = session.query(Student).all()
+temp2 = None
+temp3 = []
+count = 1;
+#makes a list of Student objects from the database
+for i in temp1:
+    temp2 = session.query(Preference).filter_by(student_id = count).all()
+    for x in temp2:
+        temp3.append(x.name)
+    students.append(Student_class(temp2, i.first_name, i.last_name))
+    count = count + 1
+same = 0
+while same < 4:
+    for i in students:
+        if(i.partner == ""):
+            print(temp_partner_id(i).name)
+        for x in students:
+            if(i.partner == x.partner):
+                for y in students:
+                    if(i.partner == y):
+                        for a in range(len(y.preferences), 0, -1):
+                            if(a.preferences[a].name == i.first_name):
+                                print(temp_partner_id(i))
+                                i.remove_preference_string(a.preferences[a].name)
+                            elif(a.preferences[a].name == x.first_name):
+                                print(temp_partner_id(x))
+                                x.remove_preference_string(a.preferences[a].name)
+    same += 1
+
+print(export_list(students))
