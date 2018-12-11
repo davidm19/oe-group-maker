@@ -42,7 +42,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes,),
+    RouterModule.forRoot(appRoutes),
     MatInputModule,
     MatCardModule,
     MatButtonModule,

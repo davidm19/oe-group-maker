@@ -55,7 +55,7 @@ def showTrip(trip_id):
                     "id" : trip.id,
                     "trip_grade" : trip.trip_grade }
     tripList.append(trip_info)
-    return flask.jsonify(tripList), 200
+    return flask.jsonify(trip_info), 200
 
 @app.route('/trips/new', methods=['POST'])
 def addTrip():

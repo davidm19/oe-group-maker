@@ -1,5 +1,5 @@
 import { switchMap } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -8,39 +8,42 @@ import { Trip } from './trip.model';
 import { TripsComponent } from './trips.component';
 import { TripsModule } from './trips.module';
 
+
 @Component({
   selector: 'app-trip-detail',
   templateUrl: './trip-detail.component.html',
   // styleUrls: ['./trip-detail.component.css']
 })
 export class TripDetailComponent implements OnInit {
-  tripsListSubs: Subscription;
-  tripsList: Trip[];
-  trips: Observable<Trip[]>;
-  trip: Observable<Trip>;
+  // tripsListSubs: Subscription;
+  // tripsList: Trip[];
+  // trips: Observable<Trip[]>;
+  // trip: Observable<Trip>;
+  trip: Trip;
 
   constructor(
-    private tripsApi: TripsApiService) {}
+    private tripsApi: TripsApiService,
+    private route: ActivatedRoute,
+   )
+    { }
 
     ngOnInit() {
       this.getTrip();
+
     }
 
-  getTrip() {
-    this.tripsListSubs = this.tripsApi
-      .getTrip(trip)
-      .subscribe(res => {
-          this.trip = res;
-        },
-        console.error
-      );
-  }
 
-  goToTrips(trip: Trip) {
-    let trip_id = trip ? trip.id : null;
-    // Pass along the hero id if available
-    // so that the HeroList component can select that hero.
-    // Include a junk 'foo' property for fun.
-    this.router.navigate(['/trips']);
+  getTrip(): void {
+    const trip_id = +this.route.snapshot.paramMap.get('id');
+    console.log(trip_id);
+    this.trip = this.tripsApi.getTrip(trip_id);
+    console.log(this.trip);
+    // this.tripsListSubs = this.tripsApi
+    //   .getTrip(trip)
+    //   .subscribe(res => {
+    //       this.trip = res;
+    //     },
+    //     console.error
+    //   );
   }
 }

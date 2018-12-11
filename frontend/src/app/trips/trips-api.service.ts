@@ -22,9 +22,9 @@ export class TripsApiService {
     .get<Array<Trip>>(`${API_URL}/trips`);
   }
 
-  getTrip(trip_id: number) {
+  getTrip(trip_id: number): Trip {
     return this.http
-    .get(`${API_URL}/trips/${trip_id}/detail`)
+    .get<Trip>(`${API_URL}/trips/${trip_id}/detail`)
   }
 
   saveTrip(trip: Trip): Observable<any> {
