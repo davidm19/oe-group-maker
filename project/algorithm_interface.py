@@ -46,8 +46,12 @@ def temp_partner_id_db(student, stuID):
 finds tentative parteners for each person using student preference list
 '''
 def temp_partner_id(student):
-    student.partner = student.preferences[student.preference_index]
-    student.preference_index = student.preference_index + 1
+    if (student.preference_index > 2):
+        student.partner = "NO MATCH"
+    else:
+        student.partner = student.preferences[student.preference_index]
+        student.preference_index = student.preference_index + 1
+
     return student.partner
 
 '''
@@ -156,11 +160,11 @@ exports the final list (currently returns doubles, this is a bad thing and will 
 def export_list(students):
     list = []
     for x in students:
-        list.append(x.partner.name)
+        list.append("%s --- %s" % (x.first_name, x.partner.name))
 
     return list
 
-sp1 = ["Bob", "Joe", "Fred"]
+'''sp1 = ["Bob", "Joe", "Fred"]
 sp2 = session.query(Preference).filter_by(student_id = 2).all()
 sp3 = []
 for i in sp2:
@@ -168,7 +172,7 @@ for i in sp2:
 s1 = Student_class(sp3, "Ryan", "Hom")
 print(temp_partner_id(s1))
 
-print(sp3)
+print(sp3)'''
 
 '''
 Janky first step in the alg. Will put into a method
@@ -182,26 +186,30 @@ count = 1;
 #makes a list of Student objects from the database
 for i in temp1:
     temp2 = session.query(Preference).filter_by(student_id = count).all()
-    for x in temp2:
-        temp3.append(x.name)
     students.append(Student_class(temp2, i.first_name, i.last_name))
     count = count + 1
 same = 0
-while same < 4:
+while same < 1:
     for i in students:
         if(i.partner == ""):
             print(temp_partner_id(i).name)
         for x in students:
-            if(i.partner == x.partner):
-                for y in students:
-                    if(i.partner == y):
-                        for a in range(len(y.preferences), 0, -1):
-                            if(a.preferences[a].name == i.first_name):
-                                print(temp_partner_id(i))
-                                i.remove_preference_string(a.preferences[a].name)
-                            elif(a.preferences[a].name == x.first_name):
-                                print(temp_partner_id(x))
-                                x.remove_preference_string(a.preferences[a].name)
+            print("-------------------")
+            print(i.partner.name)
+            print(x.partner)
+            if(type(x.partner) is Preference):
+                if(i.partner.name == x.partner.name):
+                    for y in students:
+                        if(i.partner.name == y.first_name):
+                            for a in range(len(y.preferences)-1, 0, -1):
+                                print(a)
+                                if(y.preferences[a].name == i.first_name):
+                                    print(temp_partner_id(i).name)
+                                    print(y.preferences[a].name)
+                                    y.remove_preference_string(y.preferences[a].name)
+                                elif(y.preferences[a].name == x.first_name):
+                                    print(temp_partner_id(x).name)
+                                    y.remove_preference_string(y.preferences[a].name)
     same += 1
 
 print(export_list(students))
