@@ -46,14 +46,16 @@ def showTrips():
         tripList.append(trip_info)
     return flask.jsonify(tripList), 200
 
-@app.route('/trips/<int:trip_id>/', methods=['GET'])
+@app.route('/trips/<int:trip_id>/detail', methods=['GET'])
 def showTrip(trip_id):
     session = DBSession()
+    tripList = []
     trip = session.query(Trip).filter_by(id=trip_id).one()
     trip_info = { "trip_name" : trip.trip_name,
                     "id" : trip.id,
                     "trip_grade" : trip.trip_grade }
-    return flask.jsonify(trip_info), 200
+    tripList.append(trip_info)
+    return flask.jsonify(tripList), 200
 
 @app.route('/trips/new', methods=['POST'])
 def addTrip():

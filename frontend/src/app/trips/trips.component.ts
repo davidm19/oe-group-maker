@@ -29,6 +29,8 @@ button.new-trip {
 export class TripsComponent implements OnInit, OnDestroy {
   tripsListSubs: Subscription;
   tripsList: Trip[];
+  trips: Observable<Trip[]>;
+
 
   constructor(private tripsApi: TripsApiService) {
   }
@@ -46,6 +48,21 @@ export class TripsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.tripsListSubs.unsubscribe();
   }
+
+  view(trip_id: number) {
+    this.tripsApi
+    .getTrip(trip_id)
+    .subscribe(() => {
+      this.tripsListSubs = this.tripsApi
+        .getTrips()
+        .subscribe(res => {
+            this.tripsList = res;
+          },
+          console.error
+        )
+    }, console.error);
+}
+
   delete(trip_id: number) {
   this.tripsApi
     .deleteTrip(trip_id)
