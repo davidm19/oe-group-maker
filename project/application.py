@@ -201,7 +201,7 @@ def showStudents(sesh):
     return students_all
 
 @app.route('/student/new/', methods=['GET', 'POST'])
-def newStudent(firstName, lastName, pref1_name, pref2_name, pref3_name, sesh):
+def newStudent(firstName, lastName, sesh, pref1_name = None, pref2_name = None, pref3_name = None, pref4_name = None, pref5_name = None):
 
     # if request.method == 'POST':
     students = sesh.query(Student).all()
@@ -209,18 +209,28 @@ def newStudent(firstName, lastName, pref1_name, pref2_name, pref3_name, sesh):
     sesh.add(newStudent)
     sesh.commit()
     if pref1_name is not None:
-        student_pref1 = Preference(name = pref1_name, priority = 3, student_id = newStudent.id)
+        student_pref1 = Preference(name = pref1_name, priority = 5, student_id = newStudent.id)
         sesh.add(student_pref1)
         sesh.commit()
 
     if pref2_name is not None:
-        student_pref2 = Preference(name = pref2_name, priority = 2, student_id = newStudent.id)
+        student_pref2 = Preference(name = pref2_name, priority = 4, student_id = newStudent.id)
         sesh.add(student_pref2)
         sesh.commit()
 
     if pref3_name is not None:
-        student_pref3 = Preference(name = pref3_name, priority = 1, student_id = newStudent.id)
+        student_pref3 = Preference(name = pref3_name, priority = 3, student_id = newStudent.id)
         sesh.add(student_pref3)
+        sesh.commit()
+
+    if pref4_name is not None:
+        student_pref4 = Preference(name = pref4_name, priority = 2, student_id = newStudent.id)
+        sesh.add(student_pref4)
+        sesh.commit()
+
+    if pref5_name is not None:
+        student_pref5 = Preference(name = pref5_name, priority = 1, student_id = newStudent.id)
+        sesh.add(student_pref5)
         sesh.commit()
 
 

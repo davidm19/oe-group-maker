@@ -7,7 +7,8 @@ import os
 import unittest
 from application import showStudent, showStudents, showStudentPref, newStudent
 from application import session, app
-from algorithm_interface import remove_lowpriority_pairs, check_for_mutual_pref
+from algorithm_interface import remove_lowpriority_pairs, make_stable_pairs
+#from algorithm_interface import check_for_mutual_pref
 from Student import Student_class
 
 
@@ -39,20 +40,28 @@ class BasicTests(unittest.TestCase):
     #     self.assertEqual()
     #
 
+    # def test_findStablePairs(self):
+    #     newStudent('Pete', 'R', session, 'Kel')
+    #     newStudent('Kel', 'Y', session, 'Pete')
+    #     students = session.query(Student).all()
+    #     for student in students:
+    #         make_stable_pairs(student,session)
+
+
 
     def test_stepTwo(self):
-        newStudent('Char', 'Lie', 'Paul', 'Sam', 'Kel', session)
-        newStudent('Pete', 'R', 'Kel', 'Sam', 'Paul', session)
-        newStudent('Eli', 'S', 'Sam', 'Kel', 'Char', session)
-        newStudent('Paul', 'Ly', 'Eli', 'Char', 'Sam', session)
-        newStudent('Kel', 'Ly', 'Pete', 'Char', 'Sam', session)
-        newStudent('Sam', 'My', 'Char', 'Paul', 'Kel', session)
+        newStudent('Char', 'Lie', session, 'Paul', 'Sam', 'Kel', 'Eli')
+        newStudent('Pete', 'R', session, 'Kel', 'Sam', 'Paul')
+        newStudent('Eli', 'S', session, 'Sam', 'Kel', 'Char', 'Paul')
+        newStudent('Paul', 'Ly', session, 'Eli', 'Char', 'Sam', 'Pete', 'Kel')
+        newStudent('Kel', 'Ly', session, 'Pete', 'Char', 'Sam', 'Eli', 'Paul')
+        newStudent('Sam', 'My', session, 'Char', 'Paul', 'Kel', 'Eli', 'Pete')
         students = session.query(Student).all()
         for student in students:
             remove_lowpriority_pairs(student, session)
         students_info = []
-        for student in students:
-            check_for_mutual_pref(student,session)
+        # for student in students:
+        #     check_for_mutual_pref(student,session)
         students = session.query(Student).all()
         preferences = session.query(Preference)
         for student in students:
@@ -64,8 +73,7 @@ class BasicTests(unittest.TestCase):
             for p in new_preferences:
                 students_info.append(p.name)
                 # print(p.name)
-
-        expected_results = [['Char', 'Lie'], 'Paul', 'Sam', ['Pete', 'R'], 'Kel', ['Eli','S'], 'Sam', 'Kel', ['Paul','Ly'], 'Eli', 'Char', ['Kel', 'Ly'], 'Pete', ['Sam', 'My'], 'Char']
+        expected_results = [['Char', 'Lie'], 'Paul', 'Sam', ['Pete', 'R'], 'Kel', ['Eli','S'], 'Sam', 'Paul', ['Paul','Ly'], 'Eli', 'Char', ['Kel', 'Ly'], 'Pete', ['Sam', 'My'], 'Char', 'Eli']
         results = students_info
         self.maxDiff = None
         print("results")

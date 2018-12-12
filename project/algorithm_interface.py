@@ -84,7 +84,7 @@ deletes preferences lower than the "most preferred"... step 2 of the irving algo
 def remove_lowpriority_pairs(student, session):
 #find first preference (student y) of given student (student x)
     # preferences = session.query(Preference).filter_by(student_id = student.id).all()
-    preferences = session.query(Preference).filter_by(priority = 3)
+    preferences = session.query(Preference).filter_by(priority = 5)
     #print(preferences)
     first_priority = preferences.filter_by(student_id = student.id).one()
     student_to_keep = session.query(Student).filter_by(first_name = first_priority.name).one()
@@ -98,12 +98,14 @@ def remove_lowpriority_pairs(student, session):
     student_tk = Student_class(student_tkPrefs, student_to_keep.first_name, student_to_keep.last_name)
 #find student x in student y's preference list
     x = 0
+    i = len(student_tkPrefs)
     for stud in student_tk.preferences:
         x += 1
         if student.first_name == stud.name:
-            print("delete preferences afte r: " + stud.name)
-            while(x < 3):
-                k = abs(x-3)
+            k = stud.priority
+            print("delete preferences after: " + stud.name)
+            while(x < i+1):
+                k = k-1
                 preference_to_del = session.query(Preference).filter_by(student_id = student_to_keep.id)
                 if preference_to_del.filter_by(priority = k).one_or_none() is not None:
                     preference = preference_to_del.filter_by(priority = k).one()
@@ -128,6 +130,17 @@ def remove_lowpriority_pairs(student, session):
                                 session.commit()
                 x+=1
 
+def make_stable_pairs(student, session):
+    stable_groups = []
+    student_prefs = session.query(Preference).filter_by(student_id = student.id).all()
+    if len(student_prefs) == 1:
+        pref_student = session.query(Student).filter_by(first_name = student_prefs.name).one()
+        pref_student_pref = session.query(Preference).filter_by(student_id = pref_student.id)
+        pref_student_pref = pref_student_pref.filter_by(priority = 3).one()
+        if student_prefs.name == pref_student_pref.name:
+            stable_groups.append([student_prefs.name, pref_student_pref.name])
+    return stable_groups
+
 #input student is student x
 #first_priority is same student as student_to_keep and student_tk (student y)
 #student_to_be_removed is same student as student_tbr and student_remove (student z)
@@ -139,32 +152,32 @@ def remove_lowpriority_pairs(student, session):
 #         q.append(students[i].preferences[-1])
 #         i += 1
 #
-def check_for_mutual_pref(student, session):
-    preferences = session.query(Preference).filter_by(student_id = student.id).all()
-    students_to_remove = []
-    if len(preferences) > 2:
-        k = 0
-        for pref in preferences:
-            x = 0
-            student_mutual = session.query(Student).filter_by(first_name = pref.name).one()
-            mutual_prefs = session.query(Preference).filter_by(student_id = student_mutual.id).all()
-            for pref in mutual_prefs:
-                if student_mutual.first_name == student.first_name:
-                    x += 1
-                    k += 1
-            if x == 0:
-                student_to_remove = session.query(Preference).filter_by(name = student_mutual.first_name)
-                student_to_remove = student_to_remove.filter_by(student_id = student.id).one()
-                students_to_remove.append(student_to_remove)
-        if k > 0:
-            for pref in students_to_remove:
-                session.delete(pref)
-                session.commit()
-        if k == 0:
-            last_pref_remove = session.query(Preference).filter_by(priority = 1)
-            l_p_r = last_pref_remove.filter_by(student_id = student.id).one()
-            session.delete(l_p_r)
-            session.commit()
+# def check_for_mutual_pref(student, session):
+#     preferences = session.query(Preference).filter_by(student_id = student.id).all()
+#     students_to_remove = []
+#     if len(preferences) > 2:
+#         k = 0
+#         for pref in preferences:
+#             x = 0
+#             student_mutual = session.query(Student).filter_by(first_name = pref.name).one()
+#             mutual_prefs = session.query(Preference).filter_by(student_id = student_mutual.id).all()
+#             for pref in mutual_prefs:
+#                 if student_mutual.first_name == student.first_name:
+#                     x += 1
+#                     k += 1
+#             if x == 0:
+#                 student_to_remove = session.query(Preference).filter_by(name = student_mutual.first_name)
+#                 student_to_remove = student_to_remove.filter_by(student_id = student.id).one()
+#                 students_to_remove.append(student_to_remove)
+#         if k > 0:
+#             for pref in students_to_remove:
+#                 session.delete(pref)
+#                 session.commit()
+#         if k == 0:
+#             last_pref_remove = session.query(Preference).filter_by(priority = 3)
+#             l_p_r = last_pref_remove.filter_by(student_id = student.id).one()
+#             session.delete(l_p_r)
+#             session.commit()
 
 
 
