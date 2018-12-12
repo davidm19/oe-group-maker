@@ -46,13 +46,15 @@ def showTrips():
         tripList.append(trip_info)
     return flask.jsonify(tripList), 200
 
-@app.route('/trips/<int:trip_id>/', methods=['GET'])
+@app.route('/trips/<int:trip_id>/detail', methods=['GET'])
 def showTrip(trip_id):
     session = DBSession()
+    tripList = []
     trip = session.query(Trip).filter_by(id=trip_id).one()
     trip_info = { "trip_name" : trip.trip_name,
                     "id" : trip.id,
                     "trip_grade" : trip.trip_grade }
+    tripList.append(trip_info)
     return flask.jsonify(trip_info), 200
 
 @app.route('/trips/new', methods=['POST'])
@@ -80,11 +82,17 @@ def updateTrip(id):
     session.commit()
     return flask.jsonify("Trip successfully updated! \n"), 200
 
-@app.route('/trips/<int:trip_id>/', methods=['PUT'])
+@app.route('/trips/<int:trip_id>/delete', methods=['DELETE'])
 def deleteTrip(trip_id):
+    print("Deleting trip")
     session = DBSession()
+    print("Request is ")
+    print(request)
     post = request.get_json()
-    trip_id = post["id"]
+    print("Post is ")
+    print(post)
+    print("Trip id is")
+    print(trip_id)
     tripToDelete = session.query(Trip).filter_by(id = trip_id).one()
     session.delete(tripToDelete)
     session.commit()
