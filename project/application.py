@@ -50,11 +50,20 @@ def showTrips():
 def showTrip(trip_id):
     session = DBSession()
     tripList = []
+    # studentList = []
     trip = session.query(Trip).filter_by(id=trip_id).one()
+    # students = session.query(Student).filter_by(trip_id=trip_id).all()
     trip_info = { "trip_name" : trip.trip_name,
                     "id" : trip.id,
                     "trip_grade" : trip.trip_grade }
     tripList.append(trip_info)
+    # for student in students:
+    #     student_info = { "first_name" : student.first_name
+    #                      , "last_name" : student.last_name,
+    #                      "grade" : student.grade
+    #                     }
+    #     studentList.append(student_info)
+    # return flask.jsonify(studentList), 200
     return flask.jsonify(trip_info), 200
 
 @app.route('/trips/new', methods=['POST'])
@@ -100,18 +109,20 @@ def deleteTrip(trip_id):
     return flask.jsonify("Trip successfully deleted!"), 200
 
 """ ======== STUDENT CRUD METHODS ======== """
-
-@app.route('/students', methods=['GET'])
-def showStudents():
-    session = DBSession()
-    students = session.query(Student).all()
-    students_all = list()
-    for student in students:
-        student_info = { "first_name" : student.first_name
-                    , "last_name" : student.last_name
-                    }
-        students_all.append(student_info)
-    return flask.jsonify(students_all), 200
+"""Show trip should be the same thing as showStudents"""
+# @app.route('/trips/<int:trip_id>/detail/students', methods=['GET'])
+# def showStudents(trip_id):
+#     session = DBSession()
+#     studentList = []
+#     trip = session.query(Trip).filter_by(id=trip_id).one()
+#     students = session.query(Student).filter_by(trip_id=trip_id).all()
+#     for student in students:
+#         student_info = { "first_name" : student.first_name
+#                     , "last_name" : student.last_name,
+#                     "grade" : student.grade
+#                     }
+#         studentList.append(student_info)
+#     return flask.jsonify(studentList), 200
 
 @app.route('/students/<int:ID>/', methods=['GET'])
 def showStudent(ID):
