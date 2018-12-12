@@ -46,8 +46,9 @@ def temp_partner_id_db(student, stuID):
 finds tentative parteners for each person using student preference list
 '''
 def temp_partner_id(student):
-    if (student.preference_index > 2):
-        student.partner = "NO MATCH"
+    #print(student.preferences)
+    if (student.preference_index >= len(student.preferences)):
+        student.partner = Preference(name = 'NO MATCH')
     else:
         student.partner = student.preferences[student.preference_index]
         student.preference_index = student.preference_index + 1
@@ -208,14 +209,19 @@ for i in temp1:
     students.append(Student_class(temp2, i.first_name, i.last_name))
     count = count + 1
 same = 0
+exit_loop = False
+iterstudents = iter(students)
+next(iterstudents)
 while same < 1:
+    print("MATCHING NAMES")
     for i in students:
         if(i.partner == ""):
             print(temp_partner_id(i).name)
-        for x in students:
+    for i in students:
+        for x in iterstudents:
             print("-------------------")
             print(i.partner.name)
-            print(x.partner)
+            print(x.partner.name)
             if(type(x.partner) is Preference):
                 if(i.partner.name == x.partner.name):
                     for y in students:
@@ -223,12 +229,19 @@ while same < 1:
                             for a in range(len(y.preferences)-1, 0, -1):
                                 print(a)
                                 if(y.preferences[a].name == i.first_name):
+                                    print("i remove")
                                     print(temp_partner_id(i).name)
                                     print(y.preferences[a].name)
-                                    y.remove_preference_string(y.preferences[a].name)
+                                    y.remove_preference_string(y.preferences[a])
+                                    exit_loop = True
                                 elif(y.preferences[a].name == x.first_name):
+                                    print("x remove")
                                     print(temp_partner_id(x).name)
-                                    y.remove_preference_string(y.preferences[a].name)
+                                    y.remove_preference_string(y.preferences[a])
+                                    exit_loop = True
+                            if(exit_loop == True):
+                                exit_loop = False
+                                break;
     same += 1
 
 print(export_list(students))
