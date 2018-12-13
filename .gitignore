@@ -11,7 +11,6 @@ Icon
 
 # Thumbnails
 ._*
-
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
 .fseventsd
@@ -28,15 +27,24 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+project/commands.sh
+
 ### Vagrant ###
 # General
-/.vagrant/
-/.vagrant/machines/default/virtualbox/
+.vagrant/
+acceptance_config.yml
+boxes/*
+/.vagrant
+/website/.vagrant
+/website/build
+/vagrant-spec.config.rb
+test/vagrant-spec/.vagrant/
 
 # Log files (if you are creating logs in debug mode, uncomment this)
 # *.logs
 
 ### Vagrant Patch ###
+.vagrant/
 *.box
 
 *.swp
@@ -44,4 +52,5 @@ Temporary Items
 tags
 
 project/commands.sh
+*.pyc
 # End of https://www.gitignore.io/api/macos,vagrant

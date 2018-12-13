@@ -6,10 +6,6 @@ name = "pypi"
 [dev-packages]
 
 [packages]
-sqlalchemy = "*"
-"psycopg2-binary" = "*"
-flask = "*"
-marshmallow = "*"
 flask-cors = "*"
 
 [requires]

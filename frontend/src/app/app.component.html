@@ -1,9 +1,7 @@
-<div style="text-align:center">
-  <h1>Trips</h1>
+<div class="row">
+  <app-header></app-header>
+  </div>
+  
+<div class="row">
+  <router-outlet></router-outlet>
 </div>
-<h2>Here are the trips created so far: </h2>
-<ul>
-  <li *ngFor="let trip of tripsList">
-    {{trip.title}}
-  </li>
-</ul>

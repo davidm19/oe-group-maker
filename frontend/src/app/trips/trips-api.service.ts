@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import {API_URL} from '../env';
 import {Trip} from './trip.model';
 
@@ -17,9 +17,23 @@ export class TripsApiService {
 
   // GET list of public, future events
   getTrips():
-  Observable<Trip[]> {
+  Observable<Array<Trip>> {
     return this.http
-    .get(`${API_URL}/trips`)
-    catchError(TripsApiService._handleError));
+    .get<Array<Trip>>(`${API_URL}/trips`);
+  }
+
+  getTrip(trip_id: number): Observable<Trip> {
+    return this.http
+    .get<Trip>(`${API_URL}/trips/${trip_id}/detail`)
+  }
+
+  saveTrip(trip: Trip): Observable<any> {
+  return this.http
+    .post(`${API_URL}/trips/new`, trip);
+  }
+
+  deleteTrip(trip_id: number) {
+    return this.http
+      .delete(`${API_URL}/trips/${trip_id}/delete`);
   }
 }

@@ -2,12 +2,12 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from test_database_setup import Base, Trip, Student, engine, Preference
-from application import showStudent, showStudents, showStudentPref, newStudent, showTrips, showTrip
-from application import session
+from test_database_setup import Base, Student, engine, Preference
 #from test_database_setup import Trip
 import os
 import unittest
+from application import showTrip, showStudent, addStudentsToTrip
+from application import session, app
 
 
 app = Flask(__name__)
@@ -44,52 +44,54 @@ class BasicTests(unittest.TestCase):
 
 
     def test_showStudent(self):
-        expected_results = { "first_name" : "Michael"
-                , "last_name" : "Huang", "grade" : 11
-                    }
-        results = showStudent(1, session)
-        self.assertEqual(results, expected_results)
+        with app.app_context():
+            # trip_to_test = session.query(Trip).filter_by(id=1).one()
+            # emptyResults = [{ "trip_name" : "Death Valley Backpacking" },
+            #         { "id" : 1 },
+            #         { "trip_grade" : 9 }, { "trip_students" : None }]
+            # results = showTrip(1)
+            # self.assertTrue(results,emptyResults)
 
-    def test_showStudents(self):
-        expected_results = [{ 'first_name' : 'Michael'
-            , 'last_name' : 'Huang', 'grade' : 11
-                    }, { 'first_name' : 'J'
-                        , 'last_name' : 'D', 'grade' : 11
-                                }]
-        results = showStudents(session)
-        self.assertEqual(results, expected_results)
-
-    def test_showStudentPref(self):
-        expected_results = [{'name' : 'Michael'},
-                        {'name' : 'Ryan'},
-                        {'name' : 'David'}
-                    ]
-        results = showStudentPref(2, session)
-        self.assertEqual(results, expected_results)
-
-    def test_showTrips(self):
-        expected_results = [{'name' : 'Death Valley Backpacking'},
-                {'name' : 'Catalina Trip'}, 
-                {'name' : 'Kern River'}
-                ]
-        results = showTrips(session)
-        self.assertEqual(results, expected_results)
-
-    def test_showTrip(self):
-        expected_results = {'name' : 'Catalina Trip'}
-        results = showTrip(2, session)
-        self.assertEqual(results, expected_results)
-
-    # def test_newStudent(self):
-    #     oldDb = showStudents(session)
-    #     newStudent('David','Malone', '12', session, " ", " ", " ")
-    #     newStudentInfo = { "first_name" : 'David'
-    #                 , "last_name" : 'Malone'
-    #                 , "grade" : 12
-    #                 }
-    #     oldDb.append(newStudentInfo)
-    #     newDb = showStudents(session)
-    #     self.assertEqual(newDb, oldDb)
+            student_list = session.query(Student).all()
+            more_results = addStudentsToTrip(1,11)
+            correct_results = [
+              {
+                "first_name": "Sammy",
+                "grade": 11,
+                "last_name": "Levy"
+              },
+              {
+                "first_name": "Serena",
+                "grade": 11,
+                "last_name": "Hingorani"
+              },
+              {
+                "first_name": "Sammy",
+                "grade": 11,
+                "last_name": "Bernstein"
+              },
+              {
+                "first_name": "Noah",
+                "grade": 11,
+                "last_name": "Rizika"
+              },
+              {
+                "first_name": "Wyatt",
+                "grade": 11,
+                "last_name": "Wagner"
+              },
+              {
+                "first_name": "Dawson",
+                "grade": 11,
+                "last_name": "Goldsmith"
+              },
+              {
+                "first_name": "Christina",
+                "grade": 11,
+                "last_name": "Bruni"
+              }
+            ]
+            self.assertEqual(more_results, correct_results)
 
 if __name__ == "__main__":
     unittest.main()
