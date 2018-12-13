@@ -44,7 +44,8 @@ def showTrips():
     for trip in allTrips:
         trip_info = {"trip_name" : trip.trip_name,
                     "id" : trip.id,
-                    "trip_grade" : trip.trip_grade
+                    "trip_grade" : trip.trip_grade,
+                    "trip_students" : trip.students
                     }
         tripList.append(trip_info)
     return flask.jsonify(tripList), 200
@@ -105,11 +106,16 @@ def deleteTrip(trip_id):
 @app.route('/trips/<int:trip_id>/addStudents', methods=['PUT'])
 def addStudentsToTrip(trip_id, grade):
     session = DBSession()
-    post = request.get_json()
-    students_to_add = all_students.filter_by(grade=grade)
+    # post = request.get_json()
+    all_students = session.query(Student).filter_by(grade=grade).all()
     trip_to_assign = session.query(Trip).filter_by(id=trip_id).one()
-    trip_to_assign.students = students_to_add
-    return flask.jsonify("Students successfully assigned!"), 200
+    trip_to_assign.students = all_students
+    trip_info = { "trip_name" : trip_to_assign.trip_name, 
+            "trip_grade" : trip_to_assign.trip_grade,
+            "students" : trip_to_assign.students
+            }
+    return flask.jsonify(trip_info)
+    # return flask.jsonify("Students successfully assigned!"), 200
 
 
 """ ====================================== """
@@ -125,7 +131,8 @@ def showStudents():
     students_all = list()
     for student in students:
         student_info = { "first_name" : student.first_name
-                    , "last_name" : student.last_name
+                    , "last_name" : student.last_name,
+                    "grade" : student.grade
                     }
         students_all.append(student_info)
     return flask.jsonify(students_all), 200
