@@ -6,7 +6,7 @@ from test_database_setup import Base, Student, engine, Preference
 #from test_database_setup import Trip
 import os
 import unittest
-from application import showTrip, showStudent
+from application import showTrip, showStudent, addStudentsToTrip
 from application import session, app
 
 
@@ -45,37 +45,53 @@ class BasicTests(unittest.TestCase):
 
     def test_showStudent(self):
         with app.app_context():
-            expected_results = { "first_name" : "Michael"
-                        , "last_name" : "Huang"
-                        }
-            results = showStudent(1)
-            self.assertEqual(results, expected_results)
+            # trip_to_test = session.query(Trip).filter_by(id=1).one()
+            # emptyResults = [{ "trip_name" : "Death Valley Backpacking" },
+            #         { "id" : 1 },
+            #         { "trip_grade" : 9 }, { "trip_students" : None }]
+            # results = showTrip(1)
+            # self.assertTrue(results,emptyResults)
 
-    # def test_showStudents(self):
-    #         expected_results = [{ 'first_name' : 'Michael'
-    #                     , 'last_name' : 'Huang'
-    #                     }, { 'first_name' : 'J'
-    #                                 , 'last_name' : 'D'
-    #                                 }]
-    #         results = showStudents(session)
-    #         self.assertEqual(results, expected_results)
-
-    # def test_showStudentPref(self):
-    #         expected_results = [{'name' : 'Michael'},
-    #                         {'name' : 'Ryan'},
-    #                         {'name' : 'David'}
-    #                     ]
-    #         results = showStudentPref(2, session)
-    #         self.assertEqual(results, expected_results)
-
-    def test_add_students(self):
-        with app.app_context():
-            expected_results = [{ "trip_name" : "Death Valley Backpacking" },
-                    { "id" : 1 },
-                    { "trip_grade" : 9 }]
-            results = showTrip(1)
-            print(results)
-            self.assertEqual(results, expected_results)
+            student_list = session.query(Student).all()
+            more_results = addStudentsToTrip(1,11)
+            correct_results = [
+              {
+                "first_name": "Sammy",
+                "grade": 11,
+                "last_name": "Levy"
+              },
+              {
+                "first_name": "Serena",
+                "grade": 11,
+                "last_name": "Hingorani"
+              },
+              {
+                "first_name": "Sammy",
+                "grade": 11,
+                "last_name": "Bernstein"
+              },
+              {
+                "first_name": "Noah",
+                "grade": 11,
+                "last_name": "Rizika"
+              },
+              {
+                "first_name": "Wyatt",
+                "grade": 11,
+                "last_name": "Wagner"
+              },
+              {
+                "first_name": "Dawson",
+                "grade": 11,
+                "last_name": "Goldsmith"
+              },
+              {
+                "first_name": "Christina",
+                "grade": 11,
+                "last_name": "Bruni"
+              }
+            ]
+            self.assertEqual(more_results, correct_results)
 
 if __name__ == "__main__":
     unittest.main()

@@ -18,6 +18,13 @@ class Trip(Base):
     trip_name = Column(String(32))
     trip_grade = Column(Integer)
     students = relationship('Student', secondary=association_table, back_populates="trips")
+    @property
+    def serialize(self):
+        return {
+            'trip_name': self.trip_name,
+            'trip_grade': self.trip_grade,
+            'students': self.students
+        }
     # students = relationship('Student', secondary='student_trip_link')
     # trip_grade = Column(String(2))
 
