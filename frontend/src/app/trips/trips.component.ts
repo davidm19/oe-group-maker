@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {Trip} from './trip.model';
 import {TripsApiService} from './trips-api.service';
+import {Observable} from 'rxjs/Observable'; 
 
 @Component({
   selector: 'app-trips',
@@ -29,6 +30,8 @@ button.new-trip {
 export class TripsComponent implements OnInit, OnDestroy {
   tripsListSubs: Subscription;
   tripsList: Trip[];
+  trips: Observable<Trip[]>;
+
 
   constructor(private tripsApi: TripsApiService) {
   }
@@ -46,6 +49,8 @@ export class TripsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.tripsListSubs.unsubscribe();
   }
+
+
   delete(trip_id: number) {
   this.tripsApi
     .deleteTrip(trip_id)

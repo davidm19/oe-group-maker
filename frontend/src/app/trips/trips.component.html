@@ -6,7 +6,11 @@
       <mat-card-title>{{trip.trip_name}}</mat-card-title>
       <mat-card-subtitle>{{trip.trip_grade}}</mat-card-subtitle>
 
-      <button mat-raised-button color="primary">View Trip</button>
+      <button mat-raised-button color="primary" routerLink="{{trip.id}}/detail">View Trip</button>
+      <button mat-button color="warn"
+                  (click)="delete(trip.id)">
+            Delete
+          </button>
 
     </mat-card-content>
   </mat-card>

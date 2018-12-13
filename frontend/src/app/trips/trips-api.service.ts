@@ -22,13 +22,18 @@ export class TripsApiService {
     .get<Array<Trip>>(`${API_URL}/trips`);
   }
 
+  getTrip(trip_id: number): Observable<Trip> {
+    return this.http
+    .get<Trip>(`${API_URL}/trips/${trip_id}/detail`)
+  }
+
   saveTrip(trip: Trip): Observable<any> {
   return this.http
     .post(`${API_URL}/trips/new`, trip);
   }
 
   deleteTrip(trip_id: number) {
-  return this.http
-    .delete(`${API_URL}/trips/${trip_id}`);
-}
+    return this.http
+      .delete(`${API_URL}/trips/${trip_id}/delete`);
+  }
 }

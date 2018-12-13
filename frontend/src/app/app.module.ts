@@ -16,14 +16,14 @@ import { TripFormComponent } from './trips/trip-form.component';
 
 import {TripsComponent} from './trips/trips.component';
 import { HomeComponent } from './home/home.component';
-import { HeroesModule } from './heroes/heroes.module';
-import { TripsModule } from './trips/trips.module';
+import { TripDetailComponent } from './trips/trip-detail.component';
 
 const appRoutes: Routes = [
   { path: 'trips', component: TripsComponent },
   { path: 'trips/new', component: TripFormComponent },
   { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent }
+  { path: 'home', component: HomeComponent },
+  { path: 'trips/:id/detail', component: TripDetailComponent }
 
 ]
 
@@ -33,7 +33,8 @@ const appRoutes: Routes = [
     HeaderComponent,
     TripsComponent,
     HomeComponent,
-    TripFormComponent
+    TripFormComponent,
+    TripDetailComponent
 
   ],
   imports: [
@@ -41,13 +42,11 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes,),
+    RouterModule.forRoot(appRoutes),
     MatInputModule,
     MatCardModule,
     MatButtonModule,
     MatToolbarModule,
-    HeroesModule,
-    TripsModule
 
 
   ],
