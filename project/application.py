@@ -14,8 +14,8 @@ from sqlalchemy.sql import exists
 
 
 app = Flask(__name__)
-CORS(app)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+# CORS(app)
+# cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
 
@@ -100,62 +100,57 @@ def deleteTrip(trip_id):
 
     return flask.jsonify("Trip successfully deleted!"), 200
 
+@app.route('/trips/<int:trip_id>/addStudents', methods=['PUT'])
+def addStudentsToTrip(trip_id, grade):
+    session = DBSession()
+    post = request.get_json()
+    students_to_add = all_students.filter_by(grade=grade)
+    trip_to_assign = session.query(Trip).filter_by(id=trip_id).one()
+    trip_to_assign.students = students_to_add
+    return flask.jsonify("Students successfully assigned!"), 200
+
+
 """ ====================================== """
 """ ====================================== """
 """ ======== STUDENT CRUD METHODS ======== """
 """ ====================================== """
 """ ====================================== """
 
-@app.route('/trips/<int:trip_id>/students', methods=['GET'])
-def showStudents(trip_id):
+@app.route('/students', methods=['GET'])
+def showStudents():
     session = DBSession()
     students = session.query(Student).all()
     students_all = list()
     for student in students:
         student_info = { "first_name" : student.first_name
                     , "last_name" : student.last_name
-                    , "grade" : student.grade
                     }
         students_all.append(student_info)
     return flask.jsonify(students_all), 200
 
-@app.route('/trips/<int:trip_id>/students/<int:ID>/', methods=['GET'])
-def showStudent(trip_id, ID, GRADE):
+@app.route('/students/<int:ID>/', methods=['GET'])
+def showStudent(ID):
     session = DBSession()
     student = session.query(Student).filter_by(id=ID).one()
     student_info = { "first_name" : student.first_name
                 , "last_name" : student.last_name
-                , "grade" : student.grade
                 }
     return flask.jsonify(student_info), 200
 
-@app.route('/trips/<int:trip_id>/students/grades/<int:GRADE>', methods=['GET'])
-def showStudentByGradeLevel(trip_id, GRADE):
-    session = DBSession()
-    students = session.query(Student).filter_by(grade=GRADE).all()
-    students_all = list()
-    for student in students:
-        student_info = { "first_name" : student.first_name
-                    , "last_name" : student.last_name
-                    , "grade" : student.grade
-                    }
-        students_all.append(student_info)
-    return flask.jsonify(students_all), 200
-
 #NEED SHOW STUDENT + PREFS METHODS NOW!!
 
-@app.route('/trips/<int:trip_id>/students/new', methods=['POST'])
-def newStudent(trip_id):
+@app.route('/students/new', methods=['POST'])
+def newStudent():
     session = DBSession()
     post = request.get_json()
     if request.method == 'POST':
-        newStudent = Student(first_name = post["first_name"], last_name = post["last_name"], grade = post["grade"])
+        newStudent = Student(first_name = post["first_name"], last_name = post["last_name"])
     session.add(newStudent)
     session.commit()
     return flask.jsonify("Student successfully added! \n"), 200
 
-@app.route('/trips/<int:trip_id>/students/<int:id>/edit', methods=['PUT'])
-def editStudent(trip_id, id):
+@app.route('/students/<int:id>/edit', methods=['PUT'])
+def editStudent(id):
     session = DBSession()
     post = request.get_json()
     if "id" not in post:
@@ -166,14 +161,12 @@ def editStudent(trip_id, id):
         editedStudent.first_name = post['first_name']
     elif 'last_name' in post:
         editedStudent.last_name = post['last_name']
-    elif 'grade' in post:
-        editedStudent.grade = post['grade']
     session.add(editedStudent)
     session.commit()
     return flask.jsonify("Student successfully updated! \n"), 200
 
-@app.route('/trips/<int:trip_id>/students/<int:id>/delete', methods=['PUT'])
-def deleteStudent(trip_id, id):
+@app.route('/students/<int:id>/delete', methods=['PUT'])
+def deleteStudent(id):
     session = DBSession()
     post = request.get_json()
     if "id" not in post:
@@ -183,6 +176,86 @@ def deleteStudent(trip_id, id):
     session.delete(studentToDelete)
     session.commit()
     return flask.jsonify("Student successfully deleted! \n"), 200
+
+#METHODS WITH TRIPTHING
+
+# @app.route('/trips/<int:trip_id>/students', methods=['GET'])
+# def showStudents(trip_id):
+#     session = DBSession()
+#     students = session.query(Student).all()
+#     students_all = list()
+#     for student in students:
+#         student_info = { "first_name" : student.first_name
+#                     , "last_name" : student.last_name
+#                     , "grade" : student.grade
+#                     }
+#         students_all.append(student_info)
+#     return flask.jsonify(students_all), 200
+
+# @app.route('/trips/<int:trip_id>/students/<int:ID>/', methods=['GET'])
+# def showStudent(trip_id, ID, GRADE):
+#     session = DBSession()
+#     student = session.query(Student).filter_by(id=ID).one()
+#     student_info = { "first_name" : student.first_name
+#                 , "last_name" : student.last_name
+#                 , "grade" : student.grade
+#                 }
+#     return flask.jsonify(student_info), 200
+
+# @app.route('/trips/<int:trip_id>/students/grades/<int:GRADE>', methods=['GET'])
+# def showStudentByGradeLevel(trip_id, GRADE):
+#     session = DBSession()
+#     students = session.query(Student).filter_by(grade=GRADE).all()
+#     students_all = list()
+#     for student in students:
+#         student_info = { "first_name" : student.first_name
+#                     , "last_name" : student.last_name
+#                     , "grade" : student.grade
+#                     }
+#         students_all.append(student_info)
+#     return flask.jsonify(students_all), 200
+
+# #NEED SHOW STUDENT + PREFS METHODS NOW!!
+
+# @app.route('/trips/<int:trip_id>/students/new', methods=['POST'])
+# def newStudent(trip_id):
+#     session = DBSession()
+#     post = request.get_json()
+#     if request.method == 'POST':
+#         newStudent = Student(first_name = post["first_name"], last_name = post["last_name"], grade = post["grade"])
+#     session.add(newStudent)
+#     session.commit()
+#     return flask.jsonify("Student successfully added! \n"), 200
+
+# @app.route('/trips/<int:trip_id>/students/<int:id>/edit', methods=['PUT'])
+# def editStudent(trip_id, id):
+#     session = DBSession()
+#     post = request.get_json()
+#     if "id" not in post:
+#         return "ERROR: Not a valid Customer ID \n", 404
+#     student_id = post["id"]
+#     editedStudent = session.query(Student).filter_by(id=student_id).one()
+#     if 'first_name' in post:
+#         editedStudent.first_name = post['first_name']
+#     elif 'last_name' in post:
+#         editedStudent.last_name = post['last_name']
+#     elif 'grade' in post:
+#         editedStudent.grade = post['grade']
+#     session.add(editedStudent)
+#     session.commit()
+#     return flask.jsonify("Student successfully updated! \n"), 200
+
+# @app.route('/trips/<int:trip_id>/students/<int:id>/delete', methods=['PUT'])
+# def deleteStudent(trip_id, id):
+#     session = DBSession()
+#     post = request.get_json()
+#     if "id" not in post:
+#         return "ERROR: Not a valid Customer ID \n", 404
+#     student_id = post["id"]
+#     studentToDelete = session.query(Student).filter_by(id=id).one()
+#     session.delete(studentToDelete)
+#     session.commit()
+#     return flask.jsonify("Student successfully deleted! \n"), 200
 
 """ ======== STUDENT PREFERENCE CRUD METHODS ======== """
 @app.route('/student/prefs', methods=['GET'])
