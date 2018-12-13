@@ -26,12 +26,6 @@ class Student(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     first_name = Column(String(32))
     last_name = Column(String(32))
-<<<<<<< HEAD
-    grade = Column(String(2))
-    # trip = Column(String(100))
-    trip_id = Column(Integer, ForeignKey('trip.id'), nullable = True)
-
-=======
     grade = Column(Integer, nullable = False)
     trips = relationship('Trip', secondary=association_table, back_populates="students")
     # trip = relationship('Trip', secondary='student_trip_link')
@@ -48,7 +42,6 @@ class Student(Base):
 #     __tablename__ = 'student_trip_link'
 #     student_id = Column(Integer, ForeignKey('student.id'), primary_key = True)
 #     trip_id = Column(Integer, ForeignKey('trip.id'), primary_key = True)
->>>>>>> 6d41c304dcf21d05c8feb1346c4474fba5a15115
 
 class Preference(Base):
     __tablename__ = 'preference'

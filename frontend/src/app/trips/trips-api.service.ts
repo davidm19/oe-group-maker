@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import {API_URL} from '../env';
 import {Trip} from './trip.model';
+import {Student} from './students/student.model';
 
 @Injectable()
 export class TripsApiService {

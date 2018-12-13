@@ -7,6 +7,7 @@ import { TripsApiService }  from './trips-api.service';
 import { Trip } from './trip.model';
 import { TripsComponent } from './trips.component';
 import { TripsModule } from './trips.module';
+import { Student } from './students/student.model';
 
 
 @Component({

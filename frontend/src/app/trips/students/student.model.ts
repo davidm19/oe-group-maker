@@ -3,5 +3,5 @@ export interface Student {
   first_name?: string;
   last_name?: string;
   grade?: string;
-  trip_id?: number;
+  trip_id?: number; 
 }
