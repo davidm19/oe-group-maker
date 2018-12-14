@@ -55,6 +55,12 @@ def temp_partner_id(student):
 
     return student.partner
 
+def remove_extraneous_preferences(student):
+    i = 1
+    while i < student.preference_index:
+        student.remove_preference_id(i)
+        i += 1
+
 '''
 finds tentative parteners for each person using student last name
 '''
@@ -197,6 +203,17 @@ def export_list(students):
 
     return list
 
+def export_list_preferences(students):
+    list = []
+    student_pref = ""
+    for x in students:
+        student_pref = x.first_name + " --- "
+        for i in range(len(x.preferences)):
+            student_pref = student_pref + "%s, " % (x.preferences[i].name)
+        list.append(student_pref)
+
+    return list
+
 '''sp1 = ["Bob", "Joe", "Fred"]
 sp2 = session.query(Preference).filter_by(student_id = 2).all()
 sp3 = []
@@ -255,6 +272,9 @@ while same < 1:
                             if(exit_loop == True):
                                 exit_loop = False
                                 break;
+    for y in students:
+        remove_extraneous_preferences(y)
     same += 1
 
 print(export_list(students))
+print(export_list_preferences(students))
