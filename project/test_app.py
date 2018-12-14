@@ -8,6 +8,7 @@ import os
 import unittest
 from application import showTrip, showStudent
 from application import session, app
+from flask import json
 
 
 app = Flask(__name__)
@@ -70,12 +71,14 @@ class BasicTests(unittest.TestCase):
 
     def test_add_students(self):
         with app.app_context():
-            expected_results = [{ "trip_name" : "Death Valley Backpacking" },
-                    { "id" : 1 },
-                    { "trip_grade" : 9 }]
+            expected_results = { "trip_name" : "Death Valley Backpacking" ,
+                     "id" : 1,
+                    "trip_grade" : 9 }
             results = showTrip(1)
             print(results)
-            self.assertEqual(results, expected_results)
+            response_json = json.loads(results[0].data.decode('utf-8'))
+            print(response_json)
+            self.assertEqual(response_json, expected_results)
 
 if __name__ == "__main__":
     unittest.main()

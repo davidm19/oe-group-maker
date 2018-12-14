@@ -60,14 +60,6 @@ def showTrip(trip_id):
     trip_info = { "trip_name" : trip.trip_name,
                     "id" : trip.id,
                     "trip_grade" : trip.trip_grade }
-    tripList.append(trip_info)
-    # for student in students:
-    #     student_info = { "first_name" : student.first_name
-    #                      , "last_name" : student.last_name,
-    #                      "grade" : student.grade
-    #                     }
-    #     studentList.append(student_info)
-    # return flask.jsonify(studentList), 200
     return flask.jsonify(trip_info), 200
 
 @app.route('/trips/new', methods=['POST'])
