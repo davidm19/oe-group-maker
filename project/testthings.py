@@ -7,7 +7,8 @@ import os
 import unittest
 from application import showStudent, showStudents, showStudentPref, newStudent
 from application import session, app
-from algorithm_interface import remove_lowpriority_pairs, make_stable_pairs
+from algorithm_interface import remove_lowpriority_pairs
+# from algorithm_interface import make_stable_pairs
 #from algorithm_interface import check_for_mutual_pref
 from Student import Student_class
 

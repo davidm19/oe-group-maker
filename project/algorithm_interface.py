@@ -134,16 +134,16 @@ def remove_lowpriority_pairs(student, session):
                                 session.commit()
                 x+=1
 
-def make_stable_pairs(student, session):
-    stable_groups = []
-    student_prefs = session.query(Preference).filter_by(student_id = student.id).all()
-    if len(student_prefs) == 1:
-        pref_student = session.query(Student).filter_by(first_name = student_prefs.name).one()
-        pref_student_pref = session.query(Preference).filter_by(student_id = pref_student.id)
-        pref_student_pref = pref_student_pref.filter_by(priority = 3).one()
-        if student_prefs.name == pref_student_pref.name:
-            stable_groups.append([student_prefs.name, pref_student_pref.name])
-    return stable_groups
+# def make_stable_pairs(student, session):
+#     stable_groups = []
+#     student_prefs = session.query(Preference).filter_by(student_id = student.id).all()
+#     if len(student_prefs) == 1:
+#         pref_student = session.query(Student).filter_by(first_name = student_prefs.name).one()
+#         pref_student_pref = session.query(Preference).filter_by(student_id = pref_student.id)
+#         pref_student_pref = pref_student_pref.filter_by(priority = 3).one()
+#         if student_prefs.name == pref_student_pref.name:
+#             stable_groups.append([student_prefs.name, pref_student_pref.name])
+#     return stable_groups
 
 #input student is student x
 #first_priority is same student as student_to_keep and student_tk (student y)
@@ -209,39 +209,39 @@ print(sp3)'''
 '''
 Janky first step in the alg. Will put into a method
 '''
-print("IT'S GETTING REAL NOW")
-students = []
-temp1 = session.query(Student).all()
-temp2 = None
-temp3 = []
-count = 1;
-#makes a list of Student objects from the database
-for i in temp1:
-    temp2 = session.query(Preference).filter_by(student_id = count).all()
-    students.append(Student_class(temp2, i.first_name, i.last_name))
-    count = count + 1
-same = 0
-while same < 1:
-    for i in students:
-        if(i.partner == ""):
-            print(temp_partner_id(i).name)
-        for x in students:
-            print("-------------------")
-            print(i.partner.name)
-            print(x.partner)
-            if(type(x.partner) is Preference):
-                if(i.partner.name == x.partner.name):
-                    for y in students:
-                        if(i.partner.name == y.first_name):
-                            for a in range(len(y.preferences)-1, 0, -1):
-                                print(a)
-                                if(y.preferences[a].name == i.first_name):
-                                    print(temp_partner_id(i).name)
-                                    print(y.preferences[a].name)
-                                    y.remove_preference_string(y.preferences[a].name)
-                                elif(y.preferences[a].name == x.first_name):
-                                    print(temp_partner_id(x).name)
-                                    y.remove_preference_string(y.preferences[a].name)
-    same += 1
-
-print(export_list(students))
+# print("IT'S GETTING REAL NOW")
+# students = []
+# temp1 = session.query(Student).all()
+# temp2 = None
+# temp3 = []
+# count = 1;
+# #makes a list of Student objects from the database
+# for i in temp1:
+#     temp2 = session.query(Preference).filter_by(student_id = count).all()
+#     students.append(Student_class(temp2, i.first_name, i.last_name))
+#     count = count + 1
+# same = 0
+# while same < 1:
+#     for i in students:
+#         if(i.partner == ""):
+#             print(temp_partner_id(i).name)
+#         for x in students:
+#             print("-------------------")
+#             print(i.partner.name)
+#             print(x.partner)
+#             if(type(x.partner) is Preference):
+#                 if(i.partner.name == x.partner.name):
+#                     for y in students:
+#                         if(i.partner.name == y.first_name):
+#                             for a in range(len(y.preferences)-1, 0, -1):
+#                                 print(a)
+#                                 if(y.preferences[a].name == i.first_name):
+#                                     print(temp_partner_id(i).name)
+#                                     print(y.preferences[a].name)
+#                                     y.remove_preference_string(y.preferences[a].name)
+#                                 elif(y.preferences[a].name == x.first_name):
+#                                     print(temp_partner_id(x).name)
+#                                     y.remove_preference_string(y.preferences[a].name)
+#     same += 1
+#
+# print(export_list(students))
