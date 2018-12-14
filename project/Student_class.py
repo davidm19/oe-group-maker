@@ -13,4 +13,4 @@ class Student_class:
         self.preferences.remove(s)
 
     def remove_preference_id(self, id):
-        del self.preferences[id]
+        self.preferences.remove(self.preferences[id])
