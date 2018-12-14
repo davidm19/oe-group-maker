@@ -1,11 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
-
 /* You can add global styles to this file, and also import other style files */
 header {
 	font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
 	font-size: 50px;
-
 
 	font-weight: 300;
 }
@@ -13,6 +11,10 @@ header {
 .header {
   overflow: hidden;
   padding: 5px 5px;
+}
+
+.mat-toolbar-multiple-rows {
+    min-height: 64px;
 }
 
 
