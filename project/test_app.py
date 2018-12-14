@@ -46,55 +46,6 @@ class BasicTests(unittest.TestCase):
 
     def test_showStudent(self):
         with app.app_context():
-<<<<<<< HEAD
-            # trip_to_test = session.query(Trip).filter_by(id=1).one()
-            # emptyResults = [{ "trip_name" : "Death Valley Backpacking" },
-            #         { "id" : 1 },
-            #         { "trip_grade" : 9 }, { "trip_students" : None }]
-            # results = showTrip(1)
-            # self.assertTrue(results,emptyResults)
-
-            student_list = session.query(Student).all()
-            more_results = addStudentsToTrip(1,11)
-            correct_results = [
-              {
-                "first_name": "Sammy",
-                "grade": 11,
-                "last_name": "Levy"
-              },
-              {
-                "first_name": "Serena",
-                "grade": 11,
-                "last_name": "Hingorani"
-              },
-              {
-                "first_name": "Sammy",
-                "grade": 11,
-                "last_name": "Bernstein"
-              },
-              {
-                "first_name": "Noah",
-                "grade": 11,
-                "last_name": "Rizika"
-              },
-              {
-                "first_name": "Wyatt",
-                "grade": 11,
-                "last_name": "Wagner"
-              },
-              {
-                "first_name": "Dawson",
-                "grade": 11,
-                "last_name": "Goldsmith"
-              },
-              {
-                "first_name": "Christina",
-                "grade": 11,
-                "last_name": "Bruni"
-              }
-            ]
-            self.assertEqual(more_results, correct_results)
-=======
             expected_results = { "first_name" : "Michael"
                         , "last_name" : "Huang"
                         }
@@ -128,7 +79,6 @@ class BasicTests(unittest.TestCase):
             response_json = json.loads(results[0].data.decode('utf-8'))
             print(response_json)
             self.assertEqual(response_json, expected_results)
->>>>>>> b87c2af15a5701006216835f805a5cffe04386f2
 
 if __name__ == "__main__":
     unittest.main()

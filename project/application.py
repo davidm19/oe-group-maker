@@ -9,12 +9,12 @@ import random, string
 import json
 from flask import make_response
 from sqlalchemy.sql import exists
-from flask_cors import CORS
+# from flask_cors import CORS
 
 
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
