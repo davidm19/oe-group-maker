@@ -8,16 +8,20 @@ from sqlalchemy.sql import func
 Base = declarative_base()
 
 association_table = Table('association', Base.metadata,
-    Column('trip_id', Integer, ForeignKey('trip.id')),
-    Column('student_id', Integer, ForeignKey('student.id'))
-)
+                          Column('trip_id', Integer, ForeignKey('trip.id')),
+                          Column('student_id', Integer,
+                                 ForeignKey('student.id'))
+                          )
+
 
 class Trip(Base):
     __tablename__ = 'trip'
     id = Column(Integer, primary_key=True, autoincrement=True)
     trip_name = Column(String(32))
     trip_grade = Column(Integer)
-    students = relationship('Student', secondary=association_table, back_populates="trips")
+    students = relationship('Student', secondary=association_table,
+                            back_populates="trips")
+
     @property
     def serialize(self):
         return {
@@ -28,13 +32,15 @@ class Trip(Base):
     # students = relationship('Student', secondary='student_trip_link')
     # trip_grade = Column(String(2))
 
+
 class Student(Base):
     __tablename__ = 'student'
     id = Column(Integer, primary_key=True, autoincrement=True)
     first_name = Column(String(32))
     last_name = Column(String(32))
-    grade = Column(Integer, nullable = False)
-    trips = relationship('Trip', secondary=association_table, back_populates="students")
+    grade = Column(Integer, nullable=False)
+    trips = relationship('Trip', secondary=association_table,
+                         back_populates="students")
     # trip = relationship('Trip', secondary='student_trip_link')
 
     @property
@@ -45,10 +51,6 @@ class Student(Base):
             'grade': self.grade
         }
 
-# class student_trip_link(Base):
-#     __tablename__ = 'student_trip_link'
-#     student_id = Column(Integer, ForeignKey('student.id'), primary_key = True)
-#     trip_id = Column(Integer, ForeignKey('trip.id'), primary_key = True)
 
 class Preference(Base):
     __tablename__ = 'preference'
@@ -58,6 +60,7 @@ class Preference(Base):
     priority = Column(Integer)
     student_id = Column(Integer, ForeignKey('student.id'))
     student = relationship(Student)
+
 
 engine = create_engine('sqlite:///database.db')
 Base.metadata.create_all(engine)
