@@ -107,8 +107,8 @@ def deleteTrip(trip_id):
     return flask.jsonify("Trip successfully deleted!"), 200
 
 
-@app.route('/trips/<int:trip_id>/addStudents', methods=['POST'])
-def addStudentsToTrip(trip_id, grade):
+@app.route('/trips/<int:trip_id>/addGrade', methods=['POST'])
+def addGradeToTrip(trip_id, grade):
     session = DBSession()
     tripStudentList = []
     # post = request.get_json()
@@ -120,6 +120,21 @@ def addStudentsToTrip(trip_id, grade):
                             "last_name": student.last_name}
             tripStudentList.append(student_info)
         return flask.jsonify(tripStudentList)
+
+@app.route('/trips/<int:trip_id>/addStudents', methods=['PUT'])
+def assignStudentsToTrip(trip_id, student_list):
+    session = DBSession()
+    # tripStudentList = []
+    trip = session.query(Trip).filter_by(id=trip_id).one()
+    trip.students = student_list
+    # for student in student_list:
+    #    student_info = {"first_name": student.first_name,
+    #                    "last_name": student.last_name}
+    #    tripStudentList.append(student_info)
+    session.add(trip)
+    session.commit()
+    return "Students successfully added!", 202
+    return flask.jsonify(tripStudentList)
 
     # trip_to_assign.students = all_students
     # trip_info = { "trip_name" : trip.trip_name,
