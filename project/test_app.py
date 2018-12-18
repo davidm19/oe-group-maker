@@ -6,7 +6,7 @@ from test_database_setup import Base, Student, engine, Preference
 # from test_database_setup import Trip
 import os
 import unittest
-from application import showTrip, showStudent, addStudentsToTrip
+from application import showTrip, showStudent, assignStudentsToTrip
 from application import session, app
 from flask import json
 
