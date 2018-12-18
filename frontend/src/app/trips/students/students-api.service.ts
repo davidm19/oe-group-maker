@@ -16,4 +16,10 @@ export class StudentsApiService {
     return Observable.throw(err.message || 'Error: Unable to complete request.');
   }
 
+  getStudentsInGrade():
+  Observable<Array<Student>> {
+    return this.http
+    .get<Array<Student>>(`${API_URL}/trips/${trip_id}/getStudentsInGrade`);
+  }
+
 }

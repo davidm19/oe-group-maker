@@ -1,1 +1,9 @@
-<h1>add student trip form works</h1>
+<div>
+  <h1> Add Students to {{ trip.trip_name }}</h1>
+  <div>
+    <h2> Grade: {{ trip.trip_grade }}</h2></div>
+</div>
+
+<div *ngFor= "let students of studentGradeList">
+<h2> {{Student.first_name}} {{student.last_name}}</h2>
+</div>

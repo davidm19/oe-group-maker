@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { TripsApiService } from './trips/trips-api.service';
 import { TripFormComponent } from './trips/trip-form.component';
+import { StudentsApiService } from './trips/students/students-api.service';
 
 import {TripsComponent} from './trips/trips.component';
 import { HomeComponent } from './home/home.component';
@@ -22,7 +23,7 @@ import { AddStudentTripFormComponent } from './trips/students/add-student-trip-f
 const appRoutes: Routes = [
   { path: 'trips', component: TripsComponent },
   { path: 'trips/new', component: TripFormComponent },
-  { path: 'trips/:id/addStudents', component: AddStudentTripFormComponent },
+  { path: 'trips/:id/getStudentsInGrade', component: AddStudentTripFormComponent },
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'trips/:id/detail', component: TripDetailComponent }
@@ -53,7 +54,7 @@ const appRoutes: Routes = [
 
 
   ],
-  providers: [TripsApiService],
+  providers: [TripsApiService, StudentsApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
