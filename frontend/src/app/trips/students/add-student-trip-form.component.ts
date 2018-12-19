@@ -35,7 +35,9 @@ export class AddStudentTripFormComponent {
 
   ngOnInit() {
     this.getTrip();
-    this.getStudentsInGrade();
+
+
+
   }
 
   getTrip(): void {
@@ -43,16 +45,31 @@ export class AddStudentTripFormComponent {
     console.log(trip_id);
     this.tripsApi.getTrip(trip_id).subscribe(res => {
         this.trip = res;
+        console.log("Printing trip");
+        console.log(this.trip);
+        this.getStudentsInGrade();
+
       },
       console.error
-    )
-    console.log(this.trip);
+    );
+
+
 
   }
 
-  // getStudentsInGrade() {
+  getStudentsInGrade(): void {
   //   """I have absolutely no idea of how to implement this"""
   //   """Please help me"""
-  // }
+  console.log("Calling getStudentsInGrade");
+  console.log(this.trip);
+     this.studentsApi.getStudentsInGrade(this.trip.trip_grade).subscribe(
+      result => {
+        console.log("Students in grade" + this.trip.trip_grade);
+        console.log(result);
+        this.studentGradeList = result;
+      }
+   );
+
+   }
 
 }
