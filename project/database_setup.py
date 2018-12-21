@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.sql import func
+import argparse
 
 Base = declarative_base()
 
@@ -61,6 +62,17 @@ class Preference(Base):
     student_id = Column(Integer, ForeignKey('student.id'))
     student = relationship(Student)
 
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", "--test", action="store_true")
+args = parser.parse_args()
+if args.test:
+    print "Created test database"
+    engine = create_engine('sqlite:///test.db')
+else:
+    print "Created regular database"
+    engine = create_engine('sqlite:///database.db')
 
-engine = create_engine('sqlite:///database.db')
 Base.metadata.create_all(engine)
+
+# engine = create_engine('sqlite:///database.db')
+# Base.metadata.create_all(engine)

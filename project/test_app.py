@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.automap import automap_base
 from test_database_setup import Base, Student, engine, Preference
 # from test_database_setup import Trip
 import os
@@ -9,10 +10,10 @@ import unittest
 from application import showTrip, showStudent, assignStudentsToTrip
 from application import session, app
 from flask import json
-
+import argparse
 
 app = Flask(__name__)
-engine = create_engine('sqlite:///database.db')
+engine = create_engine('sqlite:///test.db') #IS THIS WHERE THE PROBLEM IS? I DON'T THINK THAT THIS FILE IS RECOGNIZING THE TEST DATABASE BECAUSE IT RECOGNIZES THE REAL ONE
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()

@@ -2,8 +2,19 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from database_setup import Base, Trip, Student, engine, Preference
+import argparse
 
-engine = create_engine('sqlite:///database.db')
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", "--test", action="store_true")
+args = parser.parse_args()
+if args.test:
+    print "Populated test database"
+    engine = create_engine('sqlite:///test.db')
+else:
+    print "Populated permanent database"
+    engine = create_engine('sqlite:///database.db')
+
+# engine = create_engine('sqlite:///database.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
