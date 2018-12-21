@@ -13,7 +13,7 @@ from flask import json
 import argparse
 
 app = Flask(__name__)
-engine = create_engine('sqlite:///test.db') #IS THIS WHERE THE PROBLEM IS? I DON'T THINK THAT THIS FILE IS RECOGNIZING THE TEST DATABASE BECAUSE IT RECOGNIZES THE REAL ONE
+engine = create_engine('sqlite:///test.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()

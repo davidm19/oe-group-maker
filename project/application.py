@@ -21,7 +21,7 @@ app = Flask(__name__)
 #   .read())['web']['client_id']
 APPLICATION_NAME = "Outdoor Ed Group Maker"
 
-engine = create_engine('sqlite:///database.db')
+engine = create_engine('sqlite:///test.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
