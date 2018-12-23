@@ -14,7 +14,7 @@ class Matcher:
         self.wives = {}
         self.pairs = []
 
-        # we index spousal preferences at initialization 
+        # we index spousal preferences at initialization
         # to avoid expensive lookups when matching
         self.mrank = defaultdict(dict)  # `mrank[m][w]` is m's ranking of w
         self.wrank = defaultdict(dict)  # `wrank[w][m]` is w's ranking of m
@@ -43,16 +43,16 @@ class Matcher:
     def match(self, men=None, next=None, wives=None):
         '''
         Try to match all men with their next preferred spouse.
-        
+
         '''
-        if men is None: 
+        if men is None:
             men = self.M.keys()         # get the complete list of men
-        if next is None: 
+        if next is None:
             # if not defined, map each man to their first preference
-            next = dict((m, rank[0]) for m, rank in self.M.items()) 
-        if wives is None: 
+            next = dict((m, rank[0]) for m, rank in self.M.items())
+        if wives is None:
             wives = {}                  # mapping from women to current spouse
-        if not len(men): 
+        if not len(men):
             self.pairs = [(h, w) for w, h in wives.items()]
             self.wives = wives
             return wives
@@ -78,11 +78,11 @@ class Matcher:
             preferred = self.M[m][:i]
             for p in preferred:
                 h = wives[p]
-                if self.W[p].index(m) < self.W[p].index(h):  
+                if self.W[p].index(m) < self.W[p].index(h):
                     msg = "{}'s marriage to {} is unstable: " + \
                           "{} prefers {} over {} and {} prefers " + \
                           "{} over her current husband {}"
                     if verbose:
-                        print msg.format(m, w, m, p, w, p, m, h) 
+                        print msg.format(m, w, m, p, w, p, m, h)
                     return False
         return True

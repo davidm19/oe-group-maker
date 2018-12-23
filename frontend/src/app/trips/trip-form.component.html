@@ -1,0 +1,29 @@
+<mat-card>
+
+  <h2>New Trip</h2>
+
+    <mat-form-field class="full-width">
+    <input matInput
+         placeholder="Trip Name"
+         (keyup)="updateName($event)">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input list="trip_grade" (keyup)="updateGrade($event)">
+      <datalist id="trip_grade">
+        <option value="7">
+        <option value="8">
+        <option value="9">
+        <option value="10">
+        <option value="11">
+        <option value="12">
+      </datalist>
+    </mat-form-field>
+
+    <button mat-raised-button
+              color="primary"
+              (click)="saveTrip()">
+        Save Trip
+      </button>
+
+</mat-card>

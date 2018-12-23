@@ -1,0 +1,21 @@
+<h1>Trips</h1>
+<p>Choose a trip to view</p>
+<div class="trips">
+  <mat-card class="example-card" *ngFor="let trip of tripsList" class="mat-elevation-z5">
+    <mat-card-content>
+      <mat-card-title>{{trip.trip_name}}</mat-card-title>
+      <mat-card-subtitle>{{trip.trip_grade}}</mat-card-subtitle>
+
+      <button mat-raised-button color="primary" routerLink="{{trip.id}}/detail">View Trip</button>
+      <button mat-button color="warn"
+                  (click)="delete(trip.id)">
+            Delete
+          </button>
+
+    </mat-card-content>
+  </mat-card>
+</div>
+<button mat-fab color="primary"
+        class="new-trip" routerLink="new">
+  <i class="material-icons">note_add</i>
+</button>
