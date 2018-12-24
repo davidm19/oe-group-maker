@@ -1,8 +1,3 @@
-# CREATE A BACKEND SCRIPT:
-# - CREATE A (TEST?) DATABASE
-# - POPULATE IT
-# - PYTHON APPLICATION.PY
-
 if [[ -e test.db ]]; then
 	rm test.db
 fi
