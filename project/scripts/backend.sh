@@ -1,3 +1,4 @@
+#!/bin/bash
 if [[ -e test.db ]]; then
 	rm test.db
 fi
