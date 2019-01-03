@@ -199,7 +199,7 @@ exports the final list (currently returns doubles, this is a bad thing and will 
 def export_list(students):
     list = []
     for x in students:
-        list.append("%s --- %s" % (x.first_name, x.partner.name))
+        list.append("%s - %s - %s" % (x.pref_score, x.mutual_score, x.first_name))
 
     return list
 
@@ -227,54 +227,46 @@ print(sp3)'''
 '''
 Janky first step in the alg. Will put into a method
 '''
-print("IT'S GETTING REAL NOW")
-students = []
-temp1 = session.query(Student).all()
-temp2 = None
-temp3 = []
-count = 1;
-#makes a list of Student objects from the database
-for i in temp1:
-    temp2 = session.query(Preference).filter_by(student_id = count).all()
-    students.append(Student_class(temp2, i.first_name, i.last_name))
-    count = count + 1
-same = 0
-exit_loop = False
-iterstudents = iter(students)
-next(iterstudents)
-while same < 1:
-    print("MATCHING NAMES")
-    for i in students:
-        if(i.partner == ""):
-            print(temp_partner_id(i).name)
-    for i in students:
-        for x in iterstudents:
-            print("-------------------")
-            print(i.partner.name)
-            print(x.partner.name)
-            if(type(x.partner) is Preference):
-                if(i.partner.name == x.partner.name):
-                    for y in students:
-                        if(i.partner.name == y.first_name):
-                            for a in range(len(y.preferences)-1, 0, -1):
-                                print(a)
-                                if(y.preferences[a].name == i.first_name):
-                                    print("i remove")
-                                    print(temp_partner_id(i).name)
-                                    print(y.preferences[a].name)
-                                    y.remove_preference_string(y.preferences[a])
-                                    exit_loop = True
-                                elif(y.preferences[a].name == x.first_name):
-                                    print("x remove")
-                                    print(temp_partner_id(x).name)
-                                    y.remove_preference_string(y.preferences[a])
-                                    exit_loop = True
-                            if(exit_loop == True):
-                                exit_loop = False
-                                break;
-    for y in students:
-        remove_extraneous_preferences(y)
-    same += 1
+'''
+Gets all students from the database
+'''
+def get_students():
+    students = []
+    temp1 = session.query(Student).all()
+    temp2 = None
+    temp3 = []
+    count = 1;
+    #makes a list of Student objects from the database
+    for i in temp1:
+        temp2 = session.query(Preference).filter_by(student_id = count).all()
+        students.append(Student_class(temp2, i.first_name, i.last_name))
+        count = count + 1
+    return students
 
-print(export_list(students))
-print(export_list_preferences(students))
+def sort_students(l):
+    l.sort(key=lambda l: (l.pref_score, l.mutual_score), reverse=True)
+    return l
+
+def score_students(students):
+    for i in students:
+        for x in students:
+            for y in range(4):
+                print("%s --- %s" % (x.name, i.preferences[y].name))
+                if(x.name == i.preferences[y].name):
+                    x.pref_score += 1
+                    for a in range(len(i.preferences)):
+                        if(x.preferences[a].name == i.name):
+                            x.mutual_score += 1
+
+    return None
+
+def concatenate_names(students):
+    for i in students:
+        for y in range(len(i.preferences)):
+            i.preferences[y].name = i.preferences[y].first_name1 + i.preferences[y].last_name1
+    return None
+
+asdf = get_students()
+concatenate_names(asdf)
+score_students(asdf)
+print(export_list(sort_students(asdf)))

@@ -19,6 +19,7 @@ class Student(Base):
     # grade = Column(Integer, nullable = True)
     first_name = Column(String(32))
     last_name = Column(String(32))
+    name = first_name + last_name
     # trip_id = Column(Integer, ForeignKey('trip.id'), nullable = True)
 
 
@@ -26,8 +27,9 @@ class Preference(Base):
     __tablename__ = 'preference'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(32))
-    priority = Column(Integer)
+    first_name1 = Column(String(32))
+    last_name1 = Column(String(32))
+    name = str(first_name1) + str(last_name1)
     student_id = Column(Integer, ForeignKey('student.id'))
     student = relationship(Student)
 
