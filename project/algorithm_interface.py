@@ -196,12 +196,24 @@ def make_stable_pairs(student, session):
 '''
 exports the final list (currently returns doubles, this is a bad thing and will be fixed)
 '''
-def export_list(students):
+def export_scores(students):
     list = []
     for x in students:
         list.append("%s - %s - %s" % (x.pref_score, x.mutual_score, x.first_name))
 
     return list
+
+def export_list_names(grp):
+    list = []
+    final_list = []
+    for x in grp:
+        del x[0]
+    for x in grp:
+        for y in range(len(x)):
+            list.append(x[y].name)
+        final_list.append(list)
+        list = []
+    return final_list
 
 def export_list_preferences(students):
     list = []
@@ -266,7 +278,77 @@ def concatenate_names(students):
             i.preferences[y].name = i.preferences[y].first_name1 + i.preferences[y].last_name1
     return None
 
+groups = list()
+def setup(ng):
+    for i in range(ng):
+        item = [i]
+        groups.append(item)
+    print(groups)
+    print("%s groups made!" % ng)
+
+def assign_students(students, ng):
+    breaking = False;
+    for i in students:
+        #print("first loop")
+        #Checks if any of i's preferences are in a group
+        if(i.is_assigned == True):
+            for inner_group in groups:
+                for x in range(4):
+                    if(not any(i.preferences[x].name == )):
+                        '''group_lengths = list()
+                        temp = min(groups, key=len)
+                        temp.append(i)
+                        i.is_assigned = True'''
+                        print("Assigning %s to group %s via a Pull from %s" % (z.name, temp[0], i.name))
+
+        if(i.is_assigned == False):
+            '''for inner_group in groups:
+                if(breaking == True):
+                    breaking = False;
+                    break;
+                #print(inner_group)
+                #print("second loop")
+                ''''''for x in range(ng):
+                    #print("third loop")
+                    if(breaking == True):
+                        break
+
+                    if(i.preferences[x].name in inner_group):
+                        print("Preference for %s in group %s found!" % (i.name, inner_group[0]))
+                        print("TODO: Implement")
+                    else:'''
+            group_lengths = list()
+            temp = min(groups, key=len)
+            temp.append(i)
+            i.is_assigned = True
+            print("Assigning %s to group %s" % (i.name, temp[0]))
+            for z in students:
+                if(breaking == True):
+                    break
+                for y in range(4):
+                    if(z.name == i.preferences[y].name):
+                        if(z.is_assigned == True):
+                            #print("DON'T ASSIGN %s" % z.name)
+                            hahaha = None
+                        elif(z.is_assigned == False):
+                            temp.append(z)
+                            z.is_assigned = True
+                            print("Assigning %s to group %s via a Pull from %s" % (z.name, temp[0], i.name))
+                            breaking = True
+                            break;
+
+                        '''
+                        for y in range(ng):
+                            group_lengths.append(len(inner_group))
+                        sorted_group_lengths = group_lengths
+                        sorted_group_lengths.sort(key=, reverse=True)
+                        print(sorted_group_lengths)
+                        sorted_group_lengths[0].append(i)'''
+
 asdf = get_students()
 concatenate_names(asdf)
 score_students(asdf)
-print(export_list(sort_students(asdf)))
+print(export_scores(sort_students(asdf)))
+setup(4)
+assign_students(asdf, 4)
+print(export_list_names(groups))

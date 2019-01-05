@@ -155,8 +155,6 @@ stud_11_pref_2 = Preference(first_name1 = "Frank", last_name1 = "", student_id =
 stud_11_pref_3 = Preference(first_name1 = "Jordan", last_name1 = "", student_id = 11)
 stud_11_pref_4 = Preference(first_name1 = "Moe", last_name1 = "", student_id = 11)
 
-#I AM CHANGING BOB AND JACK IN THE FOURTH PREFERENCE SLOT ACCORDING TO THE SPREADHSHEET. WILL CORRECT WHEN SHEET IS CORRECTED
-
 session.add(student11)
 session.add(stud_11_pref_1)
 session.add(stud_11_pref_2)

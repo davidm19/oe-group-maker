@@ -9,3 +9,4 @@ class Student_class:
         self.name = self.first_name + self.last_name
         self.pref_score = 0
         self.mutual_score = 0
+        self.is_assigned = False
