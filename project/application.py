@@ -112,6 +112,9 @@ def deleteTrip(trip_id):
 
     return flask.jsonify("Trip successfully deleted!"), 200
 
+
+"""STUDENT AND TRIP METHODS"""
+
 @app.route('/students/gradeLevel/<int:grade>', methods=['GET'])
 def getStudentsInGrade(grade):
     session = DBSession()
@@ -133,6 +136,7 @@ def getStudentsInGrade(grade):
     #         }
     # return flask.jsonify(trip_info)
     # return flask.jsonify("Students successfully assigned!"), 200
+
 
 
 """ ====================================== """
@@ -226,21 +230,6 @@ def deleteStudent(id):
 #                 , "grade" : student.grade
 #                 }
 #     return flask.jsonify(student_info), 200
-
-# @app.route('/trips/<int:trip_id>/students/grades/<int:GRADE>', methods=['GET'])
-# def showStudentByGradeLevel(trip_id, GRADE):
-#     session = DBSession()
-#     students = session.query(Student).filter_by(grade=GRADE).all()
-#     students_all = list()
-#     for student in students:
-#         student_info = { "first_name" : student.first_name
-#                     , "last_name" : student.last_name
-#                     , "grade" : student.grade
-#                     }
-#         students_all.append(student_info)
-#     return flask.jsonify(students_all), 200
-
-# #NEED SHOW STUDENT + PREFS METHODS NOW!!
 
 # @app.route('/trips/<int:trip_id>/students/new', methods=['POST'])
 # def newStudent(trip_id):

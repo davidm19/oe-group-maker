@@ -8,6 +8,7 @@ import { Trip } from './trip.model';
 import { TripsComponent } from './trips.component';
 import { TripsModule } from './trips.module';
 import { Student } from './students/student.model';
+import { StudentsApiService } from './students/students-api.service';
 
 
 @Component({
@@ -20,11 +21,13 @@ export class TripDetailComponent implements OnInit {
   // tripsList: Trip[];
   // trips: Observable<Trip[]>;
   // trip: Observable<Trip>;
+  studentGradeList: Student[];
   trip: Trip;
 
   constructor(
     private tripsApi: TripsApiService,
     private route: ActivatedRoute,
+    private studentsApi: StudentsApiService
    )
     { }
 
@@ -51,4 +54,24 @@ export class TripDetailComponent implements OnInit {
     //     console.error
     //   );
   }
+
+  // getAssignedStudents(): void {
+  //   console.log("Calling getAssignedStudents");
+  //   this.
+  // }
+
+  getStudentsInGrade(): void {
+  //   """I have absolutely no idea of how to implement this"""
+  //   """Please help me"""
+  console.log("Calling getStudentsInGrade");
+  console.log(this.trip);
+     this.studentsApi.getStudentsInGrade(this.trip.trip_grade).subscribe(
+      result => {
+        console.log("Students in grade" + this.trip.trip_grade);
+        console.log(result);
+        this.studentGradeList = result;
+      }
+   );
+
+   }
 }

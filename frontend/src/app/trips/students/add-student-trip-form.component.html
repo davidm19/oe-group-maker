@@ -4,6 +4,17 @@
     <h2> Grade: {{ trip.trip_grade }}</h2></div>
 </div>
 
+<form>
 <div *ngFor= "let student of studentGradeList">
-<h2> {{student.first_name}} {{student.last_name}}</h2>
+
+  <h2> <input type="checkbox" name="{{student.first_name}} {{student.last_name}}" value=" {{student.first_name}} {{student.last_name}} "> {{student.first_name}} {{student.last_name}}</h2>
+
+
+
 </div>
+<button mat-raised-button
+          color="primary"
+          (click)="assignStudentsToTrip()">
+    Assign Students to Trip
+  </button>
+</form>

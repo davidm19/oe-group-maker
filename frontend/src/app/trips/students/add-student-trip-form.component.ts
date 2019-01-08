@@ -36,8 +36,6 @@ export class AddStudentTripFormComponent {
   ngOnInit() {
     this.getTrip();
 
-
-
   }
 
   getTrip(): void {
@@ -52,8 +50,6 @@ export class AddStudentTripFormComponent {
       },
       console.error
     );
-
-
 
   }
 
@@ -71,5 +67,6 @@ export class AddStudentTripFormComponent {
    );
 
    }
+
 
 }
