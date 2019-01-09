@@ -1,0 +1,9 @@
+before_install:
+  - git clone https://github.com/TravisToolbox/pycodestyle-travis.git
+install:
+  - "./pycodestyle-travis/install.sh"
+script:
+  # - "./pycodestyle-travis/scan.sh"
+  - "bash project/scripts/test.sh"
+test_app:
+  - "bash project/scripts/test.sh"
