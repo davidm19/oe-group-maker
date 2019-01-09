@@ -4,7 +4,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -51,6 +51,8 @@ const appRoutes: Routes = [
     MatCardModule,
     MatButtonModule,
     MatToolbarModule,
+    ReactiveFormsModule,
+
 
 
   ],

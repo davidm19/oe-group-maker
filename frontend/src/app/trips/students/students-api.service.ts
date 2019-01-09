@@ -21,7 +21,4 @@ export class StudentsApiService {
     return this.http
     .get<Array<Student>>(`${API_URL}/students/gradeLevel/${grade}`);
   }
-
-  '''assignStudentsToTrip function'''
-
 }

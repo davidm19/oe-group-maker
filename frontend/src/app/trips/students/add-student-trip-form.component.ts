@@ -1,4 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
+
 import {HttpClient} from '@angular/common/http';
 import {TripsApiService} from '../trips-api.service';
 import {StudentsApiService} from './students-api.service';
@@ -23,18 +25,44 @@ export class AddStudentTripFormComponent {
   studentGradeList: Student[];
   students: Observable<Student[]>;
   trip: Trip;
+  form: FormGroup;
+
+  orders: Student[];
+
+  // '''"""orders = [
+  //   { id: student.id, name: student.first_name + student.last_name }
+  // ]"""'''
 
 
   constructor(
+
     private tripsApi: TripsApiService,
     private studentsApi: StudentsApiService,
     private route: ActivatedRoute,
+    private formBuilder: FormBuilder
 
   )
-  { }
+
+  {
+   this.orders = this.studentGradeList;
+
+  const controls = this.orders.map(c => new FormControl(true));
+  this.form = this.formBuilder.group({
+    orders: new FormArray(controls)
+  });
+}
+
+  submit() {
+    const selectedOrderIds = this.form.value.orders
+      .map((v, i) => v ? this.orders[i].id : null)
+      .filter(v => v !== null);
+
+    console.log(selectedOrderIds);
+  }
 
   ngOnInit() {
     this.getTrip();
+    this.getStudentsInGrade();
 
   }
 
@@ -46,7 +74,6 @@ export class AddStudentTripFormComponent {
         console.log("Printing trip");
         console.log(this.trip);
         this.getStudentsInGrade();
-
       },
       console.error
     );
@@ -54,13 +81,11 @@ export class AddStudentTripFormComponent {
   }
 
   getStudentsInGrade(): void {
-  //   """I have absolutely no idea of how to implement this"""
-  //   """Please help me"""
   console.log("Calling getStudentsInGrade");
   console.log(this.trip);
      this.studentsApi.getStudentsInGrade(this.trip.trip_grade).subscribe(
       result => {
-        console.log("Students in grade" + this.trip.trip_grade);
+        console.log("Students in grade " + this.trip.trip_grade);
         console.log(result);
         this.studentGradeList = result;
       }
