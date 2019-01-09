@@ -19,7 +19,7 @@ class Student(Base):
     # grade = Column(Integer, nullable = True)
     first_name = Column(String(32))
     last_name = Column(String(32))
-    name = first_name + last_name
+    name = str(first_name) + str(last_name)
     # trip_id = Column(Integer, ForeignKey('trip.id'), nullable = True)
 
 

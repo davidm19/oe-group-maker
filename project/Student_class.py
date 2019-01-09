@@ -1,12 +1,39 @@
 class Student_class:
-    def __init__(self, p, fn, ln):
-        self.preferences = []
-        for x in range(len(p)):
-            self.preferences.append(p[x])
+  def __init__(student, name, mutualScore, prefScore, isAssigned,prefs):
+    student.name = name
+    student.mutualScore = mutualScore
+    student.prefScore = prefScore
+    student.isAssigned = isAssigned
+    student.prefs = prefs
 
-        self.first_name = fn
-        self.last_name = ln
-        self.name = self.first_name + self.last_name
-        self.pref_score = 0
-        self.mutual_score = 0
-        self.is_assigned = False
+  #--------------------------------------------
+  #Utility to print a students preferences
+  #--------------------------------------------
+  def prefList(student):
+    print(student.name + ": " + student.prefs[0].name + ", " +student.prefs[1].name + ", " +student.prefs[2].name+ ", " +student.prefs[3].name)
+
+  #--------------------------------------------
+  #Counts the number of preferences Unassigned for a student
+  #--------------------------------------------
+  def prefsUnAssigned(student, numOfGroups, Groups):
+    # Count the number of preferences already assigned for a student
+    prefcount = 0
+    for pref in student.prefs:
+      for n in range(numOfGroups):
+          if pref in Groups[n-1]:
+              prefcount += 1
+    prefsunassigned = len(student.prefs) - prefcount
+    return prefsunassigned
+
+  #--------------------------------------------
+  #Returns the Group Index if a student is assigned to any group
+  #--------------------------------------------
+  def inGroup(student, Groups):
+    groupIndex = 99
+
+    #check each group to see if the student is in that group
+    for g in Groups:
+        if student in g:
+            groupIndex = Groups.index(g)  #save and return the Group Index
+
+    return groupIndex

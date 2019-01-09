@@ -302,6 +302,7 @@ def setup(ng):
 def assign_students(students, ng):
     breaking = False;
     for i in students:
+        tryToPullPreferenceWithStudent = True #first try to pull a preference with the student into the smallest group
         #print("first loop")
         #Updates the amount of remaining unassigned Preferences for each Student
         for q in students:
@@ -312,109 +313,81 @@ def assign_students(students, ng):
                     q.remaining -= 1
         #Checks if any of i's preferences are in a group
         if(i.is_assigned == True):
-            #print(i.name)
-            #print("NEW inner_group")
-            for inner_group in groups:
-                #print(inner_group[0])
-                #if(i.group == group_cycle[0]):
-                    #inner_group = group_cycle
-                if(breaking == True):
-                    breaking = False;
-                    break;
-                for x in range(4):
-                    #print(i.preferences[x].name)
-                    #print(i.group)
-                    #print(i.preferences[x].group)
-                    #print(x)
-                    if(i.group == i.preferences[x].group):
-                        i.conditionA = True
-                        print("%s is Assigned with a Preference, %s" % (i.name, i.preferences[x].name))
-                        #breaking = True
-                        x = 0
-                        inner_group = []
-                        #print(inner_group)
-                        breaking = True
-                        break
-                        hahaha = None
-                    elif(i.preferences[x] not in inner_group and i.preferences[x].is_assigned == False and i.conditionA == False): #and i.preferences[x].group == inner_group[0]
-                        '''group_lengths = list()
-                        temp = min(groups, key=len)
-                        temp.append(i)
-                        i.is_assigned = True'''
-                        #NEED TO FIX. CHANGE FROM SMALLLEST GROUOP TO i's GROUP
-                        for y in groups:
-                            if(y[0] == i.group):
-                                y.append(i.preferences[x])
-                                #temp = min(groups, key=len)
-                                #temp.append(i.preferences[x])
-                                i.preferences[x].is_assigned = True
-                                i.preferences[x].group = i.group
-                                print("Assigning %s to group %s via a Pull from %s, who is Assigned" % (i.preferences[x].name, temp[0], i.name))
-                        x = 0
-                        inner_group = []
-                        breaking = True
-                        break
+            alreadyAssignedWithAPreference = False #need to check multiple cases, so this variable will move to next student after an assignment condition is met
+
+            #check to see if already assigned with a preference.  Condition (A)
+            for p in i.preferences:
+                if i.group == p.group:
+                    print "(A) " + i.name + " is assigned in the same group as " + p.name
+                    alreadyAssignedWithAPreference = True
+
+            #pull highest pref-score preference into the same group
+            if alreadyAssignedWithAPreference == False:
+                for p in i.preferences:
+                    if p.is_assigned == False:   #check to see if pref is not already assigned to another group
+                        groups[i.group].append(p)  #add the students preference to the group (pull).  Condition (B)
+                        p.is_assigned = True  #mark is assigned
+                        p.group = i.group
+                        print "(B) " + p.name + " was pulled into group with " + i.name
+                        break #don't check anymore preferences if found one to pull into group
 
         if(i.is_assigned == False):
-            '''for s in i.preferences:
-                if(s.remaining > 1):
-                    break
-                elif(s.remaining <= 1):
-                    temp1 = sorted(groups, key=len)
-                    for t in temp1:
-                        for z in i.preferences:
-                            if(z in t):
-                                t.append(i)
-                                i.is_assigned = True
-                                i.group = t[0]
-                                print("Assigning %s to group %s. Condition G" % (i.name, t[0]))
-                                breaking = True'''
-
             group_lengths = list()
             temp = min(groups, key=len)
-            temp.append(i)
-            i.is_assigned = True
-            i.group = temp[0]
-            print("Assigning %s to group %s" % (i.name, temp[0]))
-            for z in students:
-                if(breaking == True):
-                    breaking = False
-                    break
-                for y in range(4):
-                    if(z.name == i.preferences[y].name):
-                        if(z.is_assigned == True):
-                            #print("DON'T ASSIGN %s" % z.name)
-                            hahaha = None
-                        elif(z.is_assigned == False and z.remaining > 1):
-                            temp.append(z)
-                            z.is_assigned = True
-                            z.group = temp[0]
-                            print("Assigning %s to group %s via a Pull from %s" % (z.name, temp[0], i.name))
-                            breaking = True
-                            break;
-                        '''elif(y == 3 and i.is_assigned == False):
-                            temp1 = sorted(groups, key=len)
-                            for t in temp1:
-                                for z in i.preferences:
-                                    if(z in t):
-                                        t.append(i)
-                                        i.is_assigned = True
-                                        i.group = t[0]
-                                        print("Assigning %s to group %s. Condition G" % (i.name, t[0]))
-                                        breaking = True'''
+            pulledPreferenceWithStudent=False
+            for x in range(1):
+                #print p.name + " " + str(p.isAssigned) + " " + str(p.prefsUnAssigned())
+                for p in i.preferences:  # for each preference for a student
+                    #if unassigned and prefs-unassigned > 1 then pull into group.  Condition (F)
+                    if p.is_assigned == False and p.remaining > 1 and i.is_assigned == False:
+                        i.is_assigned = True  #mark student as assigned to move to the next student
+                        p.is_assigned = True  #mark the preference as assigned too
+                        i.group = temp[0]
+                        p.group = temp[0]
+                        temp.append(i)  #add Student to the group
+                        temp.append(p)  #add the students preference to the group (pull)
+                        pulledPreferenceWithStudent = True #found a preference to pull into group with student
+                        print "(F) Pulling " + p.name + " into Group " + str(temp[0]) + " with " + i.name
+                    tryToPullPreferenceWithStudent = False #don't try to pull a preference when processing the remaining groups
 
+                    '''if pulledPreferenceWithStudent == False and i.preferences:  #if couldn't pull in a preference with the student then check to see if there is a preference in the group already
+                        sorted_groups = sorted(groups, key=len)
+                        for g in sorted_groups:
+                            for p in i.preferences:
+                                if p in g:
+                                    i.is_assigned = True  #mark student as assigned to move to the next student
+                                    groups[p.group].append(i)  #add Student to the group
+                                    print "(D)" + "Adding " + i.name + " to Group " + str(p.group)
+                                    break #don't process anymore groups
+                            break'''
+                #Condition (G) and (H)
+                if i.is_assigned == False and tryToPullPreferenceWithStudent == False:  #check to see if there were no options to pull a preference into the same groupself.
+                        #... so if not, then need to find another group with a preference to assign this person
+                    #print "Processing group " + str(temp[0])
+                    preferences = sorted(i.preferences, key=lambda l: (i.pref_score, i.mutual_score))
+                    sorted_groups = sorted(groups, key=len)
+                    for p in preferences:
+                        for g in sorted_groups:
+                            if p in g:
+                                i.is_assigned = True  #mark student as assigned to move to the next student
+                                i.group = p.group
+                                groups[p.group].append(i)  #add Student to the group
+                                print "(G)(H)" + "Adding " + i.name + " to Group " + str(p.group)
+                                break #don't process anymore groups
+                        break
+                    break
 
 
 asdf = get_students()
 concatenate_names(asdf)
-convert_pref_student(asdf)
 score_students(asdf)
 print(export_scores(sort_students(asdf)))
+convert_pref_student(asdf)
 setup(4)
 assign_students(asdf, 4)
 print(export_list_names(groups))
-#print(asdf[11].name)
-#print(asdf[11].preferences[0].name)
-#print(asdf[11].preferences[1].name)
-#print(asdf[11].preferences[2].name)
-#print(asdf[11].preferences[3].name)
+#print(asdf[13].name)
+#print(asdf[13].preferences[0].name)
+#print(asdf[13].preferences[1].name)
+#print(asdf[13].preferences[2].name)
+#print(asdf[13].preferences[3].name)
