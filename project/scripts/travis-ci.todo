@@ -1,0 +1,9 @@
+Travis CI runs some combination of commands/a script every time we push to Github
+We're gonna use it so whenever somebody pushes, we're going to check for some things
+- Python testcases run
+- Pylint works
+- Front-end test cases work (ng test)
+- Front-end linting works (ng lint)
+- End-to-end tests
+
+There's a .travis.yaml file; when you add the file to the repository, Mr. DB will make the repository watched by Travis, and whenever someone makes a push to the repository the script runs

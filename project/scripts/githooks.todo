@@ -1,0 +1,8 @@
+Runs a script anytime you do something
+Different hooks every time you do anything (make a commit, merge branches)
+The one we care about: make a commit (make one to check the commit message format)
+In order to make a hook executable: 1) remove the .sample extention and 2) chmod +x (hook name)
+
+TODO:
+  [ ] Make sure commit follows template
+  [ ] OPTIONAL: Make sure branch names follow a certain style
