@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import flask
 from flask import Flask, request
 from sqlalchemy import create_engine, asc, desc
