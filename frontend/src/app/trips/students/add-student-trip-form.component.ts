@@ -27,28 +27,23 @@ export class AddStudentTripFormComponent {
   trip: Trip;
   form: FormGroup;
 
-  orders = [
-    { id: 1, name: 'order 1' },
-    { id: 2, name: 'order 2' },
-    { id: 3, name: 'order 3' },
-    { id: 4, name: 'order 4' }
-  ];
-
-  // '''"""orders = [
-  //   { id: student.id, name: student.first_name + student.last_name }
-  // ]"""'''
-
+  orders: Student[];
 
   constructor(
-
     private tripsApi: TripsApiService,
     private studentsApi: StudentsApiService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
-
   ) {
-    // this.orders = this.studentGradeList;
+    // have to call getTrip in the constructor because we need the dependency
+    // injection of FormBuilder
+    this.getTrip();
+  }
 
+  setUpForm(): void {
+    this.orders = this.studentGradeList;
+    console.log("Printing orders");
+    console.log(this.orders);
     const controls = this.orders.map(c => new FormControl(true));
     this.form = this.formBuilder.group({
       orders: new FormArray(controls)
@@ -64,9 +59,10 @@ export class AddStudentTripFormComponent {
   }
 
   ngOnInit() {
-    this.getTrip();
-    // this.getStudentsInGrade();
-
+    // set default form to load the page properly
+    this.form = new FormGroup({
+      defaultControl: new FormControl()
+    });
   }
 
   getTrip(): void {
@@ -91,10 +87,8 @@ export class AddStudentTripFormComponent {
         console.log("Students in grade " + this.trip.trip_grade);
         console.log(result);
         this.studentGradeList = result;
+        this.setUpForm(); // call set up form only after the student grade list
       }
     );
-
   }
-
-
 }
