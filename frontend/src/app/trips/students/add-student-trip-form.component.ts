@@ -1,12 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 
-import {HttpClient} from '@angular/common/http';
-import {TripsApiService} from '../trips-api.service';
-import {StudentsApiService} from './students-api.service';
-import {Router, ActivatedRoute} from "@angular/router";
-import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
+import { TripsApiService } from '../trips-api.service';
+import { StudentsApiService } from './students-api.service';
+import { Router, ActivatedRoute } from "@angular/router";
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 
 import { Trip } from '../trip.model';
@@ -27,7 +27,12 @@ export class AddStudentTripFormComponent {
   trip: Trip;
   form: FormGroup;
 
-  orders: Student[];
+  orders = [
+    { id: 1, name: 'order 1' },
+    { id: 2, name: 'order 2' },
+    { id: 3, name: 'order 3' },
+    { id: 4, name: 'order 4' }
+  ];
 
   // '''"""orders = [
   //   { id: student.id, name: student.first_name + student.last_name }
@@ -41,16 +46,14 @@ export class AddStudentTripFormComponent {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
 
-  )
+  ) {
+    // this.orders = this.studentGradeList;
 
-  {
-   this.orders = this.studentGradeList;
-
-  const controls = this.orders.map(c => new FormControl(true));
-  this.form = this.formBuilder.group({
-    orders: new FormArray(controls)
-  });
-}
+    const controls = this.orders.map(c => new FormControl(true));
+    this.form = this.formBuilder.group({
+      orders: new FormArray(controls)
+    });
+  }
 
   submit() {
     const selectedOrderIds = this.form.value.orders
@@ -62,7 +65,7 @@ export class AddStudentTripFormComponent {
 
   ngOnInit() {
     this.getTrip();
-    this.getStudentsInGrade();
+    // this.getStudentsInGrade();
 
   }
 
@@ -70,28 +73,28 @@ export class AddStudentTripFormComponent {
     const trip_id = +this.route.snapshot.paramMap.get('id');
     console.log(trip_id);
     this.tripsApi.getTrip(trip_id).subscribe(res => {
-        this.trip = res;
-        console.log("Printing trip");
-        console.log(this.trip);
-        this.getStudentsInGrade();
-      },
+      this.trip = res;
+      console.log("Printing trip");
+      console.log(this.trip);
+      this.getStudentsInGrade();
+    },
       console.error
     );
 
   }
 
   getStudentsInGrade(): void {
-  console.log("Calling getStudentsInGrade");
-  console.log(this.trip);
-     this.studentsApi.getStudentsInGrade(this.trip.trip_grade).subscribe(
+    console.log("Calling getStudentsInGrade");
+    console.log(this.trip);
+    this.studentsApi.getStudentsInGrade(this.trip.trip_grade).subscribe(
       result => {
         console.log("Students in grade " + this.trip.trip_grade);
         console.log(result);
         this.studentGradeList = result;
       }
-   );
+    );
 
-   }
+  }
 
 
 }
