@@ -26,7 +26,7 @@ session = DBSession()
 #***********************
 
 maxPrefs = 4
-numOfGroups = 4  #this should be calculated or set by user
+numOfGroups = 6  #this should be calculated or set by user
 
 
 
@@ -167,6 +167,7 @@ def concatenate_names(students):
             i.prefs[y].name = i.prefs[y].first_name1 + i.prefs[y].last_name1
     return None
 #create list of students first without preferences because preferences refer to objects not yet defined
+
 students=get_students()
 concatenate_names(students)
 score_students(students)
