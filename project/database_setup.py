@@ -7,17 +7,17 @@ from sqlalchemy.sql import func
 
 Base = declarative_base()
 #
-# association_table = Table('association', Base.metadata,
-#     Column('trip_id', Integer, ForeignKey('trip.id')),
-#     Column('student_id', Integer, ForeignKey('student.id'))
-# )
+association_table = Table('association', Base.metadata,
+    Column('trip_id', Integer, ForeignKey('trip.id')),
+    Column('student_id', Integer, ForeignKey('student.id'))
+)
 
 class Trip(Base):
     __tablename__ = 'trip'
     id = Column(Integer, primary_key=True, autoincrement=True)
     trip_name = Column(String(32))
     trip_grade = Column(Integer)
-    students = relationship('Student', backref='trip')
+    students = relationship('Student',secondary=association_table, backref='students', lazy='dynamic')
 
 class Student(Base):
     __tablename__ = 'student'
@@ -25,8 +25,8 @@ class Student(Base):
     first_name = Column(String(32))
     last_name = Column(String(32))
     grade = Column(Integer, nullable = False)
-    trip_id = Column(Integer, ForeignKey('trip.id'))
-    trips = relationship('Trip', backref='student')
+    # trip_id = Column(Integer, ForeignKey('trip.id'))
+    # trips = relationship('Trip', backref='student')
 
     @property
     def serialize(self):
@@ -34,7 +34,7 @@ class Student(Base):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'grade': self.grade,
-            'trip_id': self.trip_id
+            # 'trip_id': self.trip_id
         }
 
 
