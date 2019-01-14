@@ -18,30 +18,6 @@ session = DBSession()
 
 class BasicTests(unittest.TestCase):
 
-    ############################
-    #### setup and teardown ####
-    ############################
-
-#     def setUp(self):
-#         app.config['TESTING'] = True
-#         app.config['WTF_CSRF_ENABLED'] = False
-#         app.config['DEBUG'] = False
-#         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test_database.db'
-#         self.app = app.test_client()
-#
-# # executed after each test
-#     def tearDown(self):
-#         pass
-
-    # executed prior to each test
-
-
-
-###############
-#### tests ####
-###############
-
-
     def test_showStudent(self):
         expected_results = { "first_name" : "Michael"
                     , "last_name" : "Huang"
@@ -63,7 +39,7 @@ class BasicTests(unittest.TestCase):
                             {'name' : 'Ryan'},
                             {'name' : 'David'}
                         ]
-            results = showStudentPref(2, session) 
+            results = showStudentPref(2, session)
             self.assertEqual(results, expected_results)
 
     def test_newStudent(self):
