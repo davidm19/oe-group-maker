@@ -137,8 +137,18 @@ def printStats(students):
     for p in prefsCount:
         print str(prefsCount.index(p)) + " matches = " + str(p)
 
+    print""
+    group_length = 0
+    empty_group = 0
+    for g in Groups:
+        if g == []:
+            empty_group += 1
+        else:
+            group_length += len(g)
+    print "The average group size is " + str(group_length/(len(Groups) - empty_group))
+    print "There are " + str(empty_group) + " empty groups"
 
-# ***********************
+#***********************
 # Main Program
 # ***********************
 
@@ -315,9 +325,31 @@ def assign_students(students):
                     if p.isAssigned is False:
                         # check to see if pref is not already assigned
                         gIndex = s.inGroup(Groups)
-                        Groups[gIndex].append(p)
-# add the students preference to the group (pull).  Condition (B)
-                        p.isAssigned = True
-# mark is assigned
-                        break
-# don't check anymore preferences if found one to pull into group
+                        Groups[gIndex].append(p)  #add the students preference to the group (pull).  Condition (B)
+                        p.isAssigned = True  #mark is assigned
+                        print "(B) " + p.name + " was pulled into group with " + s.name
+                        break #don't check anymore preferences if found one to pull into group
+
+def unassigned_students(stu):
+    students = []
+    for s in stu:
+        if s.isAssigned == False:
+            students.append(s)
+    print str(len(students)) + " students are unable to be assigned"
+    if len(students) != 0:
+        print "The following students are unassigned:"
+    for i in students:
+        print i.name
+
+
+#create list of students first without preferences because preferences refer to objects not yet defined
+asdf=get_students()
+concatenate_names(asdf)
+score_students(asdf)
+sort_students(asdf)
+convert_pref_student(asdf)
+setup()
+assign_students(asdf)
+printAllGroups()
+unassigned_students(asdf)
+printStats(asdf)
