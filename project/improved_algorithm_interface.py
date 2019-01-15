@@ -249,7 +249,8 @@ def assign_students(students):
 
                 # Condition (G) and (H)
                 # check to see if there were no options to pull a preference
-                if s.isAssigned is False and tryToPullPreferenceWithStudent is False:
+                if s.isAssigned is False and \
+                        tryToPullPreferenceWithStudent is False:
                     # if not, then need to find another group with a preference
                     if prefInGroup(s, Groups[groupOrder[i][0]]).name != "None":
                         s.isAssigned = True
@@ -260,7 +261,8 @@ def assign_students(students):
 # don't process anymore groups
 # Condition (F)
                 # check if not assigned to skip processing other groups
-                if s.isAssigned is False and tryToPullPreferenceWithStudent is True:
+                if s.isAssigned is False and \
+                        tryToPullPreferenceWithStudent is True:
 
                     # sort preferences by pref-score from highest to lowest
                     s.prefs.sort(key=lambda l: l.prefScore, reverse=True)
@@ -270,7 +272,9 @@ def assign_students(students):
                         # for each preference for a student
                         # if unassigned and prefs-unassigned > 1
                         # pull into group.  Condition (F)
-                        if p.isAssigned is False and p.prefsUnAssigned(numOfGroups, Groups) > 1 and s.isAssigned is False:
+                        if p.isAssigned is False and \
+                            p.prefsUnAssigned(numOfGroups, Groups) > 1 and \
+                                s.isAssigned is False:
                             s.isAssigned = True
 # mark student as assigned to move to the next student
                             p.isAssigned = True
@@ -287,7 +291,8 @@ def assign_students(students):
                     if pulledPreferenceWithStudent is False:
                         # if couldn't pull in a preference with the student
                         # check to see if there is a preference in the group
-                        if prefInGroup(s, Groups[groupOrder[i][0]]).name != "None":
+                        if prefInGroup(s, Groups[groupOrder[i][0]]).name \
+                                != "None":
                             s.isAssigned = True
 # mark student as assigned to move to the next student
                             Groups[groupOrder[i][0]].append(s)
