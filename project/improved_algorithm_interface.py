@@ -116,7 +116,7 @@ def is_in_same_group(student, pref):
 # --------------------------------------------
 
 
-def printStats(students):
+def print_stats(students):
 
     # initialize prefs_count
     prefs_count = []
@@ -173,7 +173,7 @@ def get_students():
 
 
 def sort_students(l):
-    l.sort(key=lambda l: (l.pref_score, l.mutualScore), reverse=True)
+    l.sort(key=lambda l: (l.pref_score, l.mutual_score), reverse=True)
     return l
 
 
@@ -185,7 +185,7 @@ def score_students(students):
                     x.pref_score += 1
                     for a in range(len(i.prefs)):
                         if(x.prefs[a].name == i.name):
-                            x.mutualScore += 1
+                            x.mutual_score += 1
     return None
 
 
@@ -335,7 +335,7 @@ def assign_students(students):
                         break
 # don't check anymore preferences if found one to pull into group
 
-def unassigned_students(stu):
+def check_unassigned_students(stu):
     students = []
     for s in stu:
         if s.is_assigned == False:

@@ -10,8 +10,8 @@ from application import session, app
 from improved_algorithm_interface import get_students, concatenate_names
 from improved_algorithm_interface import score_students, sort_students
 from improved_algorithm_interface import convert_pref_student, setup
-from improved_algorithm_interface import assign_students, printAllGroups
-from improved_algorithm_interface import getAllGroups
+from improved_algorithm_interface import assign_students, print_all_groups
+from improved_algorithm_interface import get_all_groups
 from Student_class import Student_class
 
 
@@ -32,8 +32,8 @@ class BasicTests(unittest.TestCase):
         convert_pref_student(students)
         setup()
         assign_students(students)
-        print(getAllGroups())
-        results = getAllGroups()
+        print(get_all_groups())
+        results = get_all_groups()
         expected_results = [['Group 1', 'Jack', 'Fred', 'Kobe',
                             'James', 'Durant'],
                             ['Group 2', 'Tej', 'Bob', 'Magic',
