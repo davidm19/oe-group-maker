@@ -73,11 +73,11 @@ def get_all_groups():
 
 
 # --------------------------------------------
-# Find lowest matching prefScore in a group
+# Find lowest matching pref_score in a group
 # --------------------------------------------
 
 
-def prefInGroup(student, group):
+def pref_in_group(student, group):
     lowest_pref_score_match = Student_class("None", 0, 99999, False, "")
     first_match = True
     for p in student.prefs:
@@ -85,27 +85,27 @@ def prefInGroup(student, group):
             if first_match is True:
                 lowest_pref_score_match = p
                 first_match = False
-            elif p.prefScore < lowest_pref_score_match.prefScore:
+            elif p.pref_score < lowest_pref_score_match.pref_score:
                 lowest_pref_score_match = p
     return lowest_pref_score_match
 
 
-# return the Student object with the lowest prefScore
+# return the Student object with the lowest pref_score
 
 # ------------------------------------------------------------------------
 # checks to see if a student is already in a group with a preference
 # ------------------------------------------------------------------------
 
 
-def isInSameGroup(student, pref):
+def is_in_same_group(student, pref):
     already_assigned = False
 # initialize return assuming there is no existing preference in a group
 
-    for searchGroup in Groups:
+    for search_group in Groups:
         pair = [student, pref]
 # print "checking same group " + student.name + " with " + pref.name
-        if all(x in searchGroup for x in pair):
-            # will return True is student and pref are in searchGroup together
+        if all(x in search_group for x in pair):
+            # will return True is student and pref are in search_group together
             # print "match"
             already_assigned = True
     return already_assigned
@@ -124,14 +124,14 @@ def printStats(students):
         prefs_count.append(0)
 
     for s in students:
-        prefsMatched = 0
+        prefs_matched = 0
         print ""
         for p in s.prefs:
-            if isInSameGroup(s, p) is True:
-                prefsMatched += 1
+            if is_in_same_group(s, p) is True:
+                prefs_matched += 1
 
-        print s.name + " preferences matched is " + str(prefsMatched)
-        prefs_count[prefsMatched] += 1
+        print s.name + " preferences matched is " + str(prefs_matched)
+        prefs_count[prefs_matched] += 1
 
     print ""
     for p in prefs_count:
@@ -173,7 +173,7 @@ def get_students():
 
 
 def sort_students(l):
-    l.sort(key=lambda l: (l.prefScore, l.mutualScore), reverse=True)
+    l.sort(key=lambda l: (l.pref_score, l.mutualScore), reverse=True)
     return l
 
 
@@ -182,7 +182,7 @@ def score_students(students):
         for x in students:
             for y in range(max_prefs):
                 if(x.name == i.prefs[y].name):
-                    x.prefScore += 1
+                    x.pref_score += 1
                     for a in range(len(i.prefs)):
                         if(x.prefs[a].name == i.name):
                             x.mutualScore += 1
@@ -227,110 +227,110 @@ def assign_students(students):
         # process entire student list
 
         # if student is NOT assigned
-        if s.isAssigned is False:
+        if s.is_assigned is False:
 
             # -----------------------------------
             # Determine order to process Groups
             # -----------------------------------
             # determine the Group order to process.
             # Find smallest sized groups
-            # if equal then sort by the lowest prefscore
-            # groupOrder is a list of (group index, group size, lowest)
+            # if equal then sort by the lowest pref_score
+            # group_order is a list of (group index, group size, lowest)
 
-            groupOrder = []
+            group_order = []
 
 # get info for each group
             for x in range(num_of_groups):
-                groupOrder.append(["", "", ""])
-                groupOrder[x][0] = x
-                groupOrder[x][1] = len(Groups[x])
-                lowestPref = prefInGroup(s, Groups[x])
-                groupOrder[x][2] = lowestPref.prefScore
+                group_order.append(["", "", ""])
+                group_order[x][0] = x
+                group_order[x][1] = len(Groups[x])
+                lowest_pref = pref_in_group(s, Groups[x])
+                group_order[x][2] = lowest_pref.pref_score
 
-# sort groupOrder by groupSize then by lowest preference score of a preference
-            groupOrder.sort(
+# sort group_order by groupSize then by lowest preference score of a preference
+            group_order.sort(
                 key=lambda l: (l[1], l[2])
             )
-# print groupOrder
+# print group_order
 
 # -----------------------------------
 # Process each group for a student
 # -----------------------------------
-            tryToPullPreferenceWithStudent = True
+            try_to_pull_preference_with_student = True
 # first try to pull a preference with the student into the smallest group
             for i in range(num_of_groups):
 
                 # Condition (G) and (H)
                 # check to see if there were no options to pull a preference
-                if s.isAssigned is False and \
-                        tryToPullPreferenceWithStudent is False:
+                if s.is_assigned is False and \
+                        try_to_pull_preference_with_student is False:
                     # if not, then need to find another group with a preference
-                    if prefInGroup(s, Groups[groupOrder[i][0]]).name != "None":
-                        s.isAssigned = True
+                    if pref_in_group(s, Groups[group_order[i][0]]).name != "None":
+                        s.is_assigned = True
 # mark student as assigned to move to the next student
-                        Groups[groupOrder[i][0]].append(s)
+                        Groups[group_order[i][0]].append(s)
 # add Student to the group
                         break
 # don't process anymore groups
 # Condition (F)
                 # check if not assigned to skip processing other groups
-                if s.isAssigned is False and \
-                        tryToPullPreferenceWithStudent is True:
+                if s.is_assigned is False and \
+                        try_to_pull_preference_with_student is True:
 
                     # sort preferences by pref-score from highest to lowest
-                    s.prefs.sort(key=lambda l: l.prefScore, reverse=True)
+                    s.prefs.sort(key=lambda l: l.pref_score, reverse=True)
 # check for Condition (F)
-                    pulledPreferenceWithStudent = False
+                    pulled_pref_with_student = False
                     for p in s.prefs:
                         # for each preference for a student
                         # if unassigned and prefs-unassigned > 1
                         # pull into group.  Condition (F)
-                        if p.isAssigned is False and \
-                            p.prefsUnAssigned(num_of_groups, Groups) > 1 and \
-                                s.isAssigned is False:
-                            s.isAssigned = True
+                        if p.is_assigned is False and \
+                            p.prefs_unassigned(num_of_groups, Groups) > 1 and \
+                                s.is_assigned is False:
+                            s.is_assigned = True
 # mark student as assigned to move to the next student
-                            p.isAssigned = True
+                            p.is_assigned = True
 # mark the preference as assigned too
-                            Groups[groupOrder[i][0]].append(s)
+                            Groups[group_order[i][0]].append(s)
 # add Student to the group
-                            Groups[groupOrder[i][0]].append(p)
+                            Groups[group_order[i][0]].append(p)
 # add the students preference to the group (pull)
-                            pulledPreferenceWithStudent = True
+                            pulled_pref_with_student = True
 # found a preference to pull into group with student
-                    tryToPullPreferenceWithStudent = False
+                    try_to_pull_preference_with_student = False
 # don't try to pull a preference when processing the remaining groups
 
-                    if pulledPreferenceWithStudent is False:
+                    if pulled_pref_with_student is False:
                         # if couldn't pull in a preference with the student
                         # check to see if there is a preference in the group
-                        if prefInGroup(s, Groups[groupOrder[i][0]]).name \
+                        if pref_in_group(s, Groups[group_order[i][0]]).name \
                                 != "None":
-                            s.isAssigned = True
+                            s.is_assigned = True
 # mark student as assigned to move to the next student
-                            Groups[groupOrder[i][0]].append(s)
+                            Groups[group_order[i][0]].append(s)
 # add Student to the group
                             break
         else:
             # if student IS assigned
-            already_assignedWithAPreference = False
+            already_assigned_with_a_pref = False
 # need to check multiple cases
 # this variable will move to next student after an assignment condition is met
 # check to see if already assigned with a preference.  Condition (A)
             for p in s.prefs:
-                if isInSameGroup(s, p) is True:
-                    already_assignedWithAPreference = True
+                if is_in_same_group(s, p) is True:
+                    already_assigned_with_a_pref = True
 # pull highest pref-score preference into the same group
-            if already_assignedWithAPreference is False:
-                s.prefs.sort(key=lambda l: l.prefScore, reverse=True)
+            if already_assigned_with_a_pref is False:
+                s.prefs.sort(key=lambda l: l.pref_score, reverse=True)
 # sort prefs by highest pref-score
                 for p in s.prefs:
-                    if p.isAssigned is False:
+                    if p.is_assigned is False:
                         # check to see if pref is not already assigned
-                        gIndex = s.inGroup(Groups)
-                        Groups[gIndex].append(p)
+                        g_index = s.in_group(Groups)
+                        Groups[g_index].append(p)
 # add the students preference to the group (pull).  Condition (B)
-                        p.isAssigned = True
+                        p.is_assigned = True
 # mark is assigned
                         break
 # don't check anymore preferences if found one to pull into group
@@ -338,7 +338,7 @@ def assign_students(students):
 def unassigned_students(stu):
     students = []
     for s in stu:
-        if s.isAssigned == False:
+        if s.is_assigned == False:
             students.append(s)
     print str(len(students)) + " students are unable to be assigned"
     if len(students) != 0:
