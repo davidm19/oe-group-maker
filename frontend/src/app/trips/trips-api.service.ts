@@ -17,10 +17,15 @@ export class TripsApiService {
   }
 
   // GET list of public, future events
-  getTrips():
-  Observable<Array<Trip>> {
+  deleteTrip(trip_id: number) {
     return this.http
-    .get<Array<Trip>>(`${API_URL}/trips`);
+      .delete(`${API_URL}/trips/${trip_id}/delete`);
+  }
+
+  getStudentsInTrip(trip_id: number) {
+    console.log("Inside method getStudentsInTrip");
+    return this.http
+    .get<Array<Student>>(`${API_URL}/trips/${trip_id}/detail/students`);
   }
 
   getTrip(trip_id: number): Observable<Trip> {
@@ -28,13 +33,16 @@ export class TripsApiService {
     .get<Trip>(`${API_URL}/trips/${trip_id}/detail`)
   }
 
+  getTrips():
+  Observable<Array<Trip>> {
+    return this.http
+    .get<Array<Trip>>(`${API_URL}/trips`);
+  }
+
   saveTrip(trip: Trip): Observable<any> {
   return this.http
     .post(`${API_URL}/trips/new`, trip);
   }
 
-  deleteTrip(trip_id: number) {
-    return this.http
-      .delete(`${API_URL}/trips/${trip_id}/delete`);
-  }
+
 }

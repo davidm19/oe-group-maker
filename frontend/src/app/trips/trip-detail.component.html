@@ -1,6 +1,12 @@
 
 <div>
-  <h1>{{ trip.trip_name }}</h1>
+  <h1>{{ trip?.trip_name }}</h1>
   <div>
-    <h2> Grade: {{ trip.trip_grade }}</h2></div>
+    <h2> Grade: {{ trip?.trip_grade }}</h2></div>
+</div>
+
+<div>
+  <h2 *ngFor="let student of tripStudentList">
+    {{student?.first_name}} {{student?.last_name}}
+      </h2>
 </div>

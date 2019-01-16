@@ -22,6 +22,7 @@ export class TripDetailComponent implements OnInit {
   // trips: Observable<Trip[]>;
   // trip: Observable<Trip>;
   studentGradeList: Student[];
+  tripStudentList: Student[];
   trip: Trip;
 
   constructor(
@@ -33,6 +34,7 @@ export class TripDetailComponent implements OnInit {
 
     ngOnInit() {
       this.getTrip();
+      this.getStudentsInTrip();
 
     }
 
@@ -46,23 +48,22 @@ export class TripDetailComponent implements OnInit {
       console.error
     )
     console.log(this.trip);
-    // this.tripsListSubs = this.tripsApi
-    //   .getTrip(trip)
-    //   .subscribe(res => {
-    //       this.trip = res;
-    //     },
-    //     console.error
-    //   );
   }
 
-  // getAssignedStudents(): void {
-  //   console.log("Calling getAssignedStudents");
-  //   this.
-  // }
+  getStudentsInTrip(): void {
+    console.log("Calling getStudentsInTrip");
+    const trip_id = +this.route.snapshot.paramMap.get('id');
+    console.log(trip_id);
+    this.tripsApi.getStudentsInTrip(trip_id).subscribe(
+      res => {
+      console.log("Students in trip " + this.trip.trip_name);
+      console.log(res);
+      this.tripStudentList = res;
+    }
+  );
+}
 
   getStudentsInGrade(): void {
-  //   """I have absolutely no idea of how to implement this"""
-  //   """Please help me"""
   console.log("Calling getStudentsInGrade");
   console.log(this.trip);
      this.studentsApi.getStudentsInGrade(this.trip.trip_grade).subscribe(

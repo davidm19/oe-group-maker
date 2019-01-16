@@ -2,7 +2,7 @@ import flask
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Student, engine, Preference, Trip
+from database_setup import Base, Student, engine, Preference, Trip, TripStudentLink
 #from database_setup import Trip
 from flask import session as login_session
 import random, string
@@ -15,6 +15,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
+
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
@@ -45,7 +46,6 @@ def showTrips():
         trip_info = {"trip_name" : trip.trip_name,
                     "id" : trip.id,
                     "trip_grade" : trip.trip_grade,
-                    "trip_students" : trip.students
                     }
         tripList.append(trip_info)
     return flask.jsonify(tripList), 200
@@ -139,16 +139,23 @@ def getStudentsInGrade(grade):
 def getStudentsInTrip(trip_id):
     session = DBSession()
     tripStudentList = []
-    studentsInTrip = session.query(Student).filter_by(id=trip_id).all()
-    for student in stuentsInTrip:
-        student_info = {"first_name": student.first_name,
-                        "last_name": student.last_name,
-                        "grade": student.grade}
+
+    tripStudentLinks = session.query(TripStudentLink).join(Trip).filter(Trip.id == trip_id).all()
+    print(tripStudentLinks)
+    for tripStudentLink in tripStudentLinks:
+        student_info = {"first_name": tripStudentLink.student.first_name,
+                        "last_name": tripStudentLink.student.last_name,
+                        "grade": tripStudentLink.student.grade}
         tripStudentList.append(student_info)
+    print(tripStudentList);
     return flask.jsonify(tripStudentList), 200
 
-
-
+""" ======================================= """
+""" ======================================= """
+""" === END OF STUDENT AND TRIP METHODS === """
+""" ======================================= """
+""" ======================================= """
+#
 # @app.route('/trips/<int:trip_id>/detail/students', methods=['GET'])
 # def showStudents(trip_id):
 #     session = DBSession()

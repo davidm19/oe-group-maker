@@ -32,12 +32,13 @@ session.commit()
 
 JTree.students.append(John)
 JTree.students.append(Jane)
-Trip2.students.append(Mia)
 JTree.students.append(David)
+
+Trip2.students.append(Mia)
 Trip2.students.append(Michael)
 Trip2.students.append(Jane)
 Trip2.students.append(John)
-Trip2.students.append(Mia)
+
 
 
 session.commit()
