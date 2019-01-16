@@ -265,7 +265,8 @@ def assign_students(students):
                 if s.is_assigned is False and \
                         try_to_pull_preference_with_student is False:
                     # if not, then need to find another group with a preference
-                    if pref_in_group(s, Groups[group_order[i][0]]).name != "None":
+                    if pref_in_group(s, Groups[group_order[i][0]]).name \
+                    != "None":
                         s.is_assigned = True
 # mark student as assigned to move to the next student
                         Groups[group_order[i][0]].append(s)
