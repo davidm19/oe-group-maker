@@ -26,8 +26,8 @@ session = DBSession()
 # Constants
 # ***********************
 
-maxPrefs = 4
-numOfGroups = 6
+max_prefs = 4
+num_of_groups = 6
 # this should be calculated or set by user
 
 
@@ -40,7 +40,7 @@ numOfGroups = 6
 # ------------------------
 
 
-def printStudentList():
+def print_student_list():
     print("Student list size:" + str(len(students)))
     for x in students:
         x.prefList()
@@ -51,7 +51,7 @@ def printStudentList():
 # ------------------------
 
 
-def printAllGroups():
+def print_all_groups():
     print("Number of Groups:" + str(len(Groups)))
 
     for x in range(len(Groups)):
@@ -61,7 +61,7 @@ def printAllGroups():
             print(y.name)
 
 
-def getAllGroups():
+def get_all_groups():
     groups = []
     for x in range(len(Groups)):
         group = []
@@ -78,16 +78,16 @@ def getAllGroups():
 
 
 def prefInGroup(student, group):
-    lowestPrefScoreMatch = Student_class("None", 0, 99999, False, "")
-    firstMatch = True
+    lowest_pref_score_match = Student_class("None", 0, 99999, False, "")
+    first_match = True
     for p in student.prefs:
         if p in group:
-            if firstMatch is True:
-                lowestPrefScoreMatch = p
-                firstMatch = False
-            elif p.prefScore < lowestPrefScoreMatch.prefScore:
-                lowestPrefScoreMatch = p
-    return lowestPrefScoreMatch
+            if first_match is True:
+                lowest_pref_score_match = p
+                first_match = False
+            elif p.prefScore < lowest_pref_score_match.prefScore:
+                lowest_pref_score_match = p
+    return lowest_pref_score_match
 
 
 # return the Student object with the lowest prefScore
@@ -98,7 +98,7 @@ def prefInGroup(student, group):
 
 
 def isInSameGroup(student, pref):
-    alreadyAssigned = False
+    already_assigned = False
 # initialize return assuming there is no existing preference in a group
 
     for searchGroup in Groups:
@@ -107,8 +107,8 @@ def isInSameGroup(student, pref):
         if all(x in searchGroup for x in pair):
             # will return True is student and pref are in searchGroup together
             # print "match"
-            alreadyAssigned = True
-    return alreadyAssigned
+            already_assigned = True
+    return already_assigned
 
 
 # --------------------------------------------
@@ -118,10 +118,10 @@ def isInSameGroup(student, pref):
 
 def printStats(students):
 
-    # initialize prefsCount
-    prefsCount = []
-    for i in range(maxPrefs + 1):
-        prefsCount.append(0)
+    # initialize prefs_count
+    prefs_count = []
+    for i in range(max_prefs + 1):
+        prefs_count.append(0)
 
     for s in students:
         prefsMatched = 0
@@ -131,11 +131,11 @@ def printStats(students):
                 prefsMatched += 1
 
         print s.name + " preferences matched is " + str(prefsMatched)
-        prefsCount[prefsMatched] += 1
+        prefs_count[prefsMatched] += 1
 
     print ""
-    for p in prefsCount:
-        print str(prefsCount.index(p)) + " matches = " + str(p)
+    for p in prefs_count:
+        print str(prefs_count.index(p)) + " matches = " + str(p)
 
     print""
     group_length = 0
@@ -180,7 +180,7 @@ def sort_students(l):
 def score_students(students):
     for i in students:
         for x in students:
-            for y in range(maxPrefs):
+            for y in range(max_prefs):
                 if(x.name == i.prefs[y].name):
                     x.prefScore += 1
                     for a in range(len(i.prefs)):
@@ -213,13 +213,15 @@ Groups = []
 
 
 def setup():
-    for x in range(numOfGroups):  # initialize groups
+    for x in range(num_of_groups):  # initialize groups
         Groups.append([])
 
 
 # -------------------------------
 # Assign students to Groups
 # -------------------------------
+
+
 def assign_students(students):
     for s in students:
         # process entire student list
@@ -238,7 +240,7 @@ def assign_students(students):
             groupOrder = []
 
 # get info for each group
-            for x in range(numOfGroups):
+            for x in range(num_of_groups):
                 groupOrder.append(["", "", ""])
                 groupOrder[x][0] = x
                 groupOrder[x][1] = len(Groups[x])
@@ -256,7 +258,7 @@ def assign_students(students):
 # -----------------------------------
             tryToPullPreferenceWithStudent = True
 # first try to pull a preference with the student into the smallest group
-            for i in range(numOfGroups):
+            for i in range(num_of_groups):
 
                 # Condition (G) and (H)
                 # check to see if there were no options to pull a preference
@@ -284,7 +286,7 @@ def assign_students(students):
                         # if unassigned and prefs-unassigned > 1
                         # pull into group.  Condition (F)
                         if p.isAssigned is False and \
-                            p.prefsUnAssigned(numOfGroups, Groups) > 1 and \
+                            p.prefsUnAssigned(num_of_groups, Groups) > 1 and \
                                 s.isAssigned is False:
                             s.isAssigned = True
 # mark student as assigned to move to the next student
@@ -311,15 +313,15 @@ def assign_students(students):
                             break
         else:
             # if student IS assigned
-            alreadyAssignedWithAPreference = False
+            already_assignedWithAPreference = False
 # need to check multiple cases
 # this variable will move to next student after an assignment condition is met
 # check to see if already assigned with a preference.  Condition (A)
             for p in s.prefs:
                 if isInSameGroup(s, p) is True:
-                    alreadyAssignedWithAPreference = True
+                    already_assignedWithAPreference = True
 # pull highest pref-score preference into the same group
-            if alreadyAssignedWithAPreference is False:
+            if already_assignedWithAPreference is False:
                 s.prefs.sort(key=lambda l: l.prefScore, reverse=True)
 # sort prefs by highest pref-score
                 for p in s.prefs:
