@@ -12,6 +12,7 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 
+
 def getStudents():
     session = DBSession()
     students = session.query(Student).all()
@@ -19,10 +20,12 @@ def getStudents():
         student_list = student
     return student_list
 
+
 def getStudent():
     session = DBSession()
     student = session.query(Student).filter_by(id=ID).one()
     return student
+
 
 def splitStudents(students):
     students = getStudents()
@@ -37,7 +40,7 @@ def splitStudents(students):
     B, C = split_list(A)
     '''
 
-'''TODO: IMPLEMENT'''
+
 def returnRanking(half1, half2):
     halves = [half1, half2]
     student = getStudent()
@@ -46,10 +49,12 @@ def returnRanking(half1, half2):
             for i, g2member in enumerate(preferred):
                 return '''TODO: GRAB PREFERRED MEMBERS'''
 
+
 '''TODO: IMPLEMENT'''
 def prefers():
     #DEPENDS ON RETURNRANKING
     return '''TODO: IMPLEMENT'''
+
 
 '''TODO: IMPLEMENT'''
 def after():
@@ -58,6 +63,7 @@ def after():
 '''TODO: IMPLEMENT'''
 def match():
     return '''TODO: IMPLEMENT'''
+
 
 '''TODO: IMPLEMENT'''
 def checkStable():
