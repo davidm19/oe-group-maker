@@ -27,5 +27,5 @@ with open(commit_msg_filepath, 'r') as f:
                     sys.exit(1)
                 elif lines[i+2] is not None:
                     sys.exit(0)
-        elif current_line.startswith("feat: ") or current_line.startswith("style: ") or current_line.startswith("docs: ") or current_line.startswith("test: ") or current_line.startswith("chore: "):
-            sys.exit(0)
+        # elif current_line.startswith("feat: ") or current_line.startswith("style: ") or current_line.startswith("docs: ") or current_line.startswith("test: ") or current_line.startswith("chore: "):
+        #     sys.exit(0)
