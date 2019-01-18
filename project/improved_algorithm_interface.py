@@ -287,7 +287,7 @@ def assign_students(students):
                         # if unassigned and prefs-unassigned > 1
                         # pull into group.  Condition (F)
                         if p.is_assigned is False and \
-                            p.prefs_unassigned(num_of_groups, Groups) > 1 and \
+                            p.get_prefs_unassigned(num_of_groups, Groups) > 1 and \
                                 s.is_assigned is False:
                             s.is_assigned = True
 # mark student as assigned to move to the next student
