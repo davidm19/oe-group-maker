@@ -1,5 +1,12 @@
 class Student_class:
+'''
+Student Class code
 
+init: creates a student with 6 arguments
+pref_list: prints a student's preferences
+prefs_unassigned: counts and returns the number of prefs unassigned for a student
+in_group: Returns the Group Index if a student is assigned to any group
+'''
     def __init__(student, name, mutual_score, pref_score, is_assigned, prefs):
         student.name = name
         student.mutual_score = mutual_score
