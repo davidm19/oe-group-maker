@@ -31,7 +31,7 @@
   <label formArrayName="orders" *ngFor="let order of form?.controls.orders?.controls; let i=index">
 
     <input type="checkbox" [formControlName]="i">
-    {{orders[i].first_name}} {{orders[i].last_name}}
+    {{ orders[i].first_name }} {{ orders[i].last_name }}
   </label>
 
 </form>

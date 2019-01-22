@@ -16,21 +16,19 @@ export class TripsApiService {
     return Observable.throw(err.message || 'Error: Unable to complete request.');
   }
 
-  // GET list of public, future events
   deleteTrip(trip_id: number) {
     return this.http
       .delete(`${API_URL}/trips/${trip_id}/delete`);
   }
 
   getStudentsInTrip(trip_id: number) {
-    console.log("Inside method getStudentsInTrip");
     return this.http
     .get<Array<Student>>(`${API_URL}/trips/${trip_id}/detail/students`);
   }
 
   getTrip(trip_id: number): Observable<Trip> {
     return this.http
-    .get<Trip>(`${API_URL}/trips/${trip_id}/detail`)
+    .get<Trip>(`${API_URL}/trips/${trip_id}/detail`);
   }
 
   getTrips():
@@ -43,6 +41,5 @@ export class TripsApiService {
   return this.http
     .post(`${API_URL}/trips/new`, trip);
   }
-
 
 }

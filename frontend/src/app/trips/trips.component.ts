@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
-import {Trip} from './trip.model';
-import {TripsApiService} from './trips-api.service';
-import {Observable} from 'rxjs/Observable'; 
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { Trip } from './trip.model';
+import { TripsApiService } from './trips-api.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-trips',
@@ -29,9 +29,8 @@ button.new-trip {
 })
 export class TripsComponent implements OnInit, OnDestroy {
   tripsListSubs: Subscription;
-  tripsList: Trip[];
-  trips: Observable<Trip[]>;
-
+  tripsList: Array<Trip>;
+  trips: Array<Trip>;
 
   constructor(private tripsApi: TripsApiService) {
   }
@@ -50,10 +49,9 @@ export class TripsComponent implements OnInit, OnDestroy {
     this.tripsListSubs.unsubscribe();
   }
 
-
-  delete(trip_id: number) {
+  delete(TRIP_ID: number) {
   this.tripsApi
-    .deleteTrip(trip_id)
+    .deleteTrip(TRIP_ID)
     .subscribe(() => {
       this.tripsListSubs = this.tripsApi
         .getTrips()
@@ -61,7 +59,7 @@ export class TripsComponent implements OnInit, OnDestroy {
             this.tripsList = res;
           },
           console.error
-        )
+        );
     }, console.error);
 }
 }
