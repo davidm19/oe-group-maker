@@ -1,9 +1,9 @@
 class Student_class:
-  def __init__(student, name, mutualScore, prefScore, isAssigned,prefs):
+  def __init__(student, name, mutual_score, pref_score, is_assigned,prefs):
     student.name = name
-    student.mutualScore = mutualScore
-    student.prefScore = prefScore
-    student.isAssigned = isAssigned
+    student.mutual_score = mutual_score
+    student.pref_score = pref_score
+    student.is_assigned = is_assigned
     student.prefs = prefs
 
   #--------------------------------------------
