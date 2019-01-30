@@ -2,6 +2,22 @@ sudo: required
 
 matrix:
   include:
+    - language: node_js
+      before_install:
+        - npm install -g @angular/cli
+        - npm install @angular-devkit/build-angular
+        - npm install @angular/compiler-cli
+        - npm install @angular/compiler
+        - npm install karma
+        - npm install tslint
+      node_js:
+        - "8"
+      script:
+        - cd frontend
+        - npm install
+        - ng lint
+        - ng test
+        - cd ..
     - language: python
       python: 2.7.12
       os: linux
@@ -9,16 +25,13 @@ matrix:
       before_install:
         - pip install --upgrade setuptools
         - git clone https://github.com/TravisToolbox/pycodestyle-travis.git
+        - pip install --upgrade pip
+        - pip install flask packaging oauth2client redis passlib flask-httpauth
+        - pip install sqlalchemy flask-sqlalchemy psycopg2-binary bleach requests
       install:
         - "./pycodestyle-travis/install.sh"
       script:
         - "./pycodestyle-travis/scan.sh"
-
-    - language: node_js
-      before_install:
-        - "sudo npm install -g @angular/cli" # Install ng programs 
-      node_js:
-        - "8"
-      script:
-        - ng lint
-        - ng test
+        - cd project/
+        - pytest *.py
+        - cd ../
