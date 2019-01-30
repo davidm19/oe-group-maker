@@ -1,15 +1,15 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
-import {API_URL} from '../env';
-import {Trip} from './trip.model';
-import {Student} from './students/student.model';
+import { API_URL } from '../env';
+import { Trip } from './trip.model';
+import { Student } from './students/student.model';
 
 @Injectable()
 export class TripsApiService {
 
-  constructor(private http: HttpClient) {
+  private constructor( http: HttpClient) {
   }
 
   private static _handleError(err: HttpErrorResponse | any) {

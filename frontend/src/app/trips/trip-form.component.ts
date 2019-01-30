@@ -1,18 +1,12 @@
-import {Component} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {TripsApiService} from "./trips-api.service";
-import {Router} from "@angular/router";
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { TripsApiService } from './trips-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'trip-form',
   templateUrl: './trip-form.component.html',
   styles: [`
-  .trips-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-  }
-
   .full-width {
     width: 100%;
   }
@@ -21,7 +15,7 @@ import {Router} from "@angular/router";
 export class TripFormComponent {
   trip = {
     trip_name: '',
-    trip_grade: '',
+    trip_grade: ''
   };
 
   constructor(private tripsApi: TripsApiService, private router: Router) { }
@@ -33,7 +27,6 @@ export class TripFormComponent {
   updateGrade(event: any) {
     this.trip.trip_grade = event.target.value;
   }
-
 
   saveTrip() {
     this.tripsApi
