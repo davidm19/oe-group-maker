@@ -1,0 +1,37 @@
+<!-- <div>
+  <h1> Add Students to {{ trip.trip_name }}</h1>
+  <div>
+    <h2> Grade: {{ trip.trip_grade }}</h2></div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div *ngFor= "let student of studentGradeList">
+    <h2> <input type="checkbox" name="{{student.first_name}} {{student.last_name}}" value=" {{student.first_name}} {{student.last_name}} "> {{student.first_name}} {{student.last_name}}</h2>
+
+
+
+</div>
+<button mat-raised-button
+          color="primary"
+          (click)="assignStudentsToTrip()">
+    Assign Students to Trip
+  </button>
+</form> -->
+
+
+<div>
+  <h1> Add Students to {{ trip?.trip_name }}</h1>
+  <div>
+    <h2> Grade: {{ trip?.trip_grade }}</h2>
+  </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <label formArrayName="orders" *ngFor="let order of form?.controls.orders?.controls; let i=index">
+
+    <input type="checkbox" [formControlName]="i">
+    {{ orders[i].first_name }} {{ orders[i].last_name }}
+  </label>
+
+</form>

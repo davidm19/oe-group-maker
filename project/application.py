@@ -1,18 +1,24 @@
+import flask
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Student, engine
+from database_setup import Base, Student, engine, Preference, Trip, TripStudentLink
+#from database_setup import Trip
 from flask import session as login_session
 import random, string
-from oauth2client.client import flow_from_clientsecrets
-from oauth2client.client import FlowExchangeError
-import httplib2
 import json
 from flask import make_response
-import requests
+from sqlalchemy.sql import exists
+from flask_cors import CORS
+
 
 
 app = Flask(__name__)
+CORS(app)
+
+# cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+
 
 # CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Outdoor Ed Group Maker"
@@ -23,228 +29,285 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-@app.route('/login')
-def showLogin():
-    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
-        for x in xrange(32))
-    login_session['state'] = state
-    return render_template('login.html', STATE=state)
+""" ===================================== """
+""" ===================================== """
+""" ========= TRIP CRUD METHODS ========= """
+""" ===================================== """
+""" ===================================== """
 
-@app.route('/gconnect', methods=['POST'])
-def gconnect():
-    CLIENT_ID = json.loads(
-        open('client_secrets.json', 'r').read())['web']['client_id']
-    # Validate state token
-    if request.args.get('state') != login_session['state']:
-        response = make_response(json.dumps('Invalid state parameter.'), 401)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-    # Obtain authorization code
-    code = request.data
+@app.route('/trips', methods=['GET'])
+def showTrips():
+    session = DBSession()
+    tripList = []
+    allTrips = session.query(Trip).all()
+    # trip_id = request.args.get('trip_id')
+    # trip_name = request.args.get('trip_name')
+    for trip in allTrips:
+        trip_info = {"trip_name" : trip.trip_name,
+                    "id" : trip.id,
+                    "trip_grade" : trip.trip_grade,
+                    }
+        tripList.append(trip_info)
+    return flask.jsonify(tripList), 200
 
-    try:
-        # Upgrade the authorization code into a credentials object
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
-        oauth_flow.redirect_uri = 'postmessage'
-        credentials = oauth_flow.step2_exchange(code)
-    except FlowExchangeError:
-        response = make_response(json.dumps('Failed to upgrade the authorization code.'), 401)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
-    # Check that the access token is valid.
-    access_token = credentials.access_token
-    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
-    h = httplib2.Http()
-    result = json.loads(h.request(url, 'GET')[1])
-    # If there was an error in the access token info, abort.
-    if result.get('error') is not None:
-        response = make_response(json.dumps(result.get('error')), 500)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
-    # Verify that the access token is used for the intended user.
-    gplus_id = credentials.id_token['sub']
-    if result['user_id'] != gplus_id:
-        response = make_response(
-            json.dumps("Token's user ID doesn't match given user ID."), 401)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
-    # Verify that the access token is valid for this app.
-    if result['issued_to'] != CLIENT_ID:
-        response = make_response(
-            json.dumps("Token's client ID does not match app's."), 401)
-        print "Token's client ID does not match app's."
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
-    stored_access_token = login_session.get('access_token')
-    stored_gplus_id = login_session.get('gplus_id')
-    if stored_access_token is not None and gplus_id == stored_gplus_id:
-        response = make_response(json.dumps('Current user is already connected.'),200)
-        response.headers[' -Type'] = 'application/json'
-        return response
-
-    # Store the access token in the session for later use.
-    login_session['access_token'] = credentials.access_token
-    login_session['gplus_id'] = gplus_id
-
-    # Get user info
-    userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
-    params = {'access_token': credentials.access_token, 'alt': 'json'}
-    answer = requests.get(userinfo_url, params=params)
-
-    data = answer.json()
-
-    login_session['username'] = data["name"]
-    login_session['picture'] = data["picture"]
-    login_session['email'] = data["email"]
+@app.route('/trips/<int:trip_id>/detail', methods=['GET'])
+def showTrip(trip_id):
+    session = DBSession()
+    tripList = []
+    # studentList = []
+    trip = session.query(Trip).filter_by(id=trip_id).one()
+    # students = session.query(Student).filter_by(trip_id=trip_id).all()
+    trip_info = { "trip_name" : trip.trip_name,
+                    "id" : trip.id,
+                    "trip_grade" : trip.trip_grade ,
+                    }
+    tripList.append(trip_info)
+    # for student in students:
+    #     student_info = { "first_name" : student.first_name
+    #                      , "last_name" : student.last_name,
+    #                      "grade" : student.grade
+    #                     }
+    #     studentList.append(student_info)
+    # return flask.jsonify(studentList), 200
+    return flask.jsonify(trip_info), 200
 
 
-
-    output = ''
-    output += '<h1>Welcome, '
-    output += login_session['username']
-    output += '!</h1>'
-    output += '<img src="'
-    output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-    flash("you are now logged in as %s" %login_session['username'])
-    print "done!"
-    return output
-
-# User Helper Functions
-
-
-def createUser(login_session):
-    newUser = User(name=login_session['username'], email=login_session[
-                   'email'], picture=login_session['picture'])
-    session.add(newUser)
+@app.route('/trips/new', methods=['POST'])
+def addTrip():
+    session = DBSession()
+    post = request.get_json()
+    if request.method == 'POST':
+        newTrip = Trip(trip_name = post["trip_name"],
+                        trip_grade = post["trip_grade"])
+    session.add(newTrip)
     session.commit()
-    user = session.query(User).filter_by(email=login_session['email']).one()
-    return user.id
+    return flask.jsonify("Trip successfully added!"), 200
+
+@app.route('/trips/<int:id>/update', methods=['PUT'])
+def updateTrip(id):
+    session = DBSession()
+    post = request.get_json()
+    if "id" not in post:
+        return "ERROR: Not a valid Customer ID \n", 404
+    trip_id = post["id"]
+    editedTrip = session.query(Trip).filter_by(id = trip_id).one()
+    if "trip_name" in post:
+        editedTrip.trip_name = post["trip_name"]
+    session.add(editedTrip)
+    session.commit()
+    return flask.jsonify("Trip successfully updated! \n"), 200
+
+@app.route('/trips/<int:trip_id>/delete', methods=['DELETE'])
+def deleteTrip(trip_id):
+    print("Deleting trip")
+    session = DBSession()
+    print("Request is ")
+    print(request)
+    post = request.get_json()
+    print("Post is ")
+    print(post)
+    print("Trip id is")
+    print(trip_id)
+    tripToDelete = session.query(Trip).filter_by(id = trip_id).one()
+    session.delete(tripToDelete)
+    session.commit()
+
+    return flask.jsonify("Trip successfully deleted!"), 200
 
 
-def getUserInfo(user_id):
-    user = session.query(User).filter_by(id=user_id).one()
-    return user
+""" ====================================== """
+""" ====================================== """
+""" ====== STUDENT AND TRIP METHODS ====== """
+""" ====================================== """
+""" ====================================== """
+@app.route('/students/gradeLevel/<int:grade>', methods=['GET'])
+def getStudentsInGrade(grade):
+    session = DBSession()
+    studentGradeList = []
+    # post = request.get_json()
+    #trip = session.query(Trip).filter_by(id=trip_id).one()
+    studentsInGrade = session.query(Student).filter_by(grade=grade).all()
+    for student in studentsInGrade:
+        student_info = {"first_name": student.first_name,
+                        "last_name": student.last_name,
+                        "grade": student.grade}
+        studentGradeList.append(student_info)
+    return flask.jsonify(studentGradeList), 200
 
 
-def getUserID(email):
-    try:
-        user = session.query(User).filter_by(email=email).one()
-        return user.id
-    except:
-        return None
+@app.route('/trips/<int:trip_id>/detail/students',methods=['GET'])
+def getStudentsInTrip(trip_id):
+    session = DBSession()
+    tripStudentList = []
 
-# DISCONNECT - Revoke a current user's token and reset their login_session
+    tripStudentLinks = session.query(TripStudentLink).join(Trip).filter(Trip.id == trip_id).all()
+    print(tripStudentLinks)
+    for tripStudentLink in tripStudentLinks:
+        student_info = {"first_name": tripStudentLink.student.first_name,
+                        "last_name": tripStudentLink.student.last_name,
+                        "grade": tripStudentLink.student.grade}
+        tripStudentList.append(student_info)
+    print(tripStudentList);
+    return flask.jsonify(tripStudentList), 200
 
+""" ======================================= """
+""" ======================================= """
+""" === END OF STUDENT AND TRIP METHODS === """
+""" ======================================= """
+""" ======================================= """
+#
+# @app.route('/trips/<int:trip_id>/detail/students', methods=['GET'])
+# def showStudents(trip_id):
+#     session = DBSession()
+#     studentList = []
+#     trip = session.query(Trip).filter_by(id=trip_id).one()
+#     students = session.query(Student).filter_by(trip_id=trip_id).all()
+#     for student in students:
+#         student_info = { "first_name" : student.first_name
+#                     , "last_name" : student.last_name,
+#                     "grade" : student.grade
+#                     }
+#         studentList.append(student_info)
+#     return flask.jsonify(studentList), 200
 
-@app.route('/gdisconnect')
-def gdisconnect():
-    # Only disconnect a connected user.
-    access_token = login_session.get('access_token')
-    if access_token is None:
-        response = make_response(
-            json.dumps('Current user not connected.'), 401)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
-    h = httplib2.Http()
-    result = h.request(url, 'GET')[0]
-    if result['status'] == '200':
-        response = make_response(json.dumps('Successfully disconnected.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-    else:
-        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
-
-
-
-@app.route('/')
-@app.route('/home')
-def homepage():
-    return render_template('homepage.html')
-
-
-@app.route('/students/<int:ID>/')
+@app.route('/students/<int:ID>/', methods=['GET'])
 def showStudent(ID):
     session = DBSession()
-    students = session.query(Student).filter_by(id=ID).all()
-    return "it worked"
+    student = session.query(Student).filter_by(id=ID).one()
+    student_info = { "first_name" : student.first_name
+                , "last_name" : student.last_name
+                }
+    return flask.jsonify(student_info), 200
 
-@app.route('/students')
-def showStudents():
-    session = DBSession()
-    sutdents = session.query(Student).all()
-    students_all = list()
-    for student in students:
-        student_info = { "first_name" : student.first_name
-                    , "last_name" : student.last_name
-                    }
-    return flask.jsonify([students_all]), 200
+#NEED SHOW STUDENT + PREFS METHODS NOW!!
 
-@app.route('/student/new/', methods=['GET', 'POST'])
+@app.route('/students/new', methods=['POST'])
 def newStudent():
-    if request.method == 'POST':
-        students = session.query(Student).all()
-        newStudent = Student(first_name = request.form['first_name'], last_name = request.form['last_name'])
-        session.add(newStudent)
-        session.commit()
-        return redirect(url_for('showStudents'))
-    else:
-        return "it worked"
-        # return render_template('newUniverse.html')
-
-@app.route('/student/<int:ID>/edit', methods=['GET', 'POST'])
-def editStudent(ID):
     session = DBSession()
-    editedStudent = session.query(Student).filter_by(id=ID).one()
+    post = request.get_json()
     if request.method == 'POST':
-        if request.form['first_name']:
-            editedStudent.first_name = request.form['first_name']
-        session.add(editedStudent)
-        session.commit()
-        return redirect(url_for('showStudents', id=ID))
-    else:
-        return "it worked"
-        # return render_template('editUniverse.html', universe=editedUniverse)
+        newStudent = Student(first_name = post["first_name"], last_name = post["last_name"])
+    session.add(newStudent)
+    session.commit()
+    return flask.jsonify("Student successfully added! \n"), 200
 
-@app.route('/student/<int:ID>/delete', methods=['GET', 'POST'])
-def deleteStudent(ID):
+@app.route('/students/<int:id>/edit', methods=['PUT'])
+def editStudent(id):
     session = DBSession()
-    studentToDelete = session.query(Student).filter_by(id=ID).one()
-    if request.method == 'POST':
-        session.delete(studentToDelete)
-        session.commit()
-        return redirect(url_for('showStudents', id=ID))
-    else:
-        return "it worked"
+    post = request.get_json()
+    if "id" not in post:
+        return "ERROR: Not a valid Customer ID \n", 404
+    student_id = post["id"]
+    editedStudent = session.query(Student).filter_by(id=student_id).one()
+    if 'first_name' in post:
+        editedStudent.first_name = post['first_name']
+    elif 'last_name' in post:
+        editedStudent.last_name = post['last_name']
+    session.add(editedStudent)
+    session.commit()
+    return flask.jsonify("Student successfully updated! \n"), 200
 
-@app.route('/disconnect')
-def disconnect():
-    if 'provider' in login_session:
-        if login_session['provider'] == 'google':
-            gdisconnect()
-            del login_session['gplus_id']
-            del login_session['access_token']
+@app.route('/students/<int:id>/delete', methods=['PUT'])
+def deleteStudent(id):
+    session = DBSession()
+    post = request.get_json()
+    if "id" not in post:
+        return "ERROR: Not a valid Customer ID \n", 404
+    student_id = post["id"]
+    studentToDelete = session.query(Student).filter_by(id=id).one()
+    session.delete(studentToDelete)
+    session.commit()
+    return flask.jsonify("Student successfully deleted! \n"), 200
 
-        del login_session['username']
-        del login_session['email']
-        del login_session['picture']
-        del login_session['user_id']
-        del login_session['provider']
-        flash("You have successfully been logged out.")
-        return redirect(url_for('showStudents'))
-    else:
-        flash("You were not logged in")
-        return redirect(url_for('showStudents'))
+#METHODS WITH TRIPTHING
+
+# @app.route('/trips/<int:trip_id>/students', methods=['GET'])
+# def showStudents(trip_id):
+#     session = DBSession()
+#     students = session.query(Student).all()
+#     students_all = list()
+#     for student in students:
+#         student_info = { "first_name" : student.first_name
+#                     , "last_name" : student.last_name
+#                     , "grade" : student.grade
+#                     }
+#         students_all.append(student_info)
+#     return flask.jsonify(students_all), 200
+
+# @app.route('/trips/<int:trip_id>/students/<int:ID>/', methods=['GET'])
+# def showStudent(trip_id, ID, GRADE):
+#     session = DBSession()
+#     student = session.query(Student).filter_by(id=ID).one()
+#     student_info = { "first_name" : student.first_name
+#                 , "last_name" : student.last_name
+#                 , "grade" : student.grade
+#                 }
+#     return flask.jsonify(student_info), 200
+
+# @app.route('/trips/<int:trip_id>/students/new', methods=['POST'])
+# def newStudent(trip_id):
+#     session = DBSession()
+#     post = request.get_json()
+#     if request.method == 'POST':
+#         newStudent = Student(first_name = post["first_name"], last_name = post["last_name"], grade = post["grade"])
+#     session.add(newStudent)
+#     session.commit()
+#     return flask.jsonify("Student successfully added! \n"), 200
+
+# @app.route('/trips/<int:trip_id>/students/<int:id>/edit', methods=['PUT'])
+# def editStudent(trip_id, id):
+#     session = DBSession()
+#     post = request.get_json()
+#     if "id" not in post:
+#         return "ERROR: Not a valid Customer ID \n", 404
+#     student_id = post["id"]
+#     editedStudent = session.query(Student).filter_by(id=student_id).one()
+#     if 'first_name' in post:
+#         editedStudent.first_name = post['first_name']
+#     elif 'last_name' in post:
+#         editedStudent.last_name = post['last_name']
+#     elif 'grade' in post:
+#         editedStudent.grade = post['grade']
+#     session.add(editedStudent)
+#     session.commit()
+#     return flask.jsonify("Student successfully updated! \n"), 200
+
+# @app.route('/trips/<int:trip_id>/students/<int:id>/delete', methods=['PUT'])
+# def deleteStudent(trip_id, id):
+#     session = DBSession()
+#     post = request.get_json()
+#     if "id" not in post:
+#         return "ERROR: Not a valid Customer ID \n", 404
+#     student_id = post["id"]
+#     studentToDelete = session.query(Student).filter_by(id=id).one()
+#     session.delete(studentToDelete)
+#     session.commit()
+#     return flask.jsonify("Student successfully deleted! \n"), 200
+
+""" ======== STUDENT PREFERENCE CRUD METHODS ======== """
+@app.route('/student/prefs', methods=['GET'])
+def showStudentPrefs():
+    session = DBSession()
+    preferences_all = []
+    preferences = session.query(Preference).all()
+    for preference in preferences:
+        preference_name = { "name" : preference.name}
+        preferences_all.append(preference_name)
+    return flask.jsonify(preferences_all), 200
 
 
+@app.route('/student/<int:ID>/prefs', methods=['GET'])
+def showStudentPref(ID):
+    session = DBSession()
+    preferences = session.query(Preference).filter_by(student_id=ID).all()
+    preferences_all = []
+    for preference in preferences:
+        preference_name = { "name" : preference.name}
+        preferences_all.append(preference_name)
+    return flask.jsonify(preferences_all), 200
+
+# @app.route('/student/<int:ID>/prefs', methods=['POST'])
+# def updateStudentPref()
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
