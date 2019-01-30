@@ -16,7 +16,7 @@ matrix:
 
     - language: node_js
       before_install:
-        - sudo npm install -g @angular/cli # Install ng programs 
+        - "sudo npm install -g @angular/cli" # Install ng programs 
       node_js:
         - "8"
       script:
