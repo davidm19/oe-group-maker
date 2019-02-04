@@ -24,7 +24,8 @@ const appRoutes: Routes = [
   { path: 'trips/:id/getStudentsInGrade', component: AddStudentTripFormComponent },
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'trips/:id/detail', component: TripDetailComponent }
+  { path: 'trips/:id/detail', component: TripDetailComponent },
+  { path: 'trips/:id/assignStudentsToTrip', component: AddStudentTripFormComponent}
 
 ]
 ;

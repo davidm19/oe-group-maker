@@ -21,4 +21,9 @@ export class StudentsApiService {
     return this.http
     .get<Array<Student>>(`${API_URL}/students/gradeLevel/${grade}`);
   }
+
+  assignStudentsToTrip(TRIP_ID: number) {
+    return this.http
+    .post(`${API_URL}/trips/${TRIP_ID}/assignStudentsToTrip`);
+  }
 }

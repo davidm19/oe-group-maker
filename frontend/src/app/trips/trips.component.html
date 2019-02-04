@@ -6,7 +6,7 @@
       <mat-card-title> {{ trip.trip_name }} </mat-card-title>
       <mat-card-subtitle> {{ trip.trip_grade }} </mat-card-subtitle>
       <button mat-raised-button color="primary" routerLink="{{ trip.id }}/detail">View Trip</button>
-      <button mat-raised-button color="accent" routerLink="{{ trip.id }}/getStudentsInGrade"> Add Students</button>
+      <button mat-raised-button color="accent" routerLink="{{ trip.id }}/assignStudentsToTrip"> Add Students</button>
       <button mat-button color="warn"
                   (click)="delete(trip.id)">
             Delete

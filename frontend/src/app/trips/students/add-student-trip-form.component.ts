@@ -24,8 +24,9 @@ export class AddStudentTripFormComponent {
   students: Array<Student>;
   trip: Trip;
   form: FormGroup;
-
+  assignStudents: Array<Student>;
   orders: Array<Student>;
+  studentAssignList: Array<Student>;
 
   constructor(
     private tripsApi: TripsApiService,
@@ -45,14 +46,31 @@ export class AddStudentTripFormComponent {
       orders: new FormArray(controls)
     });
   }
+getTripID(): void {
+  const trip_id = +this.route.snapshot.paramMap.get('id');
+  console.log(trip_id);
+  this.tripsApi
+  .getTrip(trip_id)
+  .subscribe(res => {
+      this.trip = res;
+    },
+    console.error
+  );
+  console.log(this.trip);
+}
 
   submit() {
     const selectedOrderIds = this.form.value.orders
       .map((v, i) => v ? this.orders[i].id : undefined)
       .filter(v => v !== undefined);
-
-    console.log(selectedOrderIds);
-  }
+    this.studentsListSubs = this.studentsApi
+    .assignStudentsToTrip()
+    .subscribe(res => {
+      this.assignStudents = res;
+    },
+    console.error
+  );
+    }
 
   ngOnInit() {
     // set default form to load the page properly
@@ -60,6 +78,7 @@ export class AddStudentTripFormComponent {
       defaultControl: new FormControl()
     });
   }
+
   getStudentsInGrade(): void {
     console.log('Calling getStudentsInGrade');
     console.log(this.trip);

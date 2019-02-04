@@ -22,6 +22,7 @@
   <h1> Add Students to {{ trip?.trip_name }}</h1>
   <div>
     <h2> Grade: {{ trip?.trip_grade }}</h2>
+    <h2> Trip ID: {{ trip?.id }}</h2>
   </div>
 </div>
 
@@ -34,3 +35,9 @@
   </label>
 
 </form>
+
+<button mat-raised-button
+          color="primary"
+          (click)="submit()">
+    Assign Students
+  </button>
