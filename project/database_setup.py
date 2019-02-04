@@ -26,7 +26,7 @@ class Trip(Base):
     __tablename__ = 'trip'
     id = Column(Integer, primary_key=True, autoincrement=True)
     trip_name = Column(String(32))
-    trip_grade = Column(Integer)
+    trip_grade = Column(String(2))
     students = relationship('Student',secondary='trip_student_link')
 
 class Student(Base):

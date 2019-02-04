@@ -76,10 +76,9 @@ export class AddStudentTripFormComponent {
   }
 
   getTrip(): void {
-    const trip_id = +this.route.snapshot.paramMap.get('id');
-    console.log(trip_id);
+    const TRIP_ID = +this.route.snapshot.paramMap.get('id');
     this.tripsApi
-    .getTrip(trip_id)
+    .getTrip(TRIP_ID)
     .subscribe(res => {
       this.trip = res;
       console.log('Printing trip');
@@ -89,21 +88,6 @@ export class AddStudentTripFormComponent {
       console.error
     );
 
-  }
-
-  getStudentsInGrade(): void {
-    console.log('Calling getStudentsInGrade');
-    console.log(this.trip);
-    this.studentsApi
-    .getStudentsInGrade(this.trip.trip_grade)
-    .subscribe(
-      result => {
-        console.log('Students in grade ' + this.trip.trip_grade);
-        console.log(result);
-        this.studentGradeList = result;
-        this.setUpForm(); // call set up form only after the student grade list
-      }
-    );
   }
 
 }

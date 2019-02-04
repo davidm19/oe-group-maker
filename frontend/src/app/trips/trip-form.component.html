@@ -9,7 +9,13 @@
     </mat-form-field>
 
     <mat-form-field class="full-width">
-      <input list="trip_grade" (keyup)="updateGrade($event)">
+      <mat-select placeholder="Select Grade" [(ngModel)]="grades.id" (keyup)="updateGrade($event.value)">
+        <mat-option *ngFor="let grade of grades" [value]="grade">
+          {{ grade.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+      <!-- <input list="trip_grade" (keyup)="updateGrade($event)">
       <datalist id="trip_grade">
         <option value="7">
         <option value="8">
@@ -18,7 +24,7 @@
         <option value="11">
         <option value="12">
       </datalist>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <button mat-raised-button
               color="primary"

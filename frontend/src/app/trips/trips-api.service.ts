@@ -9,26 +9,26 @@ import { Student } from './students/student.model';
 @Injectable()
 export class TripsApiService {
 
-  private constructor( http: HttpClient) {
+  constructor(private http: HttpClient) {
   }
 
   private static _handleError(err: HttpErrorResponse | any) {
     return Observable.throw(err.message || 'Error: Unable to complete request.');
   }
 
-  deleteTrip(trip_id: number) {
+  deleteTrip(TRIP_ID: number) {
     return this.http
-      .delete(`${API_URL}/trips/${trip_id}/delete`);
+      .delete(`${API_URL}/trips/${TRIP_ID}/delete`);
   }
 
-  getStudentsInTrip(trip_id: number) {
+  getStudentsInTrip(TRIP_ID: number) {
     return this.http
-    .get<Array<Student>>(`${API_URL}/trips/${trip_id}/detail/students`);
+    .get<Array<Student>>(`${API_URL}/trips/${TRIP_ID}/detail/students`);
   }
 
-  getTrip(trip_id: number): Observable<Trip> {
+  getTrip(TRIP_ID: number): Observable<Trip> {
     return this.http
-    .get<Trip>(`${API_URL}/trips/${trip_id}/detail`);
+    .get<Trip>(`${API_URL}/trips/${TRIP_ID}/detail`);
   }
 
   getTrips():

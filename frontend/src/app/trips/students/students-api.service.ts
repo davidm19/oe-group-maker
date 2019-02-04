@@ -9,7 +9,7 @@ import { Student } from './student.model';
 @Injectable()
 export class StudentsApiService {
 
-  private constructor(http: HttpClient) {
+  constructor(private http: HttpClient) {
   }
 
   private static _handleError(err: HttpErrorResponse | any) {

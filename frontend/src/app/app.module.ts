@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { MatButtonModule, MatCardModule, MatInputModule, MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatInputModule, MatSelectModule, MatToolbarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -37,10 +37,11 @@ const appRoutes: Routes = [
     HomeComponent,
     TripFormComponent,
     TripDetailComponent,
-    AddStudentTripFormComponent
+    AddStudentTripFormComponent,
 
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -49,11 +50,12 @@ const appRoutes: Routes = [
     MatInputModule,
     MatCardModule,
     MatButtonModule,
+    MatSelectModule,
     MatToolbarModule,
     ReactiveFormsModule
 
   ],
-  providers: [TripsApiService, StudentsApiService],
+  providers: [TripsApiService, StudentsApiService, HttpModule],
   bootstrap: [AppComponent]
 })
 export class AppModule {
