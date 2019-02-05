@@ -18,11 +18,11 @@
   </button>
 </form> -->
 
-
 <div>
   <h1> Add Students to {{ trip?.trip_name }}</h1>
   <div>
     <h2> Grade: {{ trip?.trip_grade }}</h2>
+    <h2> Trip ID: {{ trip?.id }}</h2>
   </div>
 </div>
 
@@ -31,7 +31,13 @@
   <label formArrayName="orders" *ngFor="let order of form?.controls.orders?.controls; let i=index">
 
     <input type="checkbox" [formControlName]="i">
-    {{orders[i].first_name}} {{orders[i].last_name}}
+    {{ orders[i].first_name }} {{ orders[i].last_name }}
   </label>
 
 </form>
+
+<button mat-raised-button
+          color="primary"
+          (click)="submit()">
+    Assign Students
+  </button>

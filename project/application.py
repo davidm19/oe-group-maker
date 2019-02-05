@@ -2,7 +2,7 @@ import flask
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Student, engine, Preference, Trip
+from database_setup import Base, Student, engine, Preference, Trip, TripStudentLink
 #from database_setup import Trip
 from flask import session as login_session
 import random, string
@@ -15,6 +15,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
+
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
@@ -45,7 +46,6 @@ def showTrips():
         trip_info = {"trip_name" : trip.trip_name,
                     "id" : trip.id,
                     "trip_grade" : trip.trip_grade,
-                    "trip_students" : trip.students
                     }
         tripList.append(trip_info)
     return flask.jsonify(tripList), 200
@@ -59,7 +59,8 @@ def showTrip(trip_id):
     # students = session.query(Student).filter_by(trip_id=trip_id).all()
     trip_info = { "trip_name" : trip.trip_name,
                     "id" : trip.id,
-                    "trip_grade" : trip.trip_grade }
+                    "trip_grade" : trip.trip_grade ,
+                    }
     tripList.append(trip_info)
     # for student in students:
     #     student_info = { "first_name" : student.first_name
@@ -69,6 +70,7 @@ def showTrip(trip_id):
     #     studentList.append(student_info)
     # return flask.jsonify(studentList), 200
     return flask.jsonify(trip_info), 200
+
 
 @app.route('/trips/new', methods=['POST'])
 def addTrip():
@@ -113,8 +115,11 @@ def deleteTrip(trip_id):
     return flask.jsonify("Trip successfully deleted!"), 200
 
 
-"""STUDENT AND TRIP METHODS"""
-
+""" ====================================== """
+""" ====================================== """
+""" ====== STUDENT AND TRIP METHODS ====== """
+""" ====================================== """
+""" ====================================== """
 @app.route('/students/gradeLevel/<int:grade>', methods=['GET'])
 def getStudentsInGrade(grade):
     session = DBSession()
@@ -129,20 +134,47 @@ def getStudentsInGrade(grade):
         studentGradeList.append(student_info)
     return flask.jsonify(studentGradeList), 200
 
-    # trip_to_assign.students = all_students
-    # trip_info = { "trip_name" : trip.trip_name,
-    #         "trip_grade" : trip.trip_grade,
-    #         "students" : trip.students
-    #         }
-    # return flask.jsonify(trip_info)
-    # return flask.jsonify("Students successfully assigned!"), 200
+@app.route('/trips/<int:trip_id>/detail/students',methods=['GET'])
+def getStudentsInTrip(trip_id):
+    session = DBSession()
+    tripStudentList = []
+    tripStudentLinks = session.query(TripStudentLink).join(Trip).filter(Trip.id == trip_id).all()
+    print(tripStudentLinks)
+    for tripStudentLink in tripStudentLinks:
+        student_info = {"first_name": tripStudentLink.student.first_name,
+                        "last_name": tripStudentLink.student.last_name,
+                        "grade": tripStudentLink.student.grade}
+        tripStudentList.append(student_info)
+    print(tripStudentList);
+    return flask.jsonify(tripStudentList), 200
+
+@app.route('/trips/<int:trip_id>/assignStudentsToTrip', methods=['POST'])
+def assignStudentsToTrip(trip_id):
+    session = DBSession()
+    studentAssignList = []
+    tripToAssign = []
+    tripStudentLinks = session.query(TripStudentLink).join(Trip).filter(Trip.id == trip_id).all()
+    for tripStudentLink in tripStudentLinks:
+        trip_info = {"trip_name": tripStudentLink.trip.trip_name,
+                     "trip_id": tripStudentLink.trip.trip_id}
+        tripToAssign.append(trip_info)
+        for trip in tripToAssign:
+            student_info = {"first_name": tripStudentLink.student.first_name,
+                        "last_name": tripStudentLink.student.last_name,
+                        "grade": tripStudentLink.student.grade}
+            studentAssignList.append(student_info)
+        triptoAssign.trip_name.append(studentAssignList)
+    return flask.jsonify(tripToassign), 200
 
 
+    print(trip_info);
 
-""" ====================================== """
-""" ====================================== """
-""" ======== STUDENT CRUD METHODS ======== """
-"""Show trip should be the same thing as showStudents"""
+""" ======================================= """
+""" ======================================= """
+""" === END OF STUDENT AND TRIP METHODS === """
+""" ======================================= """
+""" ======================================= """
+#
 # @app.route('/trips/<int:trip_id>/detail/students', methods=['GET'])
 # def showStudents(trip_id):
 #     session = DBSession()

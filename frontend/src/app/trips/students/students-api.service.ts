@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
-import {API_URL} from '../../env';
-import {Trip} from '../trip.model';
-import {Student} from './student.model';
+import { API_URL } from '../../env';
+import { Trip } from '../trip.model';
+import { Student } from './student.model';
 
 @Injectable()
 export class StudentsApiService {
@@ -20,5 +20,10 @@ export class StudentsApiService {
   Observable<Array<Student>> {
     return this.http
     .get<Array<Student>>(`${API_URL}/students/gradeLevel/${grade}`);
+  }
+
+  assignStudentsToTrip(TRIP_ID: number) {
+    return this.http
+    .post(`${API_URL}/trips/${TRIP_ID}/assignStudentsToTrip`);
   }
 }

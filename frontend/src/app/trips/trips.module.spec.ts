@@ -8,6 +8,7 @@ describe('TripsModule', () => {
   });
 
   it('should create an instance', () => {
-    expect(tripsModule).toBeTruthy();
+    expect(tripsModule)
+    .toBeTruthy();
   });
 });

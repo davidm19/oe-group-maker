@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
-import {API_URL} from '../env';
-import {Trip} from './trip.model';
-import {Student} from './students/student.model';
+import { API_URL } from '../env';
+import { Trip } from './trip.model';
+import { Student } from './students/student.model';
 
 @Injectable()
 export class TripsApiService {
@@ -16,16 +16,25 @@ export class TripsApiService {
     return Observable.throw(err.message || 'Error: Unable to complete request.');
   }
 
-  // GET list of public, future events
+  deleteTrip(TRIP_ID: number) {
+    return this.http
+      .delete(`${API_URL}/trips/${TRIP_ID}/delete`);
+  }
+
+  getStudentsInTrip(TRIP_ID: number) {
+    return this.http
+    .get<Array<Student>>(`${API_URL}/trips/${TRIP_ID}/detail/students`);
+  }
+
+  getTrip(TRIP_ID: number): Observable<Trip> {
+    return this.http
+    .get<Trip>(`${API_URL}/trips/${TRIP_ID}/detail`);
+  }
+
   getTrips():
   Observable<Array<Trip>> {
     return this.http
     .get<Array<Trip>>(`${API_URL}/trips`);
-  }
-
-  getTrip(trip_id: number): Observable<Trip> {
-    return this.http
-    .get<Trip>(`${API_URL}/trips/${trip_id}/detail`)
   }
 
   saveTrip(trip: Trip): Observable<any> {
@@ -33,8 +42,4 @@ export class TripsApiService {
     .post(`${API_URL}/trips/new`, trip);
   }
 
-  deleteTrip(trip_id: number) {
-    return this.http
-      .delete(`${API_URL}/trips/${trip_id}/delete`);
-  }
 }

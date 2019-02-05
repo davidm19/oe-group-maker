@@ -1,21 +1,19 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
-import {MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule
-} from '@angular/material';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { MatButtonModule, MatCardModule, MatInputModule, MatSelectModule, MatToolbarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { Routes, RouterModule} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { TripsApiService } from './trips/trips-api.service';
 import { TripFormComponent } from './trips/trip-form.component';
 import { StudentsApiService } from './trips/students/students-api.service';
 
-import {TripsComponent} from './trips/trips.component';
+import { TripsComponent } from './trips/trips.component';
 import { HomeComponent } from './home/home.component';
 import { TripDetailComponent } from './trips/trip-detail.component';
 import { AddStudentTripFormComponent } from './trips/students/add-student-trip-form.component';
@@ -26,9 +24,11 @@ const appRoutes: Routes = [
   { path: 'trips/:id/getStudentsInGrade', component: AddStudentTripFormComponent },
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'trips/:id/detail', component: TripDetailComponent }
+  { path: 'trips/:id/detail', component: TripDetailComponent },
+  { path: 'trips/:id/assignStudentsToTrip', component: AddStudentTripFormComponent}
 
 ]
+;
 
 @NgModule({
   declarations: [
@@ -38,10 +38,11 @@ const appRoutes: Routes = [
     HomeComponent,
     TripFormComponent,
     TripDetailComponent,
-    AddStudentTripFormComponent
+    AddStudentTripFormComponent,
 
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -50,13 +51,12 @@ const appRoutes: Routes = [
     MatInputModule,
     MatCardModule,
     MatButtonModule,
+    MatSelectModule,
     MatToolbarModule,
-    ReactiveFormsModule,
-
-
+    ReactiveFormsModule
 
   ],
-  providers: [TripsApiService, StudentsApiService],
+  providers: [TripsApiService, StudentsApiService, HttpModule],
   bootstrap: [AppComponent]
 })
 export class AppModule {
