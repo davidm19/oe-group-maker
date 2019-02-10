@@ -22,8 +22,10 @@ export class StudentsApiService {
     .get<Array<Student>>(`${API_URL}/students/gradeLevel/${grade}`);
   }
 
-  assignStudentsToTrip(TRIP_ID: number) {
+  assignStudentsToTrip(TRIP_ID: number, students) {
     return this.http
-    .post(`${API_URL}/trips/${TRIP_ID}/assignStudentsToTrip`);
+    .post(`${API_URL}/trips/${TRIP_ID}/assignStudentsToTrip`, students)
+    .subscribe(data => console.log("Post request succesful", data),
+        error => console.log("error", error));
   }
 }

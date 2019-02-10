@@ -2,7 +2,7 @@ import flask
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Student, engine, Preference, Trip, TripStudentLink
+from database_setup import Base, Student, engine, Preference, Trip
 #from database_setup import Trip
 from flask import session as login_session
 import random, string
@@ -128,7 +128,9 @@ def getStudentsInGrade(grade):
     #trip = session.query(Trip).filter_by(id=trip_id).one()
     studentsInGrade = session.query(Student).filter_by(grade=grade).all()
     for student in studentsInGrade:
-        student_info = {"first_name": student.first_name,
+        student_info = {
+                        "id": student.id,
+                        "first_name": student.first_name,
                         "last_name": student.last_name,
                         "grade": student.grade}
         studentGradeList.append(student_info)
@@ -138,36 +140,26 @@ def getStudentsInGrade(grade):
 def getStudentsInTrip(trip_id):
     session = DBSession()
     tripStudentList = []
-    tripStudentLinks = session.query(TripStudentLink).join(Trip).filter(Trip.id == trip_id).all()
-    print(tripStudentLinks)
-    for tripStudentLink in tripStudentLinks:
-        student_info = {"first_name": tripStudentLink.student.first_name,
-                        "last_name": tripStudentLink.student.last_name,
-                        "grade": tripStudentLink.student.grade}
-        tripStudentList.append(student_info)
-    print(tripStudentList);
+    trip = session.query(Trip).filter(Trip.id == trip_id).one()
+    for student in trip.students:
+        tripStudentList.append(student.serialize)
     return flask.jsonify(tripStudentList), 200
 
 @app.route('/trips/<int:trip_id>/assignStudentsToTrip', methods=['POST'])
 def assignStudentsToTrip(trip_id):
     session = DBSession()
-    studentAssignList = []
-    tripToAssign = []
-    tripStudentLinks = session.query(TripStudentLink).join(Trip).filter(Trip.id == trip_id).all()
-    for tripStudentLink in tripStudentLinks:
-        trip_info = {"trip_name": tripStudentLink.trip.trip_name,
-                     "trip_id": tripStudentLink.trip.trip_id}
-        tripToAssign.append(trip_info)
-        for trip in tripToAssign:
-            student_info = {"first_name": tripStudentLink.student.first_name,
-                        "last_name": tripStudentLink.student.last_name,
-                        "grade": tripStudentLink.student.grade}
-            studentAssignList.append(student_info)
-        triptoAssign.trip_name.append(studentAssignList)
-    return flask.jsonify(tripToassign), 200
+    student_assign_list = []
+    student_ids = request.get_json()
+    for s_id in student_ids:
+        student = session.query(Student).filter(Student.id == s_id).one()
+        student_assign_list.append(student)
 
+    trip = session.query(Trip).filter(Trip.id == trip_id).one()
+    trip.students = student_assign_list
+    session.add(trip)
+    session.commit()
+    return flask.jsonify("Success"), 200
 
-    print(trip_info);
 
 """ ======================================= """
 """ ======================================= """
