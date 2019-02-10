@@ -23,7 +23,7 @@ CORS(app)
 # CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Outdoor Ed Group Maker"
 
-engine = create_engine('sqlite:///database.db')
+engine = create_engine('sqlite:///database.db?check_same_thread=false')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -37,44 +37,20 @@ session = DBSession()
 
 @app.route('/trips', methods=['GET'])
 def showTrips():
-    session = DBSession()
     tripList = []
     allTrips = session.query(Trip).all()
-    # trip_id = request.args.get('trip_id')
-    # trip_name = request.args.get('trip_name')
     for trip in allTrips:
-        trip_info = {"trip_name" : trip.trip_name,
-                    "id" : trip.id,
-                    "trip_grade" : trip.trip_grade,
-                    }
-        tripList.append(trip_info)
+        tripList.append(trip.serialize)
     return flask.jsonify(tripList), 200
 
 @app.route('/trips/<int:trip_id>/detail', methods=['GET'])
 def showTrip(trip_id):
-    session = DBSession()
-    tripList = []
-    # studentList = []
     trip = session.query(Trip).filter_by(id=trip_id).one()
-    # students = session.query(Student).filter_by(trip_id=trip_id).all()
-    trip_info = { "trip_name" : trip.trip_name,
-                    "id" : trip.id,
-                    "trip_grade" : trip.trip_grade ,
-                    }
-    tripList.append(trip_info)
-    # for student in students:
-    #     student_info = { "first_name" : student.first_name
-    #                      , "last_name" : student.last_name,
-    #                      "grade" : student.grade
-    #                     }
-    #     studentList.append(student_info)
-    # return flask.jsonify(studentList), 200
-    return flask.jsonify(trip_info), 200
+    return flask.jsonify(trip.serialize), 200
 
 
 @app.route('/trips/new', methods=['POST'])
 def addTrip():
-    session = DBSession()
     post = request.get_json()
     if request.method == 'POST':
         newTrip = Trip(trip_name = post["trip_name"],
@@ -85,7 +61,6 @@ def addTrip():
 
 @app.route('/trips/<int:id>/update', methods=['PUT'])
 def updateTrip(id):
-    session = DBSession()
     post = request.get_json()
     if "id" not in post:
         return "ERROR: Not a valid Customer ID \n", 404
@@ -99,15 +74,6 @@ def updateTrip(id):
 
 @app.route('/trips/<int:trip_id>/delete', methods=['DELETE'])
 def deleteTrip(trip_id):
-    print("Deleting trip")
-    session = DBSession()
-    print("Request is ")
-    print(request)
-    post = request.get_json()
-    print("Post is ")
-    print(post)
-    print("Trip id is")
-    print(trip_id)
     tripToDelete = session.query(Trip).filter_by(id = trip_id).one()
     session.delete(tripToDelete)
     session.commit()
@@ -122,32 +88,22 @@ def deleteTrip(trip_id):
 """ ====================================== """
 @app.route('/students/gradeLevel/<int:grade>', methods=['GET'])
 def getStudentsInGrade(grade):
-    session = DBSession()
     studentGradeList = []
-    # post = request.get_json()
-    #trip = session.query(Trip).filter_by(id=trip_id).one()
     studentsInGrade = session.query(Student).filter_by(grade=grade).all()
     for student in studentsInGrade:
-        student_info = {
-                        "id": student.id,
-                        "first_name": student.first_name,
-                        "last_name": student.last_name,
-                        "grade": student.grade}
-        studentGradeList.append(student_info)
+        studentGradeList.append(student.serialize)
     return flask.jsonify(studentGradeList), 200
 
 @app.route('/trips/<int:trip_id>/detail/students',methods=['GET'])
 def getStudentsInTrip(trip_id):
-    session = DBSession()
     tripStudentList = []
-    trip = session.query(Trip).filter(Trip.id == trip_id).one()
+    trip = session.query(Trip).filter(Trip.id == trip_id).one_or_none()
     for student in trip.students:
         tripStudentList.append(student.serialize)
     return flask.jsonify(tripStudentList), 200
 
 @app.route('/trips/<int:trip_id>/assignStudentsToTrip', methods=['POST'])
 def assignStudentsToTrip(trip_id):
-    session = DBSession()
     student_assign_list = []
     student_ids = request.get_json()
     for s_id in student_ids:
