@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Documentation
+read -r -d '' DOCUMENTATION <<EOF
+Usage: api [OPERATION]
+Operation: app  - Set up application using test database
+		   db   - Set up test database
+		   test - Run unit tests on application
+EOF
+
+# Define location globals
+SCRIPT_DIR="$HOME/oe-group-maker/project/scripts/"
+
+# Add bash command for script and install all required programs
+function setup() {
+
+	echo "alias api='bash $SCRIPT_DIR/api.sh'" >> $HOME/.bash_profile
+	pip install -r $SCRIPT_DIR/requirements.txt
+
+}
+
+# Dylan is amazing
+ACTION=$1
+case "$ACTION" in
+	app)
+		bash $SCRIPT_DIR/backend.sh
+		;;
+	db)
+		bash $SCRIPT_DIR/test_db_gen.sh
+		;;
+	test)
+		bash $SCRIPT_DIR/test.sh
+		;;
+	*)
+		echo "$DOCUMENTATION"
+		echo "'$ACTION' is not a valid operation. Exiting..."
+esac

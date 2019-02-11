@@ -11,7 +11,6 @@ Icon
 
 # Thumbnails
 ._*
-
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
 .fseventsd
@@ -28,6 +27,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+project/commands.sh
+
 ### Vagrant ###
 # General
 .vagrant/
@@ -43,7 +44,13 @@ test/vagrant-spec/.vagrant/
 # *.logs
 
 ### Vagrant Patch ###
+.vagrant/
 *.box
 
+*.swp
 
+tags
+
+project/commands.sh
+*.pyc
 # End of https://www.gitignore.io/api/macos,vagrant
