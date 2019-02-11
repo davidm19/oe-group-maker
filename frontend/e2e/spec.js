@@ -12,17 +12,16 @@ describe('OE new trip function', function(){
     var saveTrip = element(by.css("button[class = 'mat-raised-button mat-primary']"));
     var deleteTrip = element.all(by.css("button[class = 'mat-button mat-warn']"));
     var addStudents = element(by.css("button[class = 'mat-raised-button mat-accent']"));
-    // var numCards = tripCard.count();
-    // var numCardsLess = numCards - 1;
+    var submitStudents = element(by.css("button[class = 'mat-raised-button mat-primary']"))
 
-    it('should have a title', function(){
+
+    it('should have a url', function(){
         browser.get('http://localhost:4200/');
         expect(browser.getCurrentUrl()).toBe('http://localhost:4200/');
     })
-    it('should show new trip functions', function(){
+    it('should show new trips page', function(){
         tripPage.click();
         expect(browser.getCurrentUrl()).toBe('http://localhost:4200/trips');
-        // expect(EC.presenceOf('tripGrade'));
     })
     it('should add a new trip', function(){
         tripPage.click();
@@ -35,14 +34,34 @@ describe('OE new trip function', function(){
     })
     //TODO: Delete Trips (nonessential)
         // it('should delete a trip', function(){
+        //     var numbah = tripCard.count();
         //     deleteTrip.click();
-        //     expect(tripCard.count()).toBe(numCards - 1);
+        //     expect(tripCard.count()).toBe(numbah - 1);
         // })
-    //TODO: Add students to a trip through checkboxes.
+    //TODO: Add all students to a trip through checkboxes.
     it('should add students to a trip with checkboxes', function(){
         tripPage.click();
         addStudents.click();
+        submitStudents.click();
     })
+    //TODO: Add some students to a trip through checkboxes.
+    it('should add selected students to a trip through checkboxes', function(){
+        tripPage.click();
+        addStudents.click();
+        element(by.css("input[ng-reflect-name='0']")).click();
+        element(by.css("input[ng-reflect-name='2']")).click();
+        submitStudents.click();
+        // expect(element(by.css('mat-card')).getText()).
+    })
+    //TODO: Return error when students checked are zero.
+    it('should return an error when no students selected', function(){
+        var EC = protractor.ExpectedConditions;
+        tripPage.click();
+        addStudents.click();
+        element.all(by.css("input")).click();
+        submitStudents.click();
+        browser.wait(EC.alertIsPresent(), 5000);
+    })
+    //TODO: Assign grade to a trip.
     //TODO: 3 checkboxes need to be added before students can submit preferences.
-
 });

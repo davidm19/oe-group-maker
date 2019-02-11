@@ -164,7 +164,7 @@ def assignStudentsToTrip(trip_id):
                         "grade": tripStudentLink.student.grade}
             studentAssignList.append(student_info)
         triptoAssign.trip_name.append(studentAssignList)
-    return flask.jsonify(tripToassign), 200
+    return flask.jsonify(tripToAssign), 200
 
 
     print(trip_info);

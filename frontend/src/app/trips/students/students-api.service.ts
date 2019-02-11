@@ -24,6 +24,6 @@ export class StudentsApiService {
 
   assignStudentsToTrip(TRIP_ID: number) {
     return this.http
-    .post(`${API_URL}/trips/${TRIP_ID}/assignStudentsToTrip`);
+    .post(`${API_URL}/trips/${TRIP_ID}/assignStudentsToTrip`, null);
   }
 }

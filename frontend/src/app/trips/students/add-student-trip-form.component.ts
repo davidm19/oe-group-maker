@@ -24,7 +24,7 @@ export class AddStudentTripFormComponent {
   students: Array<Student>;
   trip: Trip;
   form: FormGroup;
-  assignStudents: Array<Student>;
+  assignStudents: Student;
   orders: Array<Student>;
   studentAssignList: Array<Student>;
 
@@ -60,11 +60,12 @@ getTripID(): void {
 }
 
   submit() {
+    const trip_id = +this.route.snapshot.paramMap.get('id');
     const selectedOrderIds = this.form.value.orders
       .map((v, i) => v ? this.orders[i].id : undefined)
       .filter(v => v !== undefined);
     this.studentsListSubs = this.studentsApi
-    .assignStudentsToTrip()
+    .assignStudentsToTrip(trip_id)
     .subscribe(res => {
       this.assignStudents = res;
     },
