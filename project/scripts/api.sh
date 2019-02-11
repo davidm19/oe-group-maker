@@ -19,7 +19,7 @@ function setup() {
 
 }
 
-# Dylan is amazing
+# Parse desired action and execute corresponding function
 ACTION=$1
 case "$ACTION" in
 	app)
