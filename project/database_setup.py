@@ -62,6 +62,7 @@ class Preference(Base):
     student_id = Column(Integer, ForeignKey('student.id'))
     student = relationship(Student)
 
+
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--test", action="store_true")
 args = parser.parse_args()

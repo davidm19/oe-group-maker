@@ -121,6 +121,7 @@ def addGradeToTrip(trip_id, grade):
             tripStudentList.append(student_info)
         return flask.jsonify(tripStudentList)
 
+
 @app.route('/trips/<int:trip_id>/addStudents', methods=['PUT'])
 def assignStudentsToTrip(trip_id, student_list):
     session = DBSession()
