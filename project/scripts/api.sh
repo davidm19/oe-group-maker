@@ -3,19 +3,23 @@
 # Documentation
 read -r -d '' DOCUMENTATION <<EOF
 Usage: api [OPERATION]
-Operation: app  - Set up application using test database
-		   db   - Set up test database
-		   test - Run unit tests on application
+Operation: app   - Set up application using test database
+		   db    - Set up a populated database
+		   setup - Install programs and add api alias to bashrc
+		   test  - Run unit tests on application
 EOF
 
 # Define location globals
-SCRIPT_DIR="$HOME/oe-group-maker/project/scripts/"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[@]}" )" && pwd )"
+# SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Add bash command for script and install all required programs
 function setup() {
 
-	echo "alias api='bash $SCRIPT_DIR/api.sh'" >> $HOME/.bash_profile
-	pip install -r $SCRIPT_DIR/requirements.txt
+	echo "alias api='bash $SCRIPT_DIR/api.sh'" >> $HOME/.bashrc
+	source $HOME/.bashrc
+
+	sudo pip install -r $SCRIPT_DIR/requirements.txt
 
 }
 
@@ -26,12 +30,16 @@ case "$ACTION" in
 		bash $SCRIPT_DIR/backend.sh
 		;;
 	db)
-		bash $SCRIPT_DIR/test_db_gen.sh
+		bash $SCRIPT_DIR/db_gen.sh
+		;;
+	setup)
+		setup
 		;;
 	test)
 		bash $SCRIPT_DIR/test.sh
 		;;
 	*)
+		echo "'$ACTION' is not a valid operation."
 		echo "$DOCUMENTATION"
-		echo "'$ACTION' is not a valid operation. Exiting..."
+		echo "Exiting..."
 esac

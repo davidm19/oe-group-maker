@@ -11,6 +11,7 @@ import string
 import json
 from flask import make_response
 from sqlalchemy.sql import exists
+import os
 # from flask_cors import CORS
 
 app = Flask(__name__)
@@ -21,6 +22,7 @@ app = Flask(__name__)
 #   .read())['web']['client_id']
 APPLICATION_NAME = "Outdoor Ed Group Maker"
 
+SQLALCHEMY_DATABASE_URI = os.environ['DB_URL']
 engine = create_engine('sqlite:///test.db')
 Base.metadata.bind = engine
 
