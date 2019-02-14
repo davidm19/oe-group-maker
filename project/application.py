@@ -23,7 +23,8 @@ app = Flask(__name__)
 APPLICATION_NAME = "Outdoor Ed Group Maker"
 
 SQLALCHEMY_DATABASE_URI = os.environ['DB_URL']
-engine = create_engine('sqlite:///test.db')
+# engine = create_engine('sqlite:///test.db')
+engine = create_engine('sqlite:///SQLALCHEMY_DATABASE_URI.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -213,11 +214,7 @@ def deleteStudent(id):
 
 
 """ ======== STUDENT PREFERENCE CRUD METHODS ======== """
-=======
-""" ======== STUDENT PREFERENCE CRUD METHODS ======== """
 
-
->>>>>>> dmalone/travis-ci
 @app.route('/student/prefs', methods=['GET'])
 def showStudentPrefs():
     session = DBSession()
