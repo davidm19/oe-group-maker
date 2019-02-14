@@ -1,29 +1,29 @@
 import flask
-from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
+from flask import Flask, render_template, request, redirect, jsonify, url_for
+from flask import flash
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Student, engine, Preference, Trip, TripStudentLink
-#from database_setup import Trip
+from database_setup import Base, Student, engine, Preference, Trip
+# from database_setup import Trip
 from flask import session as login_session
-import random, string
+import random
+import string
 import json
 from flask import make_response
 from sqlalchemy.sql import exists
-from flask_cors import CORS
-
-
+import os
+# from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
-
+# CORS(app)
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-
-
-# CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
+# CLIENT_ID = json.loads(open('client_secrets.json', 'r')
+#   .read())['web']['client_id']
 APPLICATION_NAME = "Outdoor Ed Group Maker"
 
-engine = create_engine('sqlite:///database.db')
+SQLALCHEMY_DATABASE_URI = os.environ['DB_URL']
+engine = create_engine('sqlite:///test.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -35,6 +35,7 @@ session = DBSession()
 """ ===================================== """
 """ ===================================== """
 
+
 @app.route('/trips', methods=['GET'])
 def showTrips():
     session = DBSession()
@@ -43,12 +44,13 @@ def showTrips():
     # trip_id = request.args.get('trip_id')
     # trip_name = request.args.get('trip_name')
     for trip in allTrips:
-        trip_info = {"trip_name" : trip.trip_name,
-                    "id" : trip.id,
-                    "trip_grade" : trip.trip_grade,
-                    }
+        trip_info = {"trip_name": trip.trip_name,
+                     "id": trip.id,
+                     "trip_grade": trip.trip_grade,
+                     "trip_students": trip.students}
         tripList.append(trip_info)
     return flask.jsonify(tripList), 200
+
 
 @app.route('/trips/<int:trip_id>/detail', methods=['GET'])
 def showTrip(trip_id):
@@ -57,18 +59,9 @@ def showTrip(trip_id):
     # studentList = []
     trip = session.query(Trip).filter_by(id=trip_id).one()
     # students = session.query(Student).filter_by(trip_id=trip_id).all()
-    trip_info = { "trip_name" : trip.trip_name,
-                    "id" : trip.id,
-                    "trip_grade" : trip.trip_grade ,
-                    }
-    tripList.append(trip_info)
-    # for student in students:
-    #     student_info = { "first_name" : student.first_name
-    #                      , "last_name" : student.last_name,
-    #                      "grade" : student.grade
-    #                     }
-    #     studentList.append(student_info)
-    # return flask.jsonify(studentList), 200
+    trip_info = {"trip_name": trip.trip_name,
+                 "id": trip.id,
+                 "trip_grade": trip.trip_grade}
     return flask.jsonify(trip_info), 200
 
 
@@ -77,11 +70,12 @@ def addTrip():
     session = DBSession()
     post = request.get_json()
     if request.method == 'POST':
-        newTrip = Trip(trip_name = post["trip_name"],
-                        trip_grade = post["trip_grade"])
+        newTrip = Trip(trip_name=post["trip_name"],
+                       trip_grade=post["trip_grade"])
     session.add(newTrip)
     session.commit()
     return flask.jsonify("Trip successfully added!"), 200
+
 
 @app.route('/trips/<int:id>/update', methods=['PUT'])
 def updateTrip(id):
@@ -90,12 +84,13 @@ def updateTrip(id):
     if "id" not in post:
         return "ERROR: Not a valid Customer ID \n", 404
     trip_id = post["id"]
-    editedTrip = session.query(Trip).filter_by(id = trip_id).one()
+    editedTrip = session.query(Trip).filter_by(id=trip_id).one()
     if "trip_name" in post:
         editedTrip.trip_name = post["trip_name"]
     session.add(editedTrip)
     session.commit()
     return flask.jsonify("Trip successfully updated! \n"), 200
+
 
 @app.route('/trips/<int:trip_id>/delete', methods=['DELETE'])
 def deleteTrip(trip_id):
@@ -108,54 +103,46 @@ def deleteTrip(trip_id):
     print(post)
     print("Trip id is")
     print(trip_id)
-    tripToDelete = session.query(Trip).filter_by(id = trip_id).one()
+    tripToDelete = session.query(Trip).filter_by(id=trip_id).one()
     session.delete(tripToDelete)
     session.commit()
-
     return flask.jsonify("Trip successfully deleted!"), 200
 
 
-""" ====================================== """
-""" ====================================== """
-""" ====== STUDENT AND TRIP METHODS ====== """
-""" ====================================== """
-""" ====================================== """
-@app.route('/students/gradeLevel/<int:grade>', methods=['GET'])
-def getStudentsInGrade(grade):
-    session = DBSession()
-    studentGradeList = []
-    # post = request.get_json()
-    #trip = session.query(Trip).filter_by(id=trip_id).one()
-    studentsInGrade = session.query(Student).filter_by(grade=grade).all()
-    for student in studentsInGrade:
-        student_info = {"first_name": student.first_name,
-                        "last_name": student.last_name,
-                        "grade": student.grade}
-        studentGradeList.append(student_info)
-    return flask.jsonify(studentGradeList), 200
-
-
-@app.route('/trips/<int:trip_id>/detail/students',methods=['GET'])
-def getStudentsInTrip(trip_id):
+@app.route('/trips/<int:trip_id>/addGrade', methods=['POST'])
+def addGradeToTrip(trip_id, grade):
     session = DBSession()
     tripStudentList = []
+    # post = request.get_json()
+    studentsInGrade = session.query(Student).filter_by(grade=grade).all()
+    trip = session.query(Trip).filter_by(id=trip_id).one()
+    if grade is trip_grade:
+        for student in studentsInGrade:
+            student_info = {"first_name": student.first_name,
+                            "last_name": student.last_name}
+            tripStudentList.append(student_info)
+        return flask.jsonify(tripStudentList)
 
-    tripStudentLinks = session.query(TripStudentLink).join(Trip).filter(Trip.id == trip_id).all()
-    print(tripStudentLinks)
-    for tripStudentLink in tripStudentLinks:
-        student_info = {"first_name": tripStudentLink.student.first_name,
-                        "last_name": tripStudentLink.student.last_name,
-                        "grade": tripStudentLink.student.grade}
-        tripStudentList.append(student_info)
-    print(tripStudentList);
-    return flask.jsonify(tripStudentList), 200
 
-""" ======================================= """
-""" ======================================= """
-""" === END OF STUDENT AND TRIP METHODS === """
-""" ======================================= """
-""" ======================================= """
-#
+@app.route('/trips/<int:trip_id>/addStudents', methods=['PUT'])
+def assignStudentsToTrip(trip_id, student_list):
+    session = DBSession()
+    # tripStudentList = []
+    trip = session.query(Trip).filter_by(id=trip_id).one()
+    trip.students = student_list
+    # for student in student_list:
+    #    student_info = {"first_name": student.first_name,
+    #                    "last_name": student.last_name}
+    #    tripStudentList.append(student_info)
+    session.add(trip)
+    session.commit()
+    return "Students successfully added!", 202
+    return flask.jsonify(tripStudentList)
+
+""" ====================================== """
+""" ====================================== """
+""" ======== STUDENT CRUD METHODS ======== """
+"""Show trip should be the same thing as showStudents"""
 # @app.route('/trips/<int:trip_id>/detail/students', methods=['GET'])
 # def showStudents(trip_id):
 #     session = DBSession()
@@ -170,26 +157,29 @@ def getStudentsInTrip(trip_id):
 #         studentList.append(student_info)
 #     return flask.jsonify(studentList), 200
 
+
 @app.route('/students/<int:ID>/', methods=['GET'])
 def showStudent(ID):
     session = DBSession()
     student = session.query(Student).filter_by(id=ID).one()
-    student_info = { "first_name" : student.first_name
-                , "last_name" : student.last_name
-                }
+    student_info = {"first_name": student.first_name,
+                    "last_name": student.last_name}
     return flask.jsonify(student_info), 200
 
-#NEED SHOW STUDENT + PREFS METHODS NOW!!
+# NEED SHOW STUDENT + PREFS METHODS NOW!!
+
 
 @app.route('/students/new', methods=['POST'])
 def newStudent():
     session = DBSession()
     post = request.get_json()
     if request.method == 'POST':
-        newStudent = Student(first_name = post["first_name"], last_name = post["last_name"])
+        newStudent = Student(first_name=post["first_name"],
+                             last_name=post["last_name"])
     session.add(newStudent)
     session.commit()
     return flask.jsonify("Student successfully added! \n"), 200
+
 
 @app.route('/students/<int:id>/edit', methods=['PUT'])
 def editStudent(id):
@@ -207,6 +197,7 @@ def editStudent(id):
     session.commit()
     return flask.jsonify("Student successfully updated! \n"), 200
 
+
 @app.route('/students/<int:id>/delete', methods=['PUT'])
 def deleteStudent(id):
     session = DBSession()
@@ -219,79 +210,21 @@ def deleteStudent(id):
     session.commit()
     return flask.jsonify("Student successfully deleted! \n"), 200
 
-#METHODS WITH TRIPTHING
 
-# @app.route('/trips/<int:trip_id>/students', methods=['GET'])
-# def showStudents(trip_id):
-#     session = DBSession()
-#     students = session.query(Student).all()
-#     students_all = list()
-#     for student in students:
-#         student_info = { "first_name" : student.first_name
-#                     , "last_name" : student.last_name
-#                     , "grade" : student.grade
-#                     }
-#         students_all.append(student_info)
-#     return flask.jsonify(students_all), 200
-
-# @app.route('/trips/<int:trip_id>/students/<int:ID>/', methods=['GET'])
-# def showStudent(trip_id, ID, GRADE):
-#     session = DBSession()
-#     student = session.query(Student).filter_by(id=ID).one()
-#     student_info = { "first_name" : student.first_name
-#                 , "last_name" : student.last_name
-#                 , "grade" : student.grade
-#                 }
-#     return flask.jsonify(student_info), 200
-
-# @app.route('/trips/<int:trip_id>/students/new', methods=['POST'])
-# def newStudent(trip_id):
-#     session = DBSession()
-#     post = request.get_json()
-#     if request.method == 'POST':
-#         newStudent = Student(first_name = post["first_name"], last_name = post["last_name"], grade = post["grade"])
-#     session.add(newStudent)
-#     session.commit()
-#     return flask.jsonify("Student successfully added! \n"), 200
-
-# @app.route('/trips/<int:trip_id>/students/<int:id>/edit', methods=['PUT'])
-# def editStudent(trip_id, id):
-#     session = DBSession()
-#     post = request.get_json()
-#     if "id" not in post:
-#         return "ERROR: Not a valid Customer ID \n", 404
-#     student_id = post["id"]
-#     editedStudent = session.query(Student).filter_by(id=student_id).one()
-#     if 'first_name' in post:
-#         editedStudent.first_name = post['first_name']
-#     elif 'last_name' in post:
-#         editedStudent.last_name = post['last_name']
-#     elif 'grade' in post:
-#         editedStudent.grade = post['grade']
-#     session.add(editedStudent)
-#     session.commit()
-#     return flask.jsonify("Student successfully updated! \n"), 200
-
-# @app.route('/trips/<int:trip_id>/students/<int:id>/delete', methods=['PUT'])
-# def deleteStudent(trip_id, id):
-#     session = DBSession()
-#     post = request.get_json()
-#     if "id" not in post:
-#         return "ERROR: Not a valid Customer ID \n", 404
-#     student_id = post["id"]
-#     studentToDelete = session.query(Student).filter_by(id=id).one()
-#     session.delete(studentToDelete)
-#     session.commit()
-#     return flask.jsonify("Student successfully deleted! \n"), 200
 
 """ ======== STUDENT PREFERENCE CRUD METHODS ======== """
+=======
+""" ======== STUDENT PREFERENCE CRUD METHODS ======== """
+
+
+>>>>>>> dmalone/travis-ci
 @app.route('/student/prefs', methods=['GET'])
 def showStudentPrefs():
     session = DBSession()
     preferences_all = []
     preferences = session.query(Preference).all()
     for preference in preferences:
-        preference_name = { "name" : preference.name}
+        preference_name = {"name": preference.name}
         preferences_all.append(preference_name)
     return flask.jsonify(preferences_all), 200
 
@@ -302,12 +235,10 @@ def showStudentPref(ID):
     preferences = session.query(Preference).filter_by(student_id=ID).all()
     preferences_all = []
     for preference in preferences:
-        preference_name = { "name" : preference.name}
+        preference_name = {"name": preference.name}
         preferences_all.append(preference_name)
     return flask.jsonify(preferences_all), 200
 
-# @app.route('/student/<int:ID>/prefs', methods=['POST'])
-# def updateStudentPref()
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'

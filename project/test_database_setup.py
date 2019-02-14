@@ -7,10 +7,12 @@ from sqlalchemy.sql import func
 
 Base = declarative_base()
 
+
 class Trip(Base):
     __tablename__ = 'trip'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(32))
+
 
 class Student(Base):
     __tablename__ = 'student'
@@ -32,5 +34,5 @@ class Preference(Base):
     student = relationship(Student)
 
 
-engine = create_engine('sqlite:///test_database.db')
+engine = create_engine('sqlite:///database.db')
 Base.metadata.create_all(engine)

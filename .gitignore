@@ -51,5 +51,6 @@ test/vagrant-spec/.vagrant/
 
 tags
 
+project/commands.sh
 *.pyc
 # End of https://www.gitignore.io/api/macos,vagrant

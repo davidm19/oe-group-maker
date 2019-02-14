@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# T.O.D.O:
+# - expand for travis file so it checks all commit messages (any new commits follow this format)
+
 import sys, os, re
 from subprocess import check_output
 from collections import defaultdict
@@ -20,6 +23,8 @@ with open(commit_msg_filepath, 'r') as f:
                 print "New fix"
             elif current_line.startswith("refactor: "):
                 print "New refactor"
+            print("Next Line after fix")
+            print(lines[i+1])
             if lines[i+1] is "":
                 is_blank_line = True
                 if lines[i+2] is "" or lines[i+2].startswith("#"):
@@ -29,3 +34,32 @@ with open(commit_msg_filepath, 'r') as f:
                     sys.exit(0)
         # elif current_line.startswith("feat: ") or current_line.startswith("style: ") or current_line.startswith("docs: ") or current_line.startswith("test: ") or current_line.startswith("chore: "):
         #     sys.exit(0)
+                # elif lines[i+2] is None:
+                #     print "You did not specify a description for your fix/refactor. Exiting..."
+                #     sys.exit(1)
+                # print "You did not specify a description for your fix/refactor. Exiting..."
+                # sys.exit(1)
+
+        # - HAVE A VARIABLE CALLED "CHECK_FOR_BLANKLINE", SET IT EQUAL TO FALSE, AND INSIDE OF THAT:
+        # - if fix or refactor, set CHECK_FOR_BLANKLINE to True and continue (keyword)
+        # - AT THE TOP, IF CHECKFORBLANKLINE
+
+    # # THIS SHIT WORKS!
+    # for line in lines:
+    #     if not line.startswith("#"):
+    #         commit_types = [ "feat:", "fix:", "refactor:", "style:", "docs:", "test:" ]
+    #         for commit_type in commit_types:
+    #             if line.startswith("fix: ") or line.startswith("refactor: "):
+    #                 print "HAHAHAHA: Commit Type: %s" % commit_type.strip(":")
+    #                 if len(line) > 50:
+    #                     print "Your commit message is greater than 50 characters. Please shorten it."
+    #                     sys.exit(1)
+    #                 sys.exit(0)
+    #             elif line.startswith("feat: ") or line.startswith("style: ") or line.startswith("docs: ") or line.startswith("test: "):
+    #                 print "Commit Type: %s" % commit_type.strip(":")
+    #                 if len(line) > 50:
+    #                     print "Your commit message is greater than 50 characters. Please shorten it."
+    #                     sys.exit(1)
+    #                 sys.exit(0)
+    #         print "You didn't specify the type of edit. Exiting..."
+    #         sys.exit(1)
