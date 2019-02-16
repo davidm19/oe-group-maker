@@ -26,6 +26,8 @@ session.add(Mia)
 David = Student(first_name='David', last_name='Malone', grade='7')
 session.add(David)
 Michael = Student(first_name='Michael', last_name='Huang', grade='7')
+pref_1 = Preference(student=David)
+Michael.preferences.append(pref_1)
 session.add(Michael)
 session.commit()
 

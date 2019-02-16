@@ -36,6 +36,7 @@ class Student(Base):
     grade = Column(Integer, nullable = False)
     trips = relationship('Trip', secondary=trip_student_link,
                           back_populates="students")
+    preferences = relationship('Preference')
 
     @property
     def serialize(self):
@@ -51,8 +52,6 @@ class Preference(Base):
     __tablename__ = 'preference'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(32))
-    priority = Column(Integer)
     student_id = Column(Integer, ForeignKey('student.id'))
     student = relationship(Student)
 
