@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<div class="row banner menu">
+<h1> <i class= "fa fa-map-pin"></i>Trips</h1>
+</div>
+
+<div class="col-md-10 padding-none">
+  <a href="{{url_for('showTrips')}}">
+    <button class="btn new" id="new-trip">
+    <h2> <i class="fa fa-plus"> </i>  New Trip
+    </h2>
+    </button>
+  </a>
+  <a>Hello world!</a>
+</div>
+{% endblock %}
