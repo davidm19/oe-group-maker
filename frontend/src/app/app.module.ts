@@ -17,6 +17,7 @@ import { TripsComponent } from './trips/trips.component';
 import { HomeComponent } from './home/home.component';
 import { TripDetailComponent } from './trips/trip-detail.component';
 import { AddStudentTripFormComponent } from './trips/students/add-student-trip-form.component';
+import { PreferencesComponent } from './preferences/preferences.component';
 
 const appRoutes: Routes = [
   { path: 'trips', component: TripsComponent },
@@ -25,7 +26,8 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'trips/:id/detail', component: TripDetailComponent },
-  { path: 'trips/:id/assignStudentsToTrip', component: AddStudentTripFormComponent}
+  { path: 'trips/:id/assignStudentsToTrip', component: AddStudentTripFormComponent},
+  { path: 'student/:id/preferences', component: PreferencesComponent}
 
 ]
 ;
@@ -39,6 +41,7 @@ const appRoutes: Routes = [
     TripFormComponent,
     TripDetailComponent,
     AddStudentTripFormComponent,
+    PreferencesComponent,
 
   ],
   imports: [

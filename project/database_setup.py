@@ -36,7 +36,6 @@ class Student(Base):
     grade = Column(Integer, nullable = False)
     trips = relationship('Trip', secondary=trip_student_link,
                           back_populates="students")
-    preferences = relationship('Preference')
 
     @property
     def serialize(self):
@@ -52,8 +51,19 @@ class Preference(Base):
     __tablename__ = 'preference'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    first_name = Column(String(32))
+    last_name = Column(String(32))
     student_id = Column(Integer, ForeignKey('student.id'))
-    student = relationship(Student)
+    student = relationship('Student', backref="preferences")
+
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+        }
+
 
 engine = create_engine('sqlite:///database.db')
 Base.metadata.create_all(engine)

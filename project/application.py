@@ -258,6 +258,7 @@ def show_student_preferences(student_id):
     student = session.query(Student).filter(Student.id == student_id).one()
     preferences_all = []
     for preference in student.preferences:
+        print(preference)
         preferences_all.append(preference.serialize)
     return flask.jsonify(preferences_all), 200
 
