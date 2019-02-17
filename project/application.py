@@ -252,29 +252,29 @@ def deleteStudent(id):
 #     return flask.jsonify("Student successfully deleted! \n"), 200
 
 """ ======== STUDENT PREFERENCE CRUD METHODS ======== """
-@app.route('/student/prefs', methods=['GET'])
-def showStudentPrefs():
+@app.route('/student/<int:student_id>/preferences', methods=['GET'])
+def show_student_preferences(student_id):
     session = DBSession()
+    student = session.query(Student).filter(Student.id == student_id).one()
     preferences_all = []
-    preferences = session.query(Preference).all()
-    for preference in preferences:
-        preference_name = { "name" : preference.name}
-        preferences_all.append(preference_name)
+    for preference in student.preferences:
+        preferences_all.append(preference.serialize)
     return flask.jsonify(preferences_all), 200
 
+@app.route('/student/<int:student_id>/assignPreferencesToStudent', methods=['POST'])
+def assign_preferences_to_student(student_id):
+    new_preferences = []
+    preference_ids = request.get_json()
+    for p_id in preference_ids:
+        student = session.query(Student).filter(Student.id == p_id).one()
+        new_preferences.append(student)
 
-@app.route('/student/<int:ID>/prefs', methods=['GET'])
-def showStudentPref(ID):
-    session = DBSession()
-    preferences = session.query(Preference).filter_by(student_id=ID).all()
-    preferences_all = []
-    for preference in preferences:
-        preference_name = { "name" : preference.name}
-        preferences_all.append(preference_name)
-    return flask.jsonify(preferences_all), 200
+    student = session.query(Student).filter(Student.id == student_id).one()
+    student.preferences = new_preferences
+    session.add(student)
+    session.commit()
+    return flask.jsonify("Success"), 200
 
-# @app.route('/student/<int:ID>/prefs', methods=['POST'])
-# def updateStudentPref()
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
