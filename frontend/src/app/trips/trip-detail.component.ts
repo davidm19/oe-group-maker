@@ -1,12 +1,8 @@
-import { switchMap } from 'rxjs/operators';
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { TripsApiService } from './trips-api.service';
 import { Trip } from './trip.model';
-import { TripsComponent } from './trips.component';
-import { TripsModule } from './trips.module';
 import { Student } from './students/student.model';
 import { StudentsApiService } from './students/students-api.service';
 
@@ -28,51 +24,39 @@ export class TripDetailComponent implements OnInit {
 
   }
 
-    ngOnInit() {
-      this.getTrip();
-      this.getStudentsInTrip();
-
-    }
+  ngOnInit() {
+    this.getTrip();
+    this.getStudentsInTrip();
+  }
 
   getTrip(): void {
     const trip_id = +this.route.snapshot.paramMap.get('id');
-    console.log(trip_id);
     this.tripsApi
-    .getTrip(trip_id)
-    .subscribe(res => {
+      .getTrip(trip_id)
+      .subscribe(res => {
         this.trip = res;
-      },
-      console.error
-    );
-    console.log(this.trip);
+      });
   }
 
   getStudentsInTrip(): void {
-    console.log('Calling getStudentsInTrip');
     const TRIP_ID = +this.route.snapshot.paramMap.get('id');
     this.tripsApi
-    .getStudentsInTrip(TRIP_ID)
-    .subscribe(
-      res => {
-      console.log('Students in trip ' + this.trip.trip_name);
-      console.log(res);
-      this.tripStudentList = res;
-    }
-  );
-}
+      .getStudentsInTrip(TRIP_ID)
+      .subscribe(
+        res => {
+          this.tripStudentList = res;
+        }
+      );
+  }
 
   getStudentsInGrade(): void {
-  console.log('Calling getStudentsInGrade');
-  console.log(this.trip);
-  this.studentsApi
-  .getStudentsInGrade(this.trip.trip_grade)
-  .subscribe(
-    result => {
-      console.log('Students in grade ' + this.trip.trip_grade);
-      console.log(result);
-      this.studentGradeList = result;
-    }
-  );
+    this.studentsApi
+      .getStudentsInGrade(this.trip.trip_grade)
+      .subscribe(
+        result => {
+          this.studentGradeList = result;
+        }
+      );
 
   }
 }

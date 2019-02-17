@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Trip } from './trip.model';
 import { TripsApiService } from './trips-api.service';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-trips',
@@ -39,10 +38,8 @@ export class TripsComponent implements OnInit, OnDestroy {
     this.tripsListSubs = this.tripsApi
       .getTrips()
       .subscribe(res => {
-          this.tripsList = res;
-        },
-        console.error
-      );
+        this.tripsList = res;
+      });
   }
 
   ngOnDestroy() {
@@ -50,16 +47,14 @@ export class TripsComponent implements OnInit, OnDestroy {
   }
 
   delete(TRIP_ID: number) {
-  this.tripsApi
-    .deleteTrip(TRIP_ID)
-    .subscribe(() => {
-      this.tripsListSubs = this.tripsApi
-        .getTrips()
-        .subscribe(res => {
+    this.tripsApi
+      .deleteTrip(TRIP_ID)
+      .subscribe(() => {
+        this.tripsListSubs = this.tripsApi
+          .getTrips()
+          .subscribe(res => {
             this.tripsList = res;
-          },
-          console.error
-        );
-    }, console.error);
-}
+          });
+      });
+  }
 }

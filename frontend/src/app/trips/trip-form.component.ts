@@ -36,8 +36,6 @@ export class TripFormComponent {
 
   updateGrade(event: any) {
     this.trip.trip_grade = event.target.value;
-    console.log("updating grade")
-    console.log(event.target.value)
   }
 
   saveTrip() {
@@ -47,6 +45,6 @@ export class TripFormComponent {
         () => this.router.navigate(['/trips']),
         error => alert(error.message)
       );
-      console.log("Trip grade is " + this.trip.trip_grade)
+    console.log("Trip grade is " + this.trip.trip_grade)
   }
 }
