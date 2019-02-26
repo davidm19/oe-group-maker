@@ -9,22 +9,22 @@ addons:
 
 matrix:
   include:
-    - language: node_js
-      before_install:
-        - npm install -g @angular/cli
-        - npm install @angular-devkit/build-angular
-        - npm install @angular/compiler-cli
-        - npm install @angular/compiler
-        - npm install karma
-        - npm install tslint
-      node_js:
-        - "8"
-      script:
-        - cd frontend
-        - npm install
-        - ng lint
-        - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-        - cd ..
+    # - language: node_js
+    #   before_install:
+    #     - npm install -g @angular/cli
+    #     - npm install @angular-devkit/build-angular
+    #     - npm install @angular/compiler-cli
+    #     - npm install @angular/compiler
+    #     - npm install karma
+    #     - npm install tslint
+    #   node_js:
+    #     - "8"
+    #   script:
+    #     - cd frontend
+    #     - npm install
+    #     - ng lint
+    #     - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+    #     - cd ..
     - language: python
       python: 2.7.12
       os: linux
@@ -39,6 +39,6 @@ matrix:
         - "./pycodestyle-travis/install.sh"
       script:
         - "./pycodestyle-travis/scan.sh"
-        - cd project/
-        - pytest *.py
-        - cd ../
+        # - cd project/
+        # - pytest *.py
+        # - cd ../

@@ -11,7 +11,7 @@ with open('.commits.txt', 'r') as f:
     lines = content.split("\n")
     is_blank_line = False
 
-    # For each line, check if it starts with the commit type; if not, let the user know
+    # For each line, check the author; if it's not Mr. Devaughn-Brown, check the commit message. if it doesn't start with the commit type, let the user know
     for line in lines:
         current_line = line.split("|")
         author = current_line[0]
