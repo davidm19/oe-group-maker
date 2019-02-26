@@ -40,5 +40,4 @@ Trip2.students.append(Jane)
 Trip2.students.append(John)
 
 
-
 session.commit()
