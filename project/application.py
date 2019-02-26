@@ -140,6 +140,7 @@ def assignStudentsToTrip(trip_id, student_list):
     return "Students successfully added!", 202
     return flask.jsonify(tripStudentList)
 
+
 """ ====================================== """
 """ ====================================== """
 """ ======== STUDENT CRUD METHODS ======== """
@@ -212,8 +213,8 @@ def deleteStudent(id):
     return flask.jsonify("Student successfully deleted! \n"), 200
 
 
-
 """ ======== STUDENT PREFERENCE CRUD METHODS ======== """
+
 
 @app.route('/student/prefs', methods=['GET'])
 def showStudentPrefs():
