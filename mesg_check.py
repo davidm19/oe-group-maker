@@ -4,9 +4,6 @@ import sys, os, re
 from subprocess import check_output
 from collections import defaultdict
 
-# Define commit types (keyword placed at beginning of commit message)
-commit_types = ["feat: ", "fix: ", "refactor: ", "style: ", "docs: ", "test: ", "chore: ", "Merge ", "Initial"] 
-
 # Open hidden commits file
 with open('.commits.txt', 'r') as f:
     print("Checking commit messages...")
@@ -16,9 +13,12 @@ with open('.commits.txt', 'r') as f:
 
     # For each line, check if it starts with the commit type; if not, let the user know
     for line in lines:
-        current_line = line
-        if current_line is not "":
-            if current_line.startswith("feat: ") or current_line.startswith("fix: ") or current_line.startswith("refactor: ") or current_line.startswith("style: ") or current_line.startswith("docs: ") or current_line.startswith("test: ") or current_line.startswith("chore: ") or current_line.startswith("Merge ") or current_line.startswith("Initial "):
-                print("Success! Line '%s' starts with a valid commit type." % current_line)
-            else:
-                print("'%s' is invalid as it does not start with a commit type." % current_line)
+        current_line = line.split("|")
+        author = current_line[0]
+        message = current_line[1]
+        if current_line != "":
+            if author != "J.D. DeVaughn-Brown":
+                if message.startswith("feat: ") or message.startswith("fix: ") or message.startswith("refactor: ") or message.startswith("style: ") or message.startswith("docs: ") or message.startswith("test: ") or message.startswith("chore: ") or message.startswith("Merge ") or message.startswith("Initial "):
+                    print("Success! Line '%s' starts with a valid commit type." % message)
+                else:
+                    print("'%s' is invalid as it does not start with a commit type." % message)
