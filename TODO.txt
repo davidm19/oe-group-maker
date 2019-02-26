@@ -1,1 +1,0 @@
-WHENEVER TESTING TRAVIS-CI, ALWAYS DO git commit --amend AND git push -f ON THIS BRANCH
