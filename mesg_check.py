@@ -32,7 +32,7 @@ with open('.commits.txt', 'r') as f:
                 or message.startswith("Merge ")
                 or message.startswith("Initial "):
                     print("Success! Line '%s' starts with a valid commit type."
-                            % message)
+                          % message)
                 else:
-                    print("'%s' is invalid as it does not start with a commit type."
-                            % message)
+                    print("'%s' is invalid as it does not 
+                          start with a commit type." % message)
