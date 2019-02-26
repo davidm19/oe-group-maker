@@ -22,17 +22,21 @@ with open('.commits.txt', 'r') as f:
         message = current_line[1]
         if current_line != "":
             if author != "J.D. DeVaughn-Brown":
-                if message.startswith("feat: ")
-                or message.startswith("fix: ")
-                or message.startswith("refactor: ")
-                or message.startswith("style: ")
-                or message.startswith("docs: ")
-                or message.startswith("test: ")
-                or message.startswith("chore: ")
-                or message.startswith("Merge ")
-                or message.startswith("Initial "):
-                    print("Success! Line '%s' starts with a valid commit type."
-                          % message)
+                if (message.startswith("feat: ")
+                    or message.startswith("fix: ")
+                    or message.startswith("refactor: ")
+                    or message.startswith("style: ")
+                    or message.startswith("docs: ")
+                    or message.startswith("test: ")
+                    or message.startswith("chore: ")
+                    or message.startswith("Merge ")
+                        or message.startswith("Initial ")):
+                    print(
+                        "Success! Line '%s' starts with a valid commit type."
+                        % message
+                        )
                 else:
-                    print("'%s' is invalid as it does not 
-                          start with a commit type." % message)
+                    print(
+                        "'%s' does not start with a commit type."
+                        % message
+                        )
