@@ -34,5 +34,5 @@ with open('.commits.txt', 'r') as f:
                     print("Success! Line '%s' starts with a valid commit type."
                           % message)
                 else:
-                    print("'%s' is invalid as it does not 
+                    print("'%s' is invalid as it does not
                           start with a commit type." % message)
