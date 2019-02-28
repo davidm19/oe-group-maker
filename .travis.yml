@@ -39,6 +39,7 @@ matrix:
         - "./pycodestyle-travis/install.sh"
       script:
         - "./pycodestyle-travis/scan.sh"
+        - bash cmesg.sh
         # - cd project/
         # - pytest *.py
         # - cd ../
