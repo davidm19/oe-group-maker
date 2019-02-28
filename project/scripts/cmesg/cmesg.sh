@@ -12,4 +12,4 @@ fi
 git log --pretty=format:"%an|%s" > $FILE1
 
 # Run the commit message python script
-python mesg_check.py
+python project/scripts/cmesg/mesg_check.py
