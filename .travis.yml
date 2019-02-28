@@ -1,7 +1,6 @@
 sudo: required
 
-addons:
-    apt:
+addons: apt:
         sources:
             - google-chrome
         packages:
@@ -39,7 +38,4 @@ matrix:
         - "./pycodestyle-travis/install.sh"
       script:
         - "./pycodestyle-travis/scan.sh"
-        - bash cmesg.sh
-        # - cd project/
-        # - pytest *.py
-        # - cd ../
+        - bash project/scripts/cmesg/cmesg.sh
