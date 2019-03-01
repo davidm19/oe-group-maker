@@ -56,7 +56,6 @@ def showTrips():
 @app.route('/trips/<int:trip_id>/detail', methods=['GET'])
 def showTrip(trip_id):
     session = DBSession()
-    tripList = []
     # studentList = []
     trip = session.query(Trip).filter_by(id=trip_id).one()
     # students = session.query(Student).filter_by(trip_id=trip_id).all()
