@@ -34,10 +34,6 @@ with open('.commits.txt', 'r') as f:
                         or message.startswith("Initial ")
                         or message.startswith("Associate ")):
                     pass
-                    # print(
-                    #     "Success! Line '%s' starts with a valid commit type."
-                    #     % message
-                    #     )
                 else:
                     has_errors = True
                     print(
