@@ -20,6 +20,7 @@ with open('.commits.txt', 'r') as f:
         current_line = line.split("|")
         author = current_line[0]
         message = current_line[1]
+        has_errors = False
         if current_line != "":
             if author != "J.D. DeVaughn-Brown":
                 if (message.startswith("feat: ")
@@ -31,13 +32,19 @@ with open('.commits.txt', 'r') as f:
                     or message.startswith("chore: ")
                     or message.startswith("Merge ")
                         or message.startswith("Initial ")):
-                    print(
-                        "Success! Line '%s' starts with a valid commit type."
-                        % message
-                        )
+                    pass
+                    # print(
+                    #     "Success! Line '%s' starts with a valid commit type."
+                    #     % message
+                    #     )
                 else:
-                    print(
-                        "*** '%s' does not start with a commit type."
-                        % message
-                        )
-                    sys.exit(1)
+                    has_errors = True
+                    # print(
+                    #     "*** '%s' does not start with a commit type."
+                    #     % message
+                    #     )
+                    # sys.exit(1)
+
+        if has_errors:
+            print("*** Some commits don't follow the template. ***")
+            sys.exit(1)
