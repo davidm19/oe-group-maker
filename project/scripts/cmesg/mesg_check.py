@@ -7,7 +7,7 @@ from subprocess import check_output
 from collections import defaultdict
 
 # Open hidden commits file
-with open('.commits.txt', 'r') as f:
+with open('.first_commit.txt', 'r') as f:
     print("Checking commit messages...")
     content = f.read()
     lines = content.split("\n")
@@ -40,3 +40,4 @@ with open('.commits.txt', 'r') as f:
                         "'%s' does not start with a commit type."
                         % message
                         )
+                    sys.exit(1)

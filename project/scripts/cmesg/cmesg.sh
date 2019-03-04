@@ -2,6 +2,7 @@
 
 # Create a hidden commits file; if the file still exists at script runtime, remove it
 FILE1=.commits.txt
+FILE2=.first_commit.txt
 
 if [[ -e $FILE1 ]]; then
     rm $FILE1
