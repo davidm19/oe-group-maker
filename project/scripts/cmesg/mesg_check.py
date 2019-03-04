@@ -37,7 +37,7 @@ with open('.commits.txt', 'r') as f:
                         )
                 else:
                     print(
-                        "'%s' does not start with a commit type."
+                        "*** '%s' does not start with a commit type."
                         % message
                         )
                     sys.exit(1)
