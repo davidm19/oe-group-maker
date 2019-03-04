@@ -39,11 +39,11 @@ with open('.commits.txt', 'r') as f:
                     #     )
                 else:
                     has_errors = True
-                    # print(
-                    #     "*** '%s' does not start with a commit type."
-                    #     % message
-                    #     )
-                    # sys.exit(1)
+                    print(
+                        "*** '%s' does not start with a commit type."
+                        % message
+                        )
+                    sys.exit(1)
 
         if has_errors:
             print("*** Some commits don't follow the template. ***")
