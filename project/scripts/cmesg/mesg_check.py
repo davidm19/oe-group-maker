@@ -31,7 +31,8 @@ with open('.commits.txt', 'r') as f:
                     or message.startswith("test: ")
                     or message.startswith("chore: ")
                     or message.startswith("Merge ")
-                        or message.startswith("Initial ")):
+                        or message.startswith("Initial ")
+                        or message.startswith("Associate ")):
                     pass
                     # print(
                     #     "Success! Line '%s' starts with a valid commit type."
