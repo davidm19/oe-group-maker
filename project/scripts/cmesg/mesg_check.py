@@ -7,7 +7,7 @@ from subprocess import check_output
 from collections import defaultdict
 
 # Open hidden commits file
-with open('.first_commit.txt', 'r') as f:
+with open('.commits.txt', 'r') as f:
     print("Checking commit messages...")
     content = f.read()
     lines = content.split("\n")
