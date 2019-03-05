@@ -21,6 +21,7 @@ with open('.commits.txt', 'r') as f:
         author = current_line[0]
         message = current_line[1]
         has_errors = False
+        bad_commit_count = 0
         if current_line != "":
             if author != "J.D. DeVaughn-Brown":
                 if (message.startswith("feat: ")
@@ -36,6 +37,7 @@ with open('.commits.txt', 'r') as f:
                     pass
                 else:
                     has_errors = True
+                    bad_commit_count++
 
         if has_errors:
             print("*** Some commits don't follow the template. ***")
