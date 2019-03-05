@@ -104,26 +104,6 @@ def getStudentsInTrip(trip_id):
 
 @app.route('/trips/<int:trip_id>/assignStudentsToTrip', methods=['POST'])
 def assignStudentsToTrip(trip_id):
-<<<<<<< HEAD
-    session = DBSession()
-    studentAssignList = []
-    tripToAssign = []
-    tripStudentLinks = session.query(TripStudentLink).join(Trip).filter(Trip.id == trip_id).all()
-    for tripStudentLink in tripStudentLinks:
-        trip_info = {"trip_name": tripStudentLink.trip.trip_name,
-                     "trip_id": tripStudentLink.trip.trip_id}
-        tripToAssign.append(trip_info)
-        for trip in tripToAssign:
-            student_info = {"first_name": tripStudentLink.student.first_name,
-                        "last_name": tripStudentLink.student.last_name,
-                        "grade": tripStudentLink.student.grade}
-            studentAssignList.append(student_info)
-        triptoAssign.trip_name.append(studentAssignList)
-    return flask.jsonify(tripToAssign), 200
-
-
-    print(trip_info);
-=======
     student_assign_list = []
     student_ids = request.get_json()
     for s_id in student_ids:
@@ -136,7 +116,6 @@ def assignStudentsToTrip(trip_id):
     session.commit()
     return flask.jsonify("Success"), 200
 
->>>>>>> miadimson2019/front-end
 
 """ ======================================= """
 """ ======================================= """

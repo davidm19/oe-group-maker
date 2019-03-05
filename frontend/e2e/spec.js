@@ -3,16 +3,17 @@ describe('OE new trip function', function(){
         browser.get('http://localhost:4200/');
     })
 
-    var tripPage = element.all(by.css('button'));
+    var tripPage = element.all(by.buttonText("Trips"));
     var EC = protractor.ExpectedConditions;
     var tripAdder = element.all(by.css('i'));
     var tripCard = element.all(by.css('mat-card-content'))
     var tripName = element(by.css("input[class = 'mat-input-element mat-form-field-autofill-control cdk-text-field-autofill-monitored']"));
     var tripGrade = element(by.css("input[list = 'trip_grade']"));
     var saveTrip = element(by.css("button[class = 'mat-raised-button mat-primary']"));
-    var deleteTrip = element.all(by.css("button[class = 'mat-button mat-warn']"));
+    var deleteTrip = element.all(by.buttonText("Delete"));
     var addStudents = element(by.css("button[class = 'mat-raised-button mat-accent']"));
-    var submitStudents = element(by.css("button[class = 'mat-raised-button mat-primary']"))
+    var viewStudents = element(by.css("button[class = 'mat-raised-button mat-primary']"));
+    var submitStudents = element(by.css("button[class = 'mat-raised-button mat-primary']"));
 
 
     it('should have a url', function(){
@@ -43,6 +44,10 @@ describe('OE new trip function', function(){
         tripPage.click();
         addStudents.click();
         submitStudents.click();
+        tripPage.click();
+        viewStudents.click();
+        expect(element.all(by.css('app-trip-detail')).getText()).toContain('Test Trip\nGrade: 7\nMichael Huang\nMia Dimson\nDavid Malone\nRyan Hom');
+
     })
     //TODO: Add some students to a trip through checkboxes.
     it('should add selected students to a trip through checkboxes', function(){
@@ -51,7 +56,9 @@ describe('OE new trip function', function(){
         element(by.css("input[ng-reflect-name='0']")).click();
         element(by.css("input[ng-reflect-name='2']")).click();
         submitStudents.click();
-        // expect(element(by.css('mat-card')).getText()).
+        tripPage.click();
+        viewStudents.click();
+        expect(element.all(by.css('app-trip-detail')).getText()).toContain('Test Trip\nGrade: 7\nMia Dimson\nRyan Hom');
     })
     //TODO: Return error when students checked are zero.
     it('should return an error when no students selected', function(){

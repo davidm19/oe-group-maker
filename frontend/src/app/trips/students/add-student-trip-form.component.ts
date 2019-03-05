@@ -62,17 +62,6 @@ getTripID(): void {
   submit() {
     const trip_id = +this.route.snapshot.paramMap.get('id');
     const selectedOrderIds = this.form.value.orders
-<<<<<<< HEAD
-      .map((v, i) => v ? this.orders[i].id : undefined)
-      .filter(v => v !== undefined);
-    this.studentsListSubs = this.studentsApi
-    .assignStudentsToTrip(trip_id)
-    .subscribe(res => {
-      this.assignStudents = res;
-    },
-    console.error
-  );
-=======
       .map((v, i) => v ? this.orders[i].id : null)
       .filter(v => v !== null);
 
@@ -81,7 +70,6 @@ getTripID(): void {
     this.studentsApi
     .assignStudentsToTrip(trip_id, selectedOrderIds);
 
->>>>>>> miadimson2019/front-end
     }
 
   ngOnInit() {

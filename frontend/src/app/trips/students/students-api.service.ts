@@ -24,12 +24,8 @@ export class StudentsApiService {
 
   assignStudentsToTrip(TRIP_ID: number, students) {
     return this.http
-<<<<<<< HEAD
-    .post(`${API_URL}/trips/${TRIP_ID}/assignStudentsToTrip`, null);
-=======
     .post(`${API_URL}/trips/${TRIP_ID}/assignStudentsToTrip`, students)
     .subscribe(data => console.log("Post request succesful", data),
         error => console.log("error", error));
->>>>>>> miadimson2019/front-end
   }
 }
