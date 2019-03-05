@@ -41,4 +41,5 @@ with open('.commits.txt', 'r') as f:
 
         if has_errors:
             print("*** Some commits don't follow the template. ***")
+            print("Number of bad commits: %d" % bad_commit_count)
             sys.exit(1)
