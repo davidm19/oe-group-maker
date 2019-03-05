@@ -16,12 +16,12 @@ with open('.commits.txt', 'r') as f:
     # For each line, check the author; if it's not Mr. Devaughn-Brown,
     # check the commit message
     # if it doesn't start with the commit type, let the user know
+    bad_commit_count = 0
+    has_errors = False
     for line in lines:
         current_line = line.split("|")
         author = current_line[0]
         message = current_line[1]
-        has_errors = False
-        bad_commit_count = 0
         if current_line != "":
             if author != "J.D. DeVaughn-Brown":
                 if (message.startswith("feat: ")
