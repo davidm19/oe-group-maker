@@ -36,6 +36,7 @@ with open('.commits.txt', 'r') as f:
                         or message.startswith("Associate ")):
                     pass
                 else:
+                    print("Bad commit: %s" % message)
                     has_errors = True
                     bad_commit_count += 1
 
