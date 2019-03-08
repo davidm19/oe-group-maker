@@ -46,6 +46,5 @@ with open('.commits.txt', 'r') as f:
         end = time.clock() - start
         print("*** Some commits don't follow the template. ***")
         print("Number of bad commits: %d" % bad_commit_count)
-        # print("Process took {} seconds".format(end))
         print("Process took %d seconds" % end)
         sys.exit(1)
