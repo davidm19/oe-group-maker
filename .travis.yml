@@ -30,7 +30,7 @@ matrix:
         - git clone https://github.com/TravisToolbox/pycodestyle-travis.git
         - pip install --upgrade pip
         - pip install flask packaging oauth2client redis passlib flask-httpauth
-        - pip install sqlalchemy flask-sqlalchemy psycopg2-binary bleach requests
+        - pip install sqlalchemy flask-sqlalchemy psycopg2-binary bleach requests time
       install:
         - "./pycodestyle-travis/install.sh"
       script:
