@@ -10,21 +10,27 @@ from collections import defaultdict
 # Open hidden commits file
 with open('.commits.txt', 'r') as f:
     print("Checking commit messages...")
+
+    # Take every commit in the file and split it at the new line
     content = f.read()
     lines = content.split("\n")
-    is_blank_line = False
 
-    # For each line, check the author; if it's not Mr. Devaughn-Brown,
-    # check the commit message
-    # if it doesn't start with the commit type, let the user know
-    bad_commit_count = 0
-    has_errors = False
+    # For each line, separate the commit into author and message
     for line in lines:
         current_line = line.split("|")
         author = current_line[0]
         message = current_line[1]
+        has_errors = False
+        bad_commit_count = 0
         if current_line != "":
+
+            # If the commit's author is not Mr. Devaughn-Brown,
+            # then check the commit message
             if author != "J.D. DeVaughn-Brown":
+
+                # If the message does not start with an
+                # appropriate commit type/keyword,
+                # set the has_errors variable to true
                 if (message.startswith("feat: ")
                     or message.startswith("fix: ")
                     or message.startswith("refactor: ")
@@ -41,6 +47,8 @@ with open('.commits.txt', 'r') as f:
                     has_errors = True
                     bad_commit_count += 1
 
+    # If errors are present in our commits, then print out the
+    # number of bad commits and exit with status 1.
     if has_errors:
         print("*** Some commits don't follow the template. ***")
         print("Number of bad commits: %d" % bad_commit_count)
