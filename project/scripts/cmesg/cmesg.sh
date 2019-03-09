@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# Create a hidden commits file; if the file still exists at script runtime, remove it
+# Create a hidden commits file for the python script to collect commits
 FILE1=.commits.txt
 
+# If hidden commits file still exists, then remove it
 if [[ -e $FILE1 ]]; then
     rm $FILE1
 fi
 
 # Retrieve all commits and export them to the hidden file
-# git log --pretty=format:"%s" > $FILE1
 git log --pretty=format:"%an|%s" > $FILE1
 
 # Run the commit message python script
