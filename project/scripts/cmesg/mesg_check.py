@@ -15,13 +15,15 @@ with open('.commits.txt', 'r') as f:
     content = f.read()
     lines = content.split("\n")
 
+    # Define has_errors and bad_commit_count variables
+    has_errors = False
+    bad_commit_count = 0
+
     # For each line, separate the commit into author and message
     for line in lines:
         current_line = line.split("|")
         author = current_line[0]
         message = current_line[1]
-        has_errors = False
-        bad_commit_count = 0
         if current_line != "":
 
             # If the commit's author is not Mr. Devaughn-Brown,
