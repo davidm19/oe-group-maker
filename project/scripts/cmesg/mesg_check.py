@@ -10,7 +10,6 @@ from collections import defaultdict
 # Open hidden commits file
 with open('.commits.txt', 'r') as f:
     print("Checking commit messages...")
-    # start = time.clock()
     content = f.read()
     lines = content.split("\n")
     is_blank_line = False
@@ -43,8 +42,6 @@ with open('.commits.txt', 'r') as f:
                     bad_commit_count += 1
 
     if has_errors:
-        # end = time.clock() - start
         print("*** Some commits don't follow the template. ***")
         print("Number of bad commits: %d" % bad_commit_count)
-        # print("Process took %d seconds" % end)
         sys.exit(1)
