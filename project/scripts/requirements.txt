@@ -8,3 +8,5 @@ redis
 requests
 SQLAlchemy
 travis-ci
+
+pylint<=1.9.4

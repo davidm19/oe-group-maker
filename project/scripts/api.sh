@@ -19,7 +19,7 @@ function setup() {
 	echo "alias api='bash $SCRIPT_DIR/api.sh'" >> $HOME/.bashrc
 	source $HOME/.bashrc
 
-	sudo pip install -r $SCRIPT_DIR/requirements.txt
+	sudo pip install --user -r $SCRIPT_DIR/requirements.txt
 
 }
 
