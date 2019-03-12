@@ -1,0 +1,12 @@
+Flask
+Flask-Cors
+Flask-HTTPAuth
+Flask-SQLAlchemy
+oauth2client
+pycodestyle
+redis
+requests
+SQLAlchemy
+travis-ci
+
+pylint<=1.9.4
