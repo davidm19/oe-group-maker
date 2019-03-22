@@ -1,12 +1,10 @@
-class Student_class:
-  def __init__(student, id, name, mutual_score, pref_score, is_assigned,prefs, gender):
-    student.id = id
+class Student_class_no_gender:
+  def __init__(student, name, mutual_score, pref_score, is_assigned,prefs):
     student.name = name
     student.mutual_score = mutual_score
     student.pref_score = pref_score
     student.is_assigned = is_assigned
     student.prefs = prefs
-    student.gender = gender
 
   #--------------------------------------------
   #Utility to print a students preferences

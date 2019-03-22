@@ -20,7 +20,6 @@ class Student(Base):
     first_name = Column(String(32))
     last_name = Column(String(32))
     name = str(first_name) + str(last_name)
-    gender = Column(String(32))
     # trip_id = Column(Integer, ForeignKey('trip.id'), nullable = True)
 
 
@@ -31,10 +30,8 @@ class Preference(Base):
     first_name1 = Column(String(32))
     last_name1 = Column(String(32))
     name = str(first_name1) + str(last_name1)
-    gender = Column(String(32))
     student_id = Column(Integer, ForeignKey('student.id'))
     student = relationship(Student)
-    preference_id = Column(Integer)
 
-engine = create_engine('sqlite:///database.db')
+engine = create_engine('sqlite:///database_old.db')
 Base.metadata.create_all(engine)
