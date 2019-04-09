@@ -193,7 +193,6 @@ def get_students():
     for student in student_query:
         preference_query = SESSION.query(
             Preference).filter_by(student=student).all()
-        print preference_query
         students.append(Student_class(student.id, student.first_name +
                                       student.last_name, -1, -1, False,
                                       preference_query, student.gender))
