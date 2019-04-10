@@ -18,10 +18,14 @@ Created by Ryan Hom
 2. Type 'vagrant ssh'
 3. Navigate inside the project directory `cd /vagrant/project/`
 4. If there is a already a `database.db` delete it
+5. Run `database_setup.py`
 
 # Configure Database (Optional if integrating into another program)
-1. Modify `database_populator.py`
-2. Fill all fields appropriately
+1. Modify `database_populator.py` by filling all fields appropriately
+  - All `Student` have a `first_name`, `last_name` and `gender`.
+    - If no last name leave it blank.
+    - Gender is either `M` or `F`
+      - Genders aren't required but recommended either have gender for all or no gender.
 3. Those who have no preference leave preferences blank.
 4. Only have as many `Students` as you actually have
 5. Run `database_populator.py`
@@ -36,3 +40,11 @@ Created by Ryan Hom
 - Can run off of an existing database
 - Recommend that `prefs` and `groups` are set by an outside UI
 - Methods from `improved_algorithm_interface.py` need to be used in the order of the example
+
+# Check Existing Trip
+1. Trips should be in this format
+  - A `Trip` is a `List` of `Group`
+  - A `Group` is a `List` of `Student_class`
+2. From `improved_algorithm_interface.py` Run
+  1. `unassigned_students(YOUR_TRIP)`
+  2. `print_stats(YOUR_TRIP)`

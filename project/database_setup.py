@@ -7,11 +7,6 @@ from sqlalchemy.sql import func
 
 Base = declarative_base()
 
-# class Trip(Base):
-#     __tablename__ = 'trip'
-#     id = Column(Integer, primary_key=True, autoincrement=True)
-#     name = Column(String(32))
-
 class Student(Base):
     __tablename__ = 'student'
 
@@ -21,7 +16,6 @@ class Student(Base):
     last_name = Column(String(32))
     name = str(first_name) + str(last_name)
     gender = Column(String(32))
-    # trip_id = Column(Integer, ForeignKey('trip.id'), nullable = True)
 
 
 class Preference(Base):

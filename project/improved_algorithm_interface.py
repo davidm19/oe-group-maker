@@ -110,7 +110,6 @@ def is_in_same_group(student, pref):
 
     for search_group in GROUPS:
         pair = [student, pref]
-# print "checking same group " + student.name + " with " + pref.name
         if all(x in search_group for x in pair):
             # x is just the comparison variable used
             # will return True is student and pref are in search_group together
@@ -136,14 +135,11 @@ def print_stats(students):
         total_boys = 0
         total_girls = 0
         prefs_matched = 0
-        # print ""
         for preference in student.prefs:
             if is_in_same_group(student, preference) is True:
                 prefs_matched += 1
 
-        # print student.name + " preferences matched is " + str(prefs_matched)
         if not student.prefs:
-            # print "This person has no preferences"
             no_prefs = no_prefs + 1
         prefs_count[prefs_matched] += 1
 
@@ -252,14 +248,12 @@ def concatenate_names(students):
 
 
 # Create Groups
-# Groups = []
 GROUPS = Group_class()
 
 
 def setup():
     """Creates n empty Groups"""
     for _ in repeat(None, NUM_OF_GROUPS):  # initialize groups
-        # Groups.append([])
         GROUPS.append(Group_class())
 
 
@@ -300,7 +294,7 @@ def condition_g(
         # if not, then need to find another group with a preference
         if pref_in_group(student, GROUPS[group_order[group_index][0]]).name != "None":
             student.is_assigned = True
-# mark student as assigned to move to the next student
+            # mark student as assigned to move to the next student
             GROUPS[group_order[group_index][0]].append(student)
             if student.gender == "M":
                 GROUPS[group_order[group_index][0]].boys += 1
@@ -329,27 +323,27 @@ def condition_f(
                 preference.prefsUnAssigned(NUM_OF_GROUPS, GROUPS) > 1 and \
                     student.is_assigned is False:
                 student.is_assigned = True
-# mark student as assigned to move to the next student
+                # mark student as assigned to move to the next student
                 preference.is_assigned = True
-# mark the preference as assigned too
+                # mark the preference as assigned too
                 GROUPS[group_order[group_index][0]].append(student)
-# add Student to the group
+                # add Student to the group
                 if student.gender == "M":
                     GROUPS[group_order[group_index][0]].boys += 1
                 elif student.gender == "F":
                     GROUPS[group_order[group_index][0]].girls += 1
 
                 GROUPS[group_order[group_index][0]].append(preference)
-# add the students preference to the group (pull)
+                # add the students preference to the group (pull)
                 if preference.gender == "M":
                     GROUPS[group_order[group_index][0]].boys += 1
                 elif preference.gender == "F":
                     GROUPS[group_order[group_index][0]].girls += 1
 
                 pulled_preference_with_student = True
-# found a preference to pull into group with student
+                # found a preference to pull into group with student
         try_to_pull_preference_with_student = False
-# don't try to pull a preference when processing the remaining groups
+        # don't try to pull a preference when processing the remaining groups
         condition_d(pulled_preference_with_student,
                     student, group_order, group_index)
 
@@ -381,23 +375,23 @@ def condition_a_b(student):
     for preference in student.prefs:
         if is_in_same_group(student, preference) is True:
             already_assigned_with_a_preference = True
-# pull highest pref-score preference into the same group
+            # pull highest pref-score preference into the same group
     if already_assigned_with_a_preference is False:
         student.prefs.sort(key=lambda l: l.pref_score, reverse=True)
-# sort prefs by highest pref-score
+        # sort prefs by highest pref-score
         for preference in student.prefs:
             g_index = student.inGroup(GROUPS)
             if preference.is_assigned is False:
                 # check to see if pref is not already assigned
                 GROUPS[g_index].append(preference)
-# add the students preference to the group (pull).  Condition (B)
+                # add the students preference to the group (pull).  Condition (B)
                 preference.is_assigned = True
                 if preference.gender == "M":
                     GROUPS[g_index].boys += 1
                 elif preference.gender == "F":
                     GROUPS[g_index].girls += 1
 
-# mark is assigned
+                    # mark is assigned
                 break
 
 
@@ -416,17 +410,17 @@ def assign_students(students):
 # Process each group for a student
 # -----------------------------------
             try_to_pull_preference_with_student = True
-# first try to pull a preference with the student into the smallest group
+            # first try to pull a preference with the student into the smallest group
             for group_index in range(NUM_OF_GROUPS):
                 # Condition (G) and (H)
                 # check to see if there were no options to pull a preference
                 condition_g(try_to_pull_preference_with_student,
                             student, group_order, group_index)
-# add Student to the group
+                # add Student to the group
                 if student.is_assigned is True:
                     break
-# don't process anymore groups
-# Condition (F)
+                # don't process anymore groups
+                # Condition (F)
                 condition_f(try_to_pull_preference_with_student,
                             student, group_order, group_index)
 
@@ -482,7 +476,6 @@ def count_gender(students):
 
 TEST = get_students()
 concatenate_names(TEST)
-# sort_students(TEST)
 score_students(TEST)
 sort_students(TEST)
 convert_pref_student(TEST)
