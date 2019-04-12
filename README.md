@@ -127,6 +127,8 @@ Created by Ryan Hom
   2 matches = 33
   3 matches = 9
 
+  (This means that 0 people were matched with none of their preferences. 18 people matched with at one of their preferences 33 people matched with 2 of their preferences and 9 people matched with 3 of their preferences)
+
   The average group size is 17
   There are 0 empty groups
 </details>
@@ -163,9 +165,9 @@ Created by Ryan Hom
 # Group Assignment Explanation
 - Key Requirements
 
-Each student can provide a list of preferences
+Each student can provide a list of preferences. (Everybody must either have X preferences or 0 preferences)
 Each group should be gender balanced as close as possible
-The algorithm should ensure that each student is matched into a group with at least one preference (if they provided the maximum number of preferences).  The fewer preferences a person provides the lower their chance to be matched into a group with a preference.  
+The algorithm should ensure that each student is matched into a group with at least one preference (if they provided the maximum number of preferences).  
 
 - Algorithm Theory
 
