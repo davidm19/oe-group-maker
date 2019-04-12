@@ -39,7 +39,6 @@ Created by Ryan Hom
 - If nothing is changed expected output is below
 <details>
   <summary>Example Output</summary>
-  ## Output
   Max Boys Per Group: 8.0
   Max Girls Per Group: 10.0
   Number of Groups:4
@@ -130,8 +129,6 @@ Created by Ryan Hom
 
   The average group size is 17
   There are 0 empty groups
-  31
-  39
 </details>
 
 # Integration

@@ -166,8 +166,6 @@ def print_stats(students):
             total_boys += 1
         if student.gender == "F":
             total_girls += 1
-    print total_boys
-    print total_girls
 
 
 # ***********************
