@@ -159,3 +159,53 @@ Created by Ryan Hom
   - `name` an automatic concatenation of `first_name` and `last_name`
   - `student_id` the `id` of the `Student` who has this person as a `Preference`
   - `student` the `Student` who has this person as a `Preference`
+
+# Group Assignment Explanation
+- Key Requirements
+
+Each student can provide a list of preferences
+Each group should be gender balanced as close as possible
+The algorithm should ensure that each student is matched into a group with at least one preference (if they provided the maximum number of preferences).  The fewer preferences a person provides the lower their chance to be matched into a group with a preference.  
+
+- Algorithm Theory
+
+Our algorithm will maximize the chance of a everyone being matched with at least one of their preference and possibly more.
+
+The basic idea is that the best chance someone has to be matched into a group with one of their preferences is to “choose” which group to join, where the groups contain people who have preferred them the most (ie popular people).  Conversely, if groups are filled with people who are not highly preferred then the likelihood of joining a group with a preference is reduced.
+
+
+For example, if Joan who has only one person who has her as a preference and she is pulled into a group early in the process, then she has to hope that one of her
+preferences joins her group because that preference prefers someone else in her group.  She is hoping for a coincidence to occur.  Therefore, it is more ideal if she can choose a group towards the end of the process, when most other people are already assigned to almost ensure she will at least be matched with one preference.  
+
+Conversely, for example, if John has many people who have he as a preference and John is assigned early in the process, then Johns creates more opportunities for people to join his group and match with a preference.
+
+So in summary, the basic idea is to assign high preferred (popular) people to groups early in the process and assign lower preferred (less popular) people to
+How the algorithm works
+Calculate a preference score (pref-score)
+The pref-score is the number of other students who have listed the student as a preference
+
+- Calculate a mutual score (mutual-score)
+The mutual-score is the number of preferences who have also listed the person as a preference.  For example, if Joan’s preferences include John, Sally, and Jennifer; and John and Jennifer also have Joan as a preference, then Joan’s mutual-score is 2.  The idea is to add people to the list early in the process to make room for others to choose their groups if possible.
+
+- Sort the students by pref-score and mutual-score
+Assigning students to groups in the order of pref-score and mutual-score will create more opportunities for lower pref-score students to choose their groups.
+
+- Assign each student according to the algorithm theory
+Students will be assigned to groups attempting to keep the groups balanced in size through the assignment process to maximize opportunities for students to choose their way into groups and therefore maximizing their chance for a preference match.
+
+- Students who are pulled into groups will be selected based on highest pref-score while students who choose a group will choose the lowest group with a preference with the lowest pref-score.  
+
+Here is a summary of the algorithm logic to when assigning each student to a group:
+
+- If assigned to a group already						
+ - Already Assigned With A Preference - If assigned to a group with a pref then do nothing and move to assign next student
+ - Pull Highest Pref-score Preference Into Group - If any prefs not assigned, assign (pull) pref with highest pref-score to join the students assigned group if gender-limit permits 	
+ - Cannot Be Matched - if all prefs assigned to other groups then this person does get a preference… add them to open groups at the end of the assignment process
+
+- If not assigned to a group already					
+  Find the least crowded group(s) (from left to right)			
+  - Join Smallest Group With A Preference - If there is a preference in the smallest group, assign the person to this group, if gender-limit permits
+  - Join Smallest Group With Lowest Pref-Score Preference - If there are multiple smallest groups, then assign to the group with a pref with the lowest pref-score, if gender-limit permits
+  - Join Smallest Group along with Highest Pref-score Preference - if there is no preference in the smallest group(s) then assign the person to the smallest group, and pull into the group the preference with the highest pref-score (who is not yet assigned) and has a preferences-remaining > 1, if gender-limit permits
+  - Join Smallest Group With Lowest Pref-Score Preference - otherwise, if the pref's preferences-remaining <=1 then assign the person to next smallest group which contains the lowest pref-score), if gender-limit permits
+  - Join Smallest Group With Lowest Pref-Score Preference - But if all preferences are assigned (ie there aren't any to pull along) then choose the smallest group with a preference; and if there are multiple smallest groups choose the group with a pref with the lowest pref-score, if gender-limit permits
