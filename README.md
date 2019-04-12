@@ -31,10 +31,108 @@ Created by Ryan Hom
 5. Run `database_populator.py`
 
 # Run Example
-1. Change how many `prefs` each person should have (must be exact)
-2. Change how many `groups` should try to be primary_student
+1. In `improved_algorithm_interface.py`
+  - Change how many `MAX_PREFS` each person should have (must be exact) on line 24
+  - Change how many `NUM_OF_GROUPS` should try to be primary_student on line 25
   * note that if too many groups are made extraneous groups will be left empty
 3. run `improved_algorithm_interface.py`
+- If nothing is changed expected output is below
+<details>
+  <summary>Example Output</summary>
+  ## Output
+  Max Boys Per Group: 8.0
+  Max Girls Per Group: 10.0
+  Number of Groups:4
+
+  Group 1: 7 Boys, 11 Girls Total: 18
+  JoeC
+  AmitA
+  LucasS
+  MatanL
+  RafealaL
+  BenedictT
+  PadminiC
+  SerenaM
+  LorenaT
+  KaterinaA
+  DoruV
+  LexiL
+  DritaH
+  PeterO
+  AlexaD
+  CorinnaV
+  SamuelB
+  LindseyG
+
+  Group 2: 11 Boys, 7 Girls Total: 18
+  SundarR
+  JackR
+  AlexanderC
+  EugeneC
+  AnarS
+  ErwinP
+  AseemO
+  CharlesD
+  BeatriseS
+  LouiseD
+  SamanthaA
+  LilyK
+  IsabelleC
+  KenyaR
+  AnitaO
+  IreneS
+  DarnellM
+  FabioP
+
+  Group 3: 8 Boys, 9 Girls Total: 17
+  AlvinG
+  AmosS
+  JasmineE
+  ShirleyN
+  RonA
+  KlemensH
+  MikaelaM
+  PatrickG
+  SolomonP
+  SusieD
+  DanielD
+  RosaE
+  BiankaW
+  AbelF
+  MacG
+  RoxanneA
+  AriellaA
+
+  Group 4: 5 Boys, 12 Girls Total: 17
+  PaulaD
+  ZenaK
+  RanjitF
+  WinonaB
+  LucieM
+  RachelS
+  OlympiaL
+  LeaS
+  EstherJ
+  MonicaM
+  SilviaG
+  OlegA
+  AntonM
+  AbrahamM
+  KateF
+  MartinM
+  MiraA
+  0 students are unable to be assigned
+
+  0 matches = 0
+  1 matches = 18
+  2 matches = 33
+  3 matches = 9
+
+  The average group size is 17
+  There are 0 empty groups
+  31
+  39
+</details>
 
 # Integration
 - Can run off of an existing database
@@ -48,3 +146,19 @@ Created by Ryan Hom
 2. From `improved_algorithm_interface.py` Run
   1. `unassigned_students(YOUR_TRIP)`
   2. `print_stats(YOUR_TRIP)`
+
+# Database Object Definitions
+- `Student`
+  - `id` an auto generated id number
+  - `first_name` the student's first name
+  - `last_name` the student's last name
+  - `gender` the student's gender
+  - `name` an automatic concatenation of `first_name` and `last_name`
+- `Preference`
+  - `id` an auto generated id number
+  - `first_name1` the preference's first name
+  - `last_name1` the preference's last name
+  - `gender` the preference's gender
+  - `name` an automatic concatenation of `first_name` and `last_name`
+  - `student_id` the `id` of the `Student` who has this person as a `Preference`
+  - `student` the `Student` who has this person as a `Preference`
