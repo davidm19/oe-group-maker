@@ -12,7 +12,7 @@ from Group_class import Group_class
 from Student_class import Student_class
 
 APP = Flask(__name__)
-ENGINE = create_engine('sqlite:///database.db')
+ENGINE = create_engine('sqlite:///test.db')
 Base.metadata.bind = engine
 DBSESSION = sessionmaker(bind=engine)
 SESSION = DBSESSION()
@@ -162,9 +162,9 @@ def print_stats(students):
     total_boys = 0
     total_girls = 0
     for student in students:
-        if student.gender == "M":
+        if student.gender == "Male":
             total_boys += 1
-        if student.gender == "F":
+        if student.gender == "Female":
             total_girls += 1
 
 
@@ -187,8 +187,7 @@ def get_students():
     for student in student_query:
         preference_query = SESSION.query(
             Preference).filter_by(student=student).all()
-        students.append(Student_class(student.id, student.first_name +
-                                      student.last_name, -1, -1, False,
+        students.append(Student_class(student.id, student.name, -1, -1, False,
                                       preference_query, student.gender))
         count = count + 1
     return students
@@ -294,9 +293,9 @@ def condition_g(
             student.is_assigned = True
             # mark student as assigned to move to the next student
             GROUPS[group_order[group_index][0]].append(student)
-            if student.gender == "M":
+            if student.gender == "Male":
                 GROUPS[group_order[group_index][0]].boys += 1
-            elif student.gender == "F":
+            elif student.gender == "Female":
                 GROUPS[group_order[group_index][0]].girls += 1
 
 def condition_f(
@@ -326,16 +325,16 @@ def condition_f(
                 # mark the preference as assigned too
                 GROUPS[group_order[group_index][0]].append(student)
                 # add Student to the group
-                if student.gender == "M":
+                if student.gender == "Male":
                     GROUPS[group_order[group_index][0]].boys += 1
-                elif student.gender == "F":
+                elif student.gender == "Female":
                     GROUPS[group_order[group_index][0]].girls += 1
 
                 GROUPS[group_order[group_index][0]].append(preference)
                 # add the students preference to the group (pull)
-                if preference.gender == "M":
+                if preference.gender == "Male":
                     GROUPS[group_order[group_index][0]].boys += 1
-                elif preference.gender == "F":
+                elif preference.gender == "Female":
                     GROUPS[group_order[group_index][0]].girls += 1
 
                 pulled_preference_with_student = True
@@ -359,9 +358,9 @@ def condition_d(
                 != "None":
             student.is_assigned = True
             GROUPS[group_order[group_index][0]].append(student)
-            if student.gender == "M":
+            if student.gender == "Male":
                 GROUPS[group_order[group_index][0]].boys += 1
-            elif student.gender == "F":
+            elif student.gender == "Female":
                 GROUPS[group_order[group_index][0]].girls += 1
 
 
@@ -384,9 +383,9 @@ def condition_a_b(student):
                 GROUPS[g_index].append(preference)
                 # add the students preference to the group (pull).  Condition (B)
                 preference.is_assigned = True
-                if preference.gender == "M":
+                if preference.gender == "Male":
                     GROUPS[g_index].boys += 1
-                elif preference.gender == "F":
+                elif preference.gender == "Female":
                     GROUPS[g_index].girls += 1
 
                     # mark is assigned
@@ -436,9 +435,9 @@ def assign_no_prefs(students):
             group_order = order_groups(student)
             GROUPS[group_order[0][0]].append(student)
             student.is_assigned = True
-            if student.gender == "M":
+            if student.gender == "Male":
                 GROUPS[group_order[0][0]].boys += 1
-            elif student.gender == "F":
+            elif student.gender == "Female":
                 GROUPS[group_order[0][0]].girls += 1
 
 
@@ -463,9 +462,9 @@ def count_gender(students):
     girls = 0
 
     for student in students:
-        if student.gender == "M":
+        if student.gender == "Male":
             boys += 1
-        elif student.gender == "F":
+        elif student.gender == "Female":
             girls += 1
 
     max_boys_per_group = math.floor(boys / NUM_OF_GROUPS) + 1
@@ -473,7 +472,7 @@ def count_gender(students):
 
 
 TEST = get_students()
-concatenate_names(TEST)
+# concatenate_names(TEST)
 score_students(TEST)
 sort_students(TEST)
 convert_pref_student(TEST)
