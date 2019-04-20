@@ -43,5 +43,5 @@ class Preference(Base):
     student = relationship(Student)
     preference_id = Column(Integer)
 
-engine = create_engine('sqlite:///test.db')
+engine = create_engine('sqlite:///outdoor-ed.db')
 Base.metadata.create_all(engine)
