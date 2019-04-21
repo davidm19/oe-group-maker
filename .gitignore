@@ -249,4 +249,15 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+### Authentication Files ###
+*client_secrets.json
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# 12th grade CSV file
+12th_graders.csv
+
 # End of https://www.gitignore.io/api/macos,flask,python,windows,vagrant
