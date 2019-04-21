@@ -1,5 +1,9 @@
 {% extends "main.html" %}
 {% block content %}
+<p>Please choose 3 preferences, then click Submit</p>
+<p>You must select 3 preference</p>
+<hr>
+<h2>Choices</h2>
   <form class="" action="{{url_for('choose_preferences')}}" method="post">
     <div class="form-group">
         {% for i in range(0, 3) %}
@@ -11,5 +15,6 @@
           </select>
         {% endfor %}
     </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 {% endblock %}
