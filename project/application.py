@@ -70,32 +70,36 @@ def choose_preferences():
         return show_login()
 
     if request.method == 'POST':
-        flash("Preferences submitted")
-        # print request.form
-        # result = request.form.getlist('session' + str(session_number))
-        # # print result
-        # if not len(result) == 4:
-        #     flash("You must select 4 projects")
-        # else:
-        #     login_session['chosen_projects' + str(session_number)] = result
-        #     return render_template("rank_choices.html", session_number=session_number, chosen_projects=result)
+        result = request.form.getlist('preference')
+        print result
+        if verify_preferences(result):
+            create_preferences(result)
+            return render_template('student.html')
+        else:
+            flash('You must choose 3 unique preferences')
 
     students = session.query(Student).all()
     return render_template('choose_preferences.html', students=students)
 
-def create_preferences(ranked_projects):
+def verify_preferences(preferences):
+    pref_set = set()
+    for pref in preferences:
+        pref_set.add(pref)
+
+    return len(pref_set) == 3
+
+def create_preferences(choices):
     session = DBSession()
     user = get_user_by_email(login_session['email'])
-    user.has_chosen_projects = True
+    user.has_chosen_preferences = True
     session.add(user)
-    preferences = []
-    for choice_num, project_name in sorted(ranked_projects, key=get_key):
-        preference = Pref(pref_number=CHOICES[choice_num], name=project_name, student_id=user.id)
-        session.add(preference)
-        preferences.append(preference)
+    for choice in choices:
+        preferred_student = session.query(Student).filter_by(name=choice).first()
+        pref = Preference(name=preferred_student.name, student_id=user.id, gender=preferred_student.gender, preference_id=preferred_student.id)
+        session.add(pref)
     session.commit()
     # flash("Your preferences have been saved")
-    return render_template('student.html', preferences=preferences)
+    return render_template('student.html')
 
 @application.route('/login')
 def show_login():
@@ -268,5 +272,5 @@ def gdisconnect():
 if __name__ == '__main__':
     application.secret_key = 'super_secret_key'
     application.debug = True
-    application.run()
-    # application.run(host='0.0.0.0', port=8000)
+    # application.run()
+    application.run(host='0.0.0.0', port=8000)
