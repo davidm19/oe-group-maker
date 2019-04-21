@@ -17,7 +17,9 @@ with open('12th_graders.csv', 'r') as csvfile:
     csvreader.next()
 
     for row in csvreader:
-        student = Student(name=row[0] + ' (' + row[1] + ')', email=row[3], gender=row[4])
+        student = Student(name=row[1] + ' ' + row[2], email=row[3], gender=row[4])
         session.add(student)
-    
+
     session.commit()
+
+student = Student(name='J.D. DeVaughn-Brown', email='jddevaughnbrown@chadwickschool.org', gender='M')

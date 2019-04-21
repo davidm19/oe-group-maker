@@ -1,8 +1,8 @@
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
+from sqlalchemy import Table, Column, ForeignKey, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import sessionmaker, relationship, backref
 from sqlalchemy.sql import func
 
 Base = declarative_base()

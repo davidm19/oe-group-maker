@@ -1,0 +1,15 @@
+{% extends "main.html" %}
+{% block content %}
+  <form class="" action="{{url_for('choose_preferences')}}" method="post">
+    <div class="form-group">
+        {% for i in range(0, 3) %}
+          <label for="preference">Preference:</label>
+          <select class="form-control" name="preference">
+            {% for student in students %}
+              <option value="{{student.name}}">{{student.name}}</option>
+            {% endfor %}
+          </select>
+        {% endfor %}
+    </div>
+  </form>
+{% endblock %}
