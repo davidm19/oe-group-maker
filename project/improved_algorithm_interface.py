@@ -131,6 +131,7 @@ def print_stats(students):
         prefs_count.append(0)
 
     no_prefs = 0
+    no_pref_students = []
     for student in students:
         total_boys = 0
         total_girls = 0
@@ -142,6 +143,8 @@ def print_stats(students):
         if not student.prefs:
             no_prefs = no_prefs + 1
         prefs_count[prefs_matched] += 1
+        if prefs_matched == 0:
+            no_pref_students.append(student.name)
 
     print ""
     print "0 matches = " + str(prefs_count[0] - no_prefs)
@@ -166,6 +169,10 @@ def print_stats(students):
             total_boys += 1
         if student.gender == "Female":
             total_girls += 1
+
+    print "The following students were unable to be assigned"
+    for sad_student in no_pref_students:
+        print sad_student
 
 
 # ***********************
