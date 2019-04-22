@@ -1,8 +1,8 @@
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
+from sqlalchemy import Table, Column, ForeignKey, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import sessionmaker, relationship, backref
 from sqlalchemy.sql import func
 
 Base = declarative_base()
@@ -43,5 +43,5 @@ class Preference(Base):
     student = relationship(Student)
     preference_id = Column(Integer)
 
-engine = create_engine('sqlite:///test.db')
+engine = create_engine('sqlite:///outdoor-ed.db')
 Base.metadata.create_all(engine)

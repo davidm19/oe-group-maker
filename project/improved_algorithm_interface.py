@@ -22,7 +22,7 @@ SESSION = DBSESSION()
 # ***********************
 
 MAX_PREFS = 3
-NUM_OF_GROUPS = 4
+NUM_OF_GROUPS = 7
 # this should be calculated or set by user
 max_boys_per_group = 0
 max_girls_per_group = 0
