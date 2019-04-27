@@ -165,9 +165,9 @@ def print_stats(students):
     total_boys = 0
     total_girls = 0
     for student in students:
-        if student.gender == "Male":
+        if student.gender == "M":
             total_boys += 1
-        if student.gender == "Female":
+        if student.gender == "F":
             total_girls += 1
 
     print "The following students were unable to be assigned"
@@ -300,9 +300,9 @@ def condition_g(
             student.is_assigned = True
             # mark student as assigned to move to the next student
             GROUPS[group_order[group_index][0]].append(student)
-            if student.gender == "Male":
+            if student.gender == "M":
                 GROUPS[group_order[group_index][0]].boys += 1
-            elif student.gender == "Female":
+            elif student.gender == "F":
                 GROUPS[group_order[group_index][0]].girls += 1
 
 def condition_f(
@@ -332,16 +332,16 @@ def condition_f(
                 # mark the preference as assigned too
                 GROUPS[group_order[group_index][0]].append(student)
                 # add Student to the group
-                if student.gender == "Male":
+                if student.gender == "M":
                     GROUPS[group_order[group_index][0]].boys += 1
-                elif student.gender == "Female":
+                elif student.gender == "F":
                     GROUPS[group_order[group_index][0]].girls += 1
 
                 GROUPS[group_order[group_index][0]].append(preference)
                 # add the students preference to the group (pull)
-                if preference.gender == "Male":
+                if preference.gender == "M":
                     GROUPS[group_order[group_index][0]].boys += 1
-                elif preference.gender == "Female":
+                elif preference.gender == "F":
                     GROUPS[group_order[group_index][0]].girls += 1
 
                 pulled_preference_with_student = True
@@ -365,9 +365,9 @@ def condition_d(
                 != "None":
             student.is_assigned = True
             GROUPS[group_order[group_index][0]].append(student)
-            if student.gender == "Male":
+            if student.gender == "M":
                 GROUPS[group_order[group_index][0]].boys += 1
-            elif student.gender == "Female":
+            elif student.gender == "F":
                 GROUPS[group_order[group_index][0]].girls += 1
 
 
@@ -390,9 +390,9 @@ def condition_a_b(student):
                 GROUPS[g_index].append(preference)
                 # add the students preference to the group (pull).  Condition (B)
                 preference.is_assigned = True
-                if preference.gender == "Male":
+                if preference.gender == "M":
                     GROUPS[g_index].boys += 1
-                elif preference.gender == "Female":
+                elif preference.gender == "F":
                     GROUPS[g_index].girls += 1
 
                     # mark is assigned
@@ -442,9 +442,9 @@ def assign_no_prefs(students):
             group_order = order_groups(student)
             GROUPS[group_order[0][0]].append(student)
             student.is_assigned = True
-            if student.gender == "Male":
+            if student.gender == "M":
                 GROUPS[group_order[0][0]].boys += 1
-            elif student.gender == "Female":
+            elif student.gender == "F":
                 GROUPS[group_order[0][0]].girls += 1
 
 
@@ -469,9 +469,9 @@ def count_gender(students):
     girls = 0
 
     for student in students:
-        if student.gender == "Male":
+        if student.gender == "M":
             boys += 1
-        elif student.gender == "Female":
+        elif student.gender == "F":
             girls += 1
 
     max_boys_per_group = math.floor(boys / NUM_OF_GROUPS) + 1
